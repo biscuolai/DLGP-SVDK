@@ -12,6 +12,11 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Serialization;
 using TestApp.Models;
 using TestApp.Services;
+using AutoMapper;
+using TestApp.Model.Domain.Entities;
+using TestApp.Web.Api;
+using TestApp.Repository.Repositories;
+using TestApp.Repository;
 
 namespace TestApp
 {
@@ -35,10 +40,11 @@ namespace TestApp
             }
 
             builder.AddEnvironmentVariables();
+
             Configuration = builder.Build();
         }
 
-        public IConfigurationRoot Configuration { get; set; }
+        public static IConfigurationRoot Configuration { get; set; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -48,11 +54,11 @@ namespace TestApp
 
             services.AddEntityFramework()
                 .AddSqlServer()
-                .AddDbContext<ApplicationDbContext>(options =>
+                .AddDbContext<Models.ApplicationDbContext>(options =>
                     options.UseSqlServer(Configuration["Data:DefaultConnection:ConnectionString"]));
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
-                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddEntityFrameworkStores<Models.ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
             services.AddMvc()
@@ -65,6 +71,8 @@ namespace TestApp
             services.AddTransient<AppContextSeedData>();
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
+
+            services.AddScoped<ITicketRepository, TicketRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -91,7 +99,7 @@ namespace TestApp
                     using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>()
                         .CreateScope())
                     {
-                        serviceScope.ServiceProvider.GetService<ApplicationDbContext>()
+                        serviceScope.ServiceProvider.GetService<Models.ApplicationDbContext>()
                              .Database.Migrate();
                     }
                 }
@@ -113,6 +121,11 @@ namespace TestApp
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
+            });
+
+            Mapper.Initialize(config =>
+            {
+                config.CreateMap<Ticket, TicketViewModel>().ReverseMap();
             });
 
             var seeder = serviceProvider.GetService<AppContextSeedData>();

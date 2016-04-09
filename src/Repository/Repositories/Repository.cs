@@ -4,21 +4,23 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Collections;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace TestApp.Repository.Persistence
 {
     public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
     {
-        protected readonly DbContext Context;
+        protected readonly IdentityDbContext Context;
 
-        public Repository(DbContext context)
+        public Repository(IdentityDbContext context)
         {
             Context = context;
         }
 
         public TEntity Get(int id)
         {
-            // Here we are working with a DbContext, not ServiceDeskContext. So we don't have DbSets 
+            // Here we are working with a DbContext, not AppContext. So we don't have DbSets 
             // such as Projects or Tickets, and we need to use the generic Set() method to access them.
             return null;
             //return Context.Set<TEntity>().Find(id);

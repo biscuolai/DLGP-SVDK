@@ -13,10 +13,10 @@ namespace TestApp.Repository.Repositories
         {
             return null;
             //todo: fix this.
-            //return ServiceDeskContext.Projects.Find(id);
+            //return AppContext.Projects.Find(id);
         }
 
-        public ApplicationDbContext ServiceDeskContext
+        public ApplicationDbContext AppContext
         {
             get { return Context as ApplicationDbContext; }
         }

@@ -7,14 +7,16 @@
 <p>Use this area to provide additional information.</p>
 
 <div ng-app="app">
-    <div ng-controller="userController as vm" class="col-md-6 col-md-offset-3">
-        <div class="text-danger" ng-show="vm.errorMessage">{{vm.errorMessage}}</div>
+    <div ng-controller="ticketController as vm" class="col-md-6 col-md-offset-3">
+        <div class="text-danger" ng-show="vm.errorMessage">{{ vm.errorMessage }}</div>
+        <div ng-show="vm.isBusy" class="text-center"><i class="fa fa-spinner fa-spin"></i>Loading...</div>
         <table class="table table-responsive table-striped">
-            <tr ng-repeat="user in vm.Users">
-                <td>{{user.username}}</td>
-                <td>{{user.email}}</td>
-                <td>{{user.password}}</td>
+            <tr ng-repeat="ticket in vm.tickets">
+                <td>Title {{ ticket.title }}</td>
+                <td>Owner {{ ticket.owner }}</td>
+                <td>Category {{ ticket.category }}</td>
             </tr>
         </table>
+        test
     </div>
 </div>

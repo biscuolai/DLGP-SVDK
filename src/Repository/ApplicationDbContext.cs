@@ -8,7 +8,7 @@ namespace TestApp.Repository
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("name=TestAppDB");
+            optionsBuilder.UseSqlServer("Server=(localdb)\\MSSQLLocalDB;Database=TestAppDB;Trusted_Connection=True;MultipleActiveResultSets=true");
         }
 
         public DbSet<Project> Projects { get; set; }

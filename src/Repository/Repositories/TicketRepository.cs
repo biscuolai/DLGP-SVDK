@@ -11,14 +11,16 @@ namespace TestApp.Repository.Repositories
         public TicketRepository(ApplicationDbContext context) : base(context)
         {
         }
+
         public IEnumerable<Ticket> GetTopUrgentTickets(int count)
         {
-            return ServiceDeskContext.Tickets.OrderByDescending(c => c.Priority).Take(count).ToList();
+            //return AppContext.Tickets.ToList();
+            return AppContext.Tickets.OrderByDescending(c => c.Priority).Take(count).ToList();
         }
 
         public IEnumerable<Ticket> GetAllAssignedTickets(int pageIndex, int pageSize = 10)
         {
-            return ServiceDeskContext.Tickets
+            return AppContext.Tickets
                 .Include(c => c.Project)
                 .OrderBy(c => c.AssignedTo)
                 .Skip((pageIndex - 1) * pageSize)
@@ -26,7 +28,7 @@ namespace TestApp.Repository.Repositories
                 .ToList();
         }
 
-        public ApplicationDbContext ServiceDeskContext
+        public ApplicationDbContext AppContext
         {
             get { return Context as ApplicationDbContext; }
         }

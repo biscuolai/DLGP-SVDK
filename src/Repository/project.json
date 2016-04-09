@@ -1,5 +1,6 @@
 {
   "version": "1.0.0-*",
+  "userSecretsId": "TestAppDB",
   "description": "Repository Class Library",
   "authors": [ "Ilson Biscuola" ],
   "tags": [ "" ],
