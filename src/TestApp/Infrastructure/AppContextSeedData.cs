@@ -5,7 +5,7 @@ using TestApp.Model.Domain.Entities;
 using System.Linq;
 using System.Collections.Generic;
 
-namespace TestApp.Models
+namespace TestApp.Infrastructure
 {
     public class AppContextSeedData
     {
