@@ -17,6 +17,7 @@ using TestApp.Model.Domain.Entities;
 using TestApp.Web.Api;
 using TestApp.Repository.Repositories;
 using TestApp.Repository;
+using TestApp.Infrastructure;
 
 namespace TestApp
 {

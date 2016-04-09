@@ -1,16 +1,17 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using System;
-using TestApp.Model.Domain.Entities;
 using System.Linq;
 using System.Collections.Generic;
+using TestApp.Model.Domain.Entities;
+using TestApp.Models;
 
 namespace TestApp.Infrastructure
 {
     public class AppContextSeedData
     {
         private ApplicationDbContext _context;
-        private UserManager<Models.ApplicationUser> _userManager;
+        private UserManager<ApplicationUser> _userManager;
 
         public AppContextSeedData(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
