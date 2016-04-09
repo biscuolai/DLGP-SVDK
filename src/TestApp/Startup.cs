@@ -12,6 +12,7 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Serialization;
 using TestApp.Models;
 using TestApp.Services;
+using TestApp.Infrastructure;
 
 namespace TestApp
 {

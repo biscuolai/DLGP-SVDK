@@ -1,5 +1,6 @@
 ﻿using TestApp.Model.Domain.Entities;
 using TestApp.Repository.Persistence;
+using System.Linq;
 
 namespace TestApp.Repository.Repositories
 {
@@ -12,11 +13,10 @@ namespace TestApp.Repository.Repositories
         public Project GetProjectWithTickets(int id)
         {
             return null;
-            //todo: fix this.
-            //return ServiceDeskContext.Projects.Find(id);
+            //return ApplicationContext.Projects.Where(x => x.ProjectId == this.id);
         }
 
-        public ApplicationDbContext ServiceDeskContext
+        public ApplicationDbContext ApplicationContext
         {
             get { return Context as ApplicationDbContext; }
         }

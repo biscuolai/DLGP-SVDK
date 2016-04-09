@@ -7,7 +7,7 @@ using System.Linq;
 using System.Collections.Generic;
 using TestApp.Repository;
 
-namespace TestApp.Models
+namespace TestApp.Infrastructure
 {
     public class AppContextSeedData
     {
