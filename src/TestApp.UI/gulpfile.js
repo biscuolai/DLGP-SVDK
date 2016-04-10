@@ -28,7 +28,7 @@ gulp.task('connect', function() {
     connect.server({
         root: 'dist',
         livereload: true,
-        port: 8888
+        port: 5000
     });
 });
 
@@ -36,7 +36,7 @@ gulp.task('connect', function() {
  * Reload the web server
  */
 gulp.task('livereload', function() {
-    gulp.src('index.html')
+    gulp.src('index.cshtml')
         .pipe(connect.reload());
 });
 
@@ -98,7 +98,7 @@ gulp.task('less', function() {
         .pipe(concat('testapp.css'))
         .pipe(gulp.dest('dist/css'));
 
-    return gulp.src('dist/css/rdash.css')
+    return gulp.src('dist/css/testapp.css')
         .pipe(minifycss())
         .pipe(rename('testapp.min.css'))
         .pipe(gulp.dest('dist/css/'))    

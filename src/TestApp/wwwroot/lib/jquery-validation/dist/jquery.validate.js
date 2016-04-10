@@ -1216,7 +1216,7 @@ $.extend( $.validator, {
 			return this.optional( element ) || /^\d+$/.test( value );
 		},
 
-		// http://jqueryvalidation.org/creditcard-method/
+		// http://jqueryvalidation.org/creditcaapp-method/
 		// based on http://en.wikipedia.org/wiki/Luhn_algorithm
 		creditcard: function( value, element ) {
 			if ( this.optional( element ) ) {

@@ -27342,7 +27342,7 @@ var ngOptionsMinErr = minErr('ngOptions');
  * represented by the selected option will be bound to the model identified by the `ngModel`
  * directive.
  *
- * Optionally, a single hard-coded `<option>` element, with the value set to an empty string, can
+ * Optionally, a single haapp-coded `<option>` element, with the value set to an empty string, can
  * be nested into the `<select>` element. This element will then represent the `null` or "not selected"
  * option. See example below for demonstration.
  *
@@ -29883,7 +29883,7 @@ var SelectController =
  * If the viewValue of `ngModel` does not match any of the options, then the control
  * will automatically add an "unknown" option, which it then removes when the mismatch is resolved.
  *
- * Optionally, a single hard-coded `<option>` element, with the value set to an empty string, can
+ * Optionally, a single haapp-coded `<option>` element, with the value set to an empty string, can
  * be nested into the `<select>` element. This element will then represent the `null` or "not selected"
  * option. See example below for demonstration.
  *

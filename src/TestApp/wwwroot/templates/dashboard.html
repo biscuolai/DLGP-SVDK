@@ -6,58 +6,58 @@
 
 <div class="row">
     <div class="col-lg-3 col-md-6 col-xs-12">
-        <rd-widget>
-            <rd-widget-body>
+        <app-widget>
+            <app-widget-body>
                 <div class="widget-icon green pull-left">
                     <i class="fa fa-users"></i>
                 </div>
                 <div class="title">80</div>
-                <div class="comment">Users</div>
-            </rd-widget-body>
-        </rd-widget>
+                <div class="comment">New Tickets</div>
+            </app-widget-body>
+        </app-widget>
     </div>
     <div class="col-lg-3 col-md-6 col-xs-12">
-        <rd-widget>
-            <rd-widget-body>
+        <app-widget>
+            <app-widget-body>
                 <div class="widget-icon red pull-left">
                     <i class="fa fa-tasks"></i>
                 </div>
                 <div class="title">16</div>
-                <div class="comment">Servers</div>
-            </rd-widget-body>
-        </rd-widget>
+                <div class="comment">On-Hold Tickets</div>
+            </app-widget-body>
+        </app-widget>
     </div>
     <div class="col-lg-3 col-md-6 col-xs-12">
-        <rd-widget>
-            <rd-widget-body>
+        <app-widget>
+            <app-widget-body>
                 <div class="widget-icon orange pull-left">
                     <i class="fa fa-sitemap"></i>
                 </div>
                 <div class="title">225</div>
-                <div class="comment">Documents</div>
-            </rd-widget-body>
-        </rd-widget>
+                <div class="comment">Pending Tickets</div>
+            </app-widget-body>
+        </app-widget>
     </div>
     <div class="col-lg-3 col-md-6 col-xs-12">
-        <rd-widget>
-            <rd-widget-body>
+        <app-widget>
+            <app-widget-body>
                 <div class="widget-icon blue pull-left">
                     <i class="fa fa-support"></i>
                 </div>
                 <div class="title">62</div>
-                <div class="comment">Tickets</div>
-            </rd-widget-body>
-        </rd-widget>
+                <div class="comment">Closed Tickets</div>
+            </app-widget-body>
+        </app-widget>
     </div>
 </div>
 
 <div class="row">
     <div class="col-lg-6">
-        <rd-widget>
-            <rd-widget-header icon="fa-tasks" title="Servers">
-                <a href="#">Manage</a>
-            </rd-widget-header>
-            <rd-widget-body classes="medium no-padding">
+        <app-widget>
+            <app-widget-header icon="fa-tasks" title="Tickets">
+                <button class="btn btn-sm btn-info">Manage</button>
+            </app-widget-header>
+            <app-widget-body classes="medium no-padding">
                 <div class="table-responsive">
                     <table class="table">
                         <tbody>
@@ -75,15 +75,15 @@
                         </tbody>
                     </table>
                 </div>
-            </rd-widget-body>
-        </rd-widget>
+            </app-widget-body>
+        </app-widget>
     </div>
     <div class="col-lg-6">
-        <rd-widget>
-            <rd-widget-header icon="fa-users" title="Users">
+        <app-widget>
+            <app-widget-header icon="fa-users" title="Users">
                 <input type="text" placeholder="Search" class="form-control input-sm" />
-            </rd-widget-header>
-            <rd-widget-body classes="medium no-padding">
+            </app-widget-header>
+            <app-widget-body classes="medium no-padding">
                 <div class="table-responsive">
                     <table class="table">
                         <thead>
@@ -96,36 +96,36 @@
                         </tbody>
                     </table>
                 </div>
-            </rd-widget-body>
-            <rd-widget>
+            </app-widget-body>
+            <app-widget>
     </div>
 </div>
 
 <div class="row">
     <div class="col-lg-6">
-        <rd-widget>
-            <rd-widget-header icon="fa-plus" title="Extras">
-                <button class="btn btn-sm btn-info">Button</button>
-            </rd-widget-header>
-            <rd-widget-body>
+        <app-widget>
+            <app-widget-header icon="fa-plus" title="Extras">
+                <button class="btn btn-sm btn-info">Manage</button>
+            </app-widget-header>
+            <app-widget-body>
                 <div class="message">
-                    This is a standard message which will also work the ".no-padding" class, I can also <span class="error">be an error message!</span>
+                    Maybe an idea of <span class="error">critical tickets in this list!</span>
                 </div>
                 <hr />
                 <div class="message">
-                    <a href="http://angular-ui.github.io/bootstrap/" target="_blank">UI Bootstrap</a> is included, so you can use <a href="#" tooltip="I'm a tooltip!">tooltips</a> and all of the other native Bootstrap JS components!
+                    <a href="#" target="_blank">UI Bootstrap</a> can be used.
                 </div>
-            </rd-widget-body>
-        </rd-widget>
+            </app-widget-body>
+        </app-widget>
     </div>
     <div class="col-lg-6">
-        <rd-widget>
-            <rd-widget-header icon="fa-cog fa-spin" title="Loading Directive">
-                <a href="http://tobiasahlin.com/spinkit/" target="_blank">SpinKit</a>
-            </rd-widget-header>
-            <rd-widget-body>
-                <rd-loading></rd-loading>
-            </rd-widget-body>
-        </rd-widget>
+        <app-widget>
+            <app-widget-header icon="fa-cog fa-spin" title="Loading Directive">
+                <a href="http://tobiasahlin.com/spinkit/" target="_blank">Example of spinkit</a>
+            </app-widget-header>
+            <app-widget-body>
+                <app-loading>test</app-loading>
+            </app-widget-body>
+        </app-widget>
     </div>
 </div>

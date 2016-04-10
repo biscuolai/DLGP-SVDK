@@ -2,16 +2,68 @@
 
 @if (User.IsSignedIn())
 {
-    <form asp-controller="Account" asp-action="LogOff" method="post" id="logoutForm" class="navbar-right">
-        <ul class="nav navbar-nav navbar-right">
-            <li>
-                <a asp-controller="Manage" asp-action="Index" title="Manage">Hello @User.GetUserName()!</a>
-            </li>
-            <li>
-                <button type="submit" class="btn btn-link navbar-btn navbar-link">Log off</button>
-            </li>
-        </ul>
+    <!-- Header Bar -->
+    <form asp-controller="Account" asp-action="LogOff" method="post" id="logoutForm">
+        <div class="row header">
+            <div class="col-xs-12">
+                <div class="user pull-right">
+                    <div class="item dropdown" uib-dropdown>
+                        <a href="#" class="dropdown-toggle" uib-dropdown-toggle>
+                            <img src="~/images/avatar.jpg">
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-right">
+                            <li class="dropdown-header">
+                                Hello @User.GetUserName()
+                            </li>
+                            <li class="divider"></li>
+                            <li class="link">
+                                <a href="#">
+                                    Profile
+                                </a>
+                            </li>
+                            <li class="link">
+                                <a href="#">
+                                    Menu Item 1
+                                </a>
+                            </li>
+                            <li class="link">
+                                <a href="#">
+                                    Menu Item 2
+                                </a>
+                            </li>
+                            <li class="divider"></li>
+                            <li class="link">
+                                <button type="submit" class="btn btn-link link">Log off</button>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="item dropdown" uib-dropdown>
+                        <a href="#" class="dropdown-toggle" uib-dropdown-toggle>
+                            <i class="fa fa-bell-o"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-right">
+                            <li class="dropdown-header">
+                                Notifications
+                            </li>
+                            <li class="divider"></li>
+                            <li>
+                                <a href="#">Server Down!</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="meta">
+                    <div class="page">
+                        Dashboard
+                    </div>
+                    <div class="breadcrumb-links">
+                        Home / Dashboard
+                    </div>
+                </div>
+            </div>
+        </div>
     </form>
+    <!-- End Header Bar -->
 }
 else
 {
@@ -20,3 +72,21 @@ else
         <li><a asp-controller="Account" asp-action="Login">Log in</a></li>
     </ul>
 }
+        @*<form asp-controller="Account" asp-action="LogOff" method="post" id="logoutForm" class="navbar-right">
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a asp-controller="Manage" asp-action="Index" title="Manage">Hello @User.GetUserName()!</a>
+                </li>
+                <li>
+                    <button type="submit" class="btn btn-link navbar-btn navbar-link">Log off</button>
+                </li>
+            </ul>
+        </form>
+        }
+        else
+        {
+        <ul class="nav navbar-nav navbar-right">
+            <li><a asp-controller="Account" asp-action="Register">Register</a></li>
+            <li><a asp-controller="Account" asp-action="Login">Log in</a></li>
+        </ul>
+        }*@
