@@ -7,11 +7,13 @@
     "angular-deferred-bootstrap": "*",
     "angular-resource": "*",
     "angular-ui-grid": "*",
-    "angular-ui-router": "*",
-    "bootstrap": "3.*",
+    "angular-ui-router": "0.2.18",
+    "angular-cookies": "1.5.3",
+    "bootstrap": "3.3.6",
     "jquery": "2.1.4",
     "jquery-validation": "1.14.0",
-    "jquery-validation-unobtrusive": "3.2.4"
+    "jquery-validation-unobtrusive": "3.2.4",
+    "font-awesome": "~4.5.0"
   },
   "resolutions": {
     "angular": "1.5.3"

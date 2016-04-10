@@ -3,6 +3,13 @@
   "userSecretsId": "TestAppDB",
   "description": "Repository Class Library",
   "authors": [ "Ilson Biscuola" ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/biscuolai/TestApp.git"
+  },
+  "bugs": {
+    "url": "https://github.com/biscuolai/TestApp/issues"
+  },
   "tags": [ "" ],
   "projectUrl": "",
   "licenseUrl": "",

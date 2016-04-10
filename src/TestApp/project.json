@@ -1,6 +1,13 @@
 ﻿{
   "userSecretsId": "TestAppDB",
   "version": "1.0.0-*",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/biscuolai/TestApp.git"
+  },
+  "bugs": {
+    "url": "https://github.com/biscuolai/TestApp/issues"
+  },
   "compilationOptions": {
     "emitEntryPoint": true
   },
@@ -33,7 +40,8 @@
     "AutoMapper": "4.2.1",
     "Model": "1.0.0-*",
     "Newtonsoft.Json": "7.0.1",
-    "Repository": "1.0.0-*"
+    "Repository": "1.0.0-*",
+    "TestApp.UI": "1.0.0-*"
   },
 
   "commands": {
