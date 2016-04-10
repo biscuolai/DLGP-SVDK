@@ -1,0 +1,83 @@
+﻿using AutoMapper;
+using TestApp.Repository;
+using TestApp.Repository.Repositories;
+using Microsoft.AspNet.Mvc;
+using System.Collections.Generic;
+using TestApp.Model.Domain.Entities;
+using System.Net;
+using System;
+
+namespace TestApp.Web.Api
+{
+    [Route("api/tickets")]
+    public class TicketController: Controller
+    {
+        private ITicketRepository _repository;
+
+        [HttpGet("")]
+        public JsonResult GetAll()
+        {
+            using (var unitOfWork = new UnitOfWork(new ApplicationDbContext()))
+            {
+                // Example1
+                //var course = unitOfWork.Courses.Get(1);
+
+                // Example2
+                var tickets = unitOfWork.Tickets.GetTopUrgentTickets(10);
+                return new JsonResult(new { data = tickets, success = true });
+
+                // Example3
+                //var author = unitOfWork.Authors.GetAuthorWithCourses(1);
+                //unitOfWork.Tickets.RemoveRange(author.Courses);
+                //unitOfWork.Authors.Remove(author);
+                //unitOfWork.Complete();
+            }
+
+
+            //var results = Mapper.Map<IEnumerable<TicketViewModel>>(_repository.GetTopUrgentTickets(10));
+            //return new JsonResult(new { data = results, success = true });
+            
+            //return Json("null");
+        }
+
+        [HttpGet("{id}")]
+        public JsonResult Get(int id)
+        {
+            
+            var result = Mapper.Map<TicketViewModel>(_repository.GetTopUrgentTickets(10));
+            return new JsonResult(new { data = result, success = true });
+            
+            //return Json("null");
+        }
+
+        [HttpPost("")]
+        public JsonResult Post([FromBody] TicketViewModel vm)
+        {
+            
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    var newTicket = Mapper.Map<Ticket>(vm);
+
+                    // Save to the database
+                    
+
+                    Response.StatusCode = (int)HttpStatusCode.Created;
+                    return Json(Mapper.Map<TicketViewModel>(newTicket));
+                }
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return Json(new { Message = ex.Message });
+            }
+
+            Response.StatusCode = (int)HttpStatusCode.BadRequest;
+            return Json(new { Message = "Failed", ModelState = ModelState});
+            
+
+            //return Json("null");
+        }
+    }
+}
