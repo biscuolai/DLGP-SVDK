@@ -472,12 +472,12 @@ ul.sidebar {
         }
 
         .widget .widget-body.medium {
-            height: 250px;
+            height: auto;
             overflow-y: auto;
         }
 
         .widget .widget-body.small {
-            height: 150px;
+            height: 250px;
             overflow-y: auto;
         }
 
@@ -518,6 +518,10 @@ ul.sidebar {
         font-size: 28px;
         display: block;
     }
+
+.widget-search {
+    padding-right:50px!important;
+}
 
 .alert {
     padding: 15px;
@@ -628,4 +632,9 @@ ul.sidebar {
     margin: 0;
     overflow: visible;
     clip: auto;
+}
+
+.dialogLogo {
+    padding-top: 10px;
+    padding-right: 30px;
 }

@@ -132,9 +132,11 @@ namespace TestApp.Migrations
                     b.Property<string>("AssignedTo")
                         .HasAnnotation("MaxLength", 256);
 
-                    b.Property<string>("Category")
-                        .IsRequired()
-                        .HasAnnotation("MaxLength", 50);
+                    b.Property<int>("CategoryId");
+
+                    b.Property<int>("ConfigurationItemId");
+
+                    b.Property<int>("ContactTypeId");
 
                     b.Property<string>("CreatedBy")
                         .IsRequired()
@@ -163,8 +165,7 @@ namespace TestApp.Migrations
                         .IsRequired()
                         .HasAnnotation("MaxLength", 256);
 
-                    b.Property<string>("Priority")
-                        .HasAnnotation("MaxLength", 25);
+                    b.Property<int>("Priority");
 
                     b.Property<int>("ProjectId");
 
@@ -172,10 +173,6 @@ namespace TestApp.Migrations
                         .HasAnnotation("MaxLength", 100);
 
                     b.Property<int>("TicketStatus");
-
-                    b.Property<string>("TicketType")
-                        .IsRequired()
-                        .HasAnnotation("MaxLength", 50);
 
                     b.Property<string>("Title")
                         .IsRequired()

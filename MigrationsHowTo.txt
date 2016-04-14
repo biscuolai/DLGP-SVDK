@@ -1,5 +1,5 @@
 dnu restore -- enable migration restoring nuget packages
 dnx ef migrations list -- listing all migrations
 dnx ef migrations add InitialDatabase -- add first migration
-dnx ef migrations remove InitialDatabase -- remove migration
+dnx ef migrations remove -- remove migration
 dnx ef database update

@@ -44,27 +44,30 @@ namespace TestApp.Web.Api
         public JsonResult Get(int id)
         {
             
-            var result = Mapper.Map<TicketViewModel>(_repository.GetTopUrgentTickets(10));
+            var result = Mapper.Map<Ticket>(_repository.GetTopUrgentTickets(10));
             return new JsonResult(new { data = result, success = true });
             
             //return Json("null");
         }
 
         [HttpPost("")]
-        public JsonResult Post([FromBody] TicketViewModel vm)
+        public JsonResult Post([FromBody] TicketViewModel value)
         {
-            
             try
             {
                 if (ModelState.IsValid)
                 {
-                    var newTicket = Mapper.Map<Ticket>(vm);
+                    var newTicket = Mapper.Map<TicketViewModel>(value);
 
                     // Save to the database
-                    
+                    using (var unitOfWork = new UnitOfWork(new ApplicationDbContext()))
+                    {
+                        unitOfWork.Tickets.Add(Mapper.Map<Ticket>(newTicket));
+                        unitOfWork.Commit();
 
-                    Response.StatusCode = (int)HttpStatusCode.Created;
-                    return Json(Mapper.Map<TicketViewModel>(newTicket));
+                        Response.StatusCode = (int)HttpStatusCode.Created;
+                        return Json(Mapper.Map<TicketViewModel>(newTicket));
+                    }
                 }
             }
             catch (Exception ex)
@@ -75,7 +78,6 @@ namespace TestApp.Web.Api
 
             Response.StatusCode = (int)HttpStatusCode.BadRequest;
             return Json(new { Message = "Failed", ModelState = ModelState});
-            
 
             //return Json("null");
         }

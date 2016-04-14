@@ -52,36 +52,113 @@
 </div>
 
 <div class="row">
-    <div class="col-lg-6">
+    <div class="col-lg-12" ng-controller="ticketController as vm">
         <app-widget>
             <app-widget-header icon="fa-tasks" title="Tickets">
-                <button class="btn btn-sm btn-info">Manage</button>
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Search a ticket" ng-model="searchTicket" />
+                    <div class="input-group-btn">
+                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Action <span class="caret"></span></button>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Create new ticket</a></li>
+                            <li><a href="#">My tickets</a></li>
+                            <li><a href="#">Something else here</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href="#">Separated link</a></li>
+                        </ul>
+                    </div><!-- /btn-group -->
+                </div><!-- /input-group -->
             </app-widget-header>
             <app-widget-body classes="medium no-padding">
+                <!--<div class="alert alert-info">
+                    <p>Sort Type: {{ sortType }}</p>
+                    <p>Sort Reverse: {{ sortReverse }}</p>
+                    <p>Search Query: {{ searchTicket }}</p>
+                </div>-->                
                 <div class="table-responsive">
                     <table class="table">
+                        <thead>
+                            <!--<tr><th class="text-center">ID</th><th>Title</th><th>Assigned</th></tr>-->                        
+                            <tr>
+                                <td>
+                                    <a href="#" ng-click="sortType = 'TicketId'; sortReverse = !sortReverse">
+                                        <strong>Ticket ID</strong>
+                                        <span ng-show="sortType == 'TicketId' && !sortReverse" class="fa fa-caret-down"></span>
+                                        <span ng-show="sortType == 'TicketId' && sortReverse" class="fa fa-caret-up"></span>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a href="#" ng-click="sortType = 'ProjectId'; sortReverse = !sortReverse">
+                                        <strong>Project ID</strong>
+                                        <span ng-show="sortType == 'ProjectId' && !sortReverse" class="fa fa-caret-down"></span>
+                                        <span ng-show="sortType == 'ProjectId' && sortReverse" class="fa fa-caret-up"></span>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a href="#" ng-click="sortType = 'Title'; sortReverse = !sortReverse">
+                                        <strong>Title</strong>
+                                        <span ng-show="sortType == 'Title' && !sortReverse" class="fa fa-caret-down"></span>
+                                        <span ng-show="sortType == 'Title' && sortReverse" class="fa fa-caret-up"></span>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a href="#" ng-click="sortType = 'Category'; sortReverse = !sortReverse">
+                                        <strong>Category</strong>
+                                        <span ng-show="sortType == 'Category' && !sortReverse" class="fa fa-caret-down"></span>
+                                        <span ng-show="sortType == 'Category' && sortReverse" class="fa fa-caret-up"></span>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a href="#" ng-click="sortType = 'ConfigurationItem'; sortReverse = !sortReverse">
+                                        <strong>Configuration Item</strong>
+                                        <span ng-show="sortType == 'ConfigurationItem' && !sortReverse" class="fa fa-caret-down"></span>
+                                        <span ng-show="sortType == 'ConfigurationItem' && sortReverse" class="fa fa-caret-up"></span>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a href="#" ng-click="sortType = 'Priority'; sortReverse = !sortReverse">
+                                        <strong>Priority</strong>
+                                        <span ng-show="sortType == 'Priority' && !sortReverse" class="fa fa-caret-down"></span>
+                                        <span ng-show="sortType == 'Priority' && sortReverse" class="fa fa-caret-up"></span>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a href="#" ng-click="sortType = 'AssignedTo'; sortReverse = !sortReverse">
+                                        <strong>Assigned To</strong>
+                                        <span ng-show="sortType == 'AssignedTo' && !sortReverse" class="fa fa-caret-down"></span>
+                                        <span ng-show="sortType == 'AssignedTo' && sortReverse" class="fa fa-caret-up"></span>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a href="#" ng-click="sortType = 'CreatedDate'; sortReverse = !sortReverse">
+                                        <strong>Created Date</strong>
+                                        <span ng-show="sortType == 'CreatedDate' && !sortReverse" class="fa fa-caret-down"></span>
+                                        <span ng-show="sortType == 'CreatedDate' && sortReverse" class="fa fa-caret-up"></span>
+                                    </a>
+                                </td>
+                            </tr>
+                        </thead>
                         <tbody>
-                            <tr><td>RDVMPC001</td><td>238.103.133.37</td><td><span class="text-success"><i class="fa fa-check"></i></span></td></tr>
-                            <tr><td>RDVMPC002</td><td>68.66.63.170</td><td><span class="text-success"><i class="fa fa-check"></i></span></td></tr>
-                            <tr><td>RDVMPC003</td><td>76.117.212.33</td><td><span tooltip="Server Down!" class="text-danger"><i class="fa fa-warning"></i></span></td></tr>
-                            <tr><td>RDPHPC001</td><td>91.88.224.5</td><td><span class="text-success"><i class="fa fa-check"></i></span></td></tr>
-                            <tr><td>RDESX001</td><td>197.188.15.93</td><td><span class="text-success"><i class="fa fa-check"></i></span></td></tr>
-                            <tr><td>RDESX002</td><td>168.85.154.251</td><td><span class="text-success"><i class="fa fa-check"></i></span></td></tr>
-                            <tr><td>RDESX003</td><td>209.25.191.61</td><td><span tooltip="Server Down!" class="text-danger"><i class="fa fa-warning"></i></span></td></tr>
-                            <tr><td>RDESX004</td><td>252.37.192.235</td><td><span class="text-success"><i class="fa fa-check"></i></span></td></tr>
-                            <tr><td>RDTerminal01</td><td>139.71.18.207</td><td><span class="text-success"><i class="fa fa-check"></i></span></td></tr>
-                            <tr><td>RDTerminal02</td><td>136.80.122.212</td><td><span tooltip="Could not connect!" class="text-warning"><i class="fa fa-flash"></i></span></td></tr>
-                            <tr><td>RDDomainCont01</td><td>196.80.245.33</td><td><span class="text-success"><i class="fa fa-check"></i></span></td></tr>
+                            <tr ng-repeat='ticket in tickets | orderBy:sortType:sortReverse | filter:searchTicket'>
+                                <td>{{ ticket.ticketId }}</td>
+                                <td>{{ ticket.projectId }}</td>
+                                <td>{{ ticket.title }}</td>
+                                <td>{{ ticket.categoryId }}</td>
+                                <td>{{ ticket.configurationItemId }}</td>
+                                <td>{{ ticket.priority }}</td>
+                                <td>{{ ticket.assignedTo }}</td>
+                                <td>{{ ticket.createdDate }}</td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
             </app-widget-body>
         </app-widget>
     </div>
-    <div class="col-lg-6">
+    <!--<div class="col-lg-6">
         <app-widget>
             <app-widget-header icon="fa-users" title="Users">
-                <input type="text" placeholder="Search" class="form-control input-sm" />
+                <input type="text" placeholder="Search" class="form-control" />
             </app-widget-header>
             <app-widget-body classes="medium no-padding">
                 <div class="table-responsive">
@@ -98,14 +175,14 @@
                 </div>
             </app-widget-body>
             <app-widget>
-    </div>
+    </div>-->
 </div>
 
-<div class="row">
+<!--<div class="row">
     <div class="col-lg-6">
         <app-widget>
             <app-widget-header icon="fa-plus" title="Extras">
-                <button class="btn btn-sm btn-info">Manage</button>
+                <button ng-click="" class="btn btn-sm btn-info">Manage</button>
             </app-widget-header>
             <app-widget-body>
                 <div class="message">
@@ -128,4 +205,19 @@
             </app-widget-body>
         </app-widget>
     </div>
-</div>
+</div>-->
+
+
+
+<!--<div class="row">
+    <div class="col-lg-6 col-sm-12" ng-controller="chartController">
+        <div class="panel panel-default">
+            <div class="panel-heading">Reactive Chart {{series}}</div>
+            <div class="panel-body">
+                <canvas id="base" class="chart chart-base" chart-type="type2" chart-data="data2" chart-labels="labels2" chart-legend="true"></canvas>
+                <button type="button" class="btn btn-primary pull-right" ng-click="toggle()">Toggle</button>
+                <canvas id="bar" class="chart chart-bar" data="data" labels="labels"></canvas>
+            </div>
+        </div>
+    </div>
+</div>-->

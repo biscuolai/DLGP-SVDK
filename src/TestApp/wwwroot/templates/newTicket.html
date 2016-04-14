@@ -1,0 +1,146 @@
+﻿<form name="ticketForm" ng-submit="sendPost()">
+    <div ng-controller="ticketController" layout="column" ng-cloak class="md-inline-form">
+
+        <md-content layout-padding>
+            <h2>Create New Ticket</h2>
+            <div layout="column" ng-cloak class="md-inline-form">
+                <div layout-gt-sm="row">
+
+                    <!--Project-->
+                    <md-input-container class="md-block" >
+                        <label>Project</label>
+                        <md-select ng-model="selectedProject" ng-model-options="{trackBy: '$value.id'}">
+                            <md-option ng-value="project" ng-repeat="project in projects">{{ project.name }}</md-option>
+                        </md-select>
+                        <div class="hint" ng-if="showHints">Please select the project</div>
+                        <div ng-messages="ticketForm.project.$error" ng-if="!showHints">
+                            <div ng-message="required">Project is required.</div>
+                        </div>
+                    </md-input-container>
+
+                    <div flex="5" hide-xs hide-sm>
+                        <!-- Spacer //-->
+                    </div>
+
+                    <!--Subject-->
+                    <md-input-container class="md-block" flex-gt-sm>
+                        <label>Ticket Title</label>
+                        <input maxlength="30" required ng-model="title" />
+                        <div class="hint" ng-if="showHints">Please enter the Ticket Title</div>
+                        <div ng-messages="ticketForm.title.$error" ng-if="!showHints">
+                            <div ng-message="required">Title is required.</div>
+                        </div>
+                    </md-input-container>
+
+
+                </div>
+                    <div layout-gt-sm="row">
+                        <!--Ticket Category-->
+                        <md-input-container class="md-block" flex-gt-sm>
+                            <label>Category</label>
+                            <md-select ng-model="selectedTicketCategory" ng-model-options="{trackBy: '$value.id'}">
+                                <md-option ng-value="category" ng-repeat="category in ticketCategory">{{ category.name }}</md-option>
+                            </md-select>
+                        </md-input-container>
+
+                        <div flex="5" hide-xs hide-sm>
+                            <!-- Spacer //-->
+                        </div>
+
+                        <!--Ticket Contact Type-->
+                        <md-input-container class="md-block" flex-gt-sm>
+                            <label>Contact Type</label>
+                            <md-select ng-model="selectedTicketContactType" ng-model-options="{trackBy: '$value.id'}">
+                                <md-option ng-value="contact" ng-repeat="contact in ticketContactType">{{ contact.name }}</md-option>
+                            </md-select>
+                        </md-input-container>
+
+                        <div flex="5" hide-xs hide-sm>
+                            <!-- Spacer //-->
+                        </div>
+
+                        <!--Ticket Configuration Item-->
+                        <md-input-container class="md-block" flex-gt-sm>
+                            <label>Configuration Item</label>
+                            <md-select ng-model="selectedTicketConfigurationItem" ng-model-options="{trackBy: '$value.id'}">
+                                <md-option ng-value="configItem" ng-repeat="configItem in ticketConfigurationItem">{{ configItem.name }}</md-option>
+                            </md-select>
+                        </md-input-container>
+
+                        <div flex="5" hide-xs hide-sm>
+                            <!-- Spacer //-->
+                        </div>
+
+                        <!--Ticket Priority-->
+                        <md-input-container class="md-block" flex-gt-sm>
+                            <label>Priority</label>
+                            <md-select ng-model="selectedTicketPriority" ng-model-options="{trackBy: '$value.id'}">
+                                <md-option ng-value="priority" ng-repeat="priority in ticketPriority">{{ priority.name }}</md-option>
+                            </md-select>
+                        </md-input-container>
+
+                    </div>
+
+
+                    <div layout-gt-sm="row">
+                        <!--Assigned To-->
+                        <md-input-container class="md-block" flex-gt-sm>
+                            <label>Assigned To</label>
+                            <md-select ng-model="selectedTicketAssignedTo" ng-model-options="{trackBy: '$value.id'}">
+                                <md-option ng-value="assignedto" ng-repeat="assignedto in ticketAssignedTo">{{ assignedto.name }}</md-option>
+                            </md-select>
+                        </md-input-container>
+
+                        <div flex="5" hide-xs hide-sm>
+                            <!-- Spacer //-->
+                        </div>
+
+                        <!--Ticket Status-->
+                        <md-input-container class="md-block" flex-gt-sm>
+                            <label>Ticket Status</label>
+                            <md-select ng-model="selectedTicketStatus" ng-model-options="{trackBy: '$value.id'}">
+                                <md-option ng-value="status" ng-repeat="status in ticketStatus">{{ status.name }}</md-option>
+                            </md-select>
+                        </md-input-container>
+
+                        <div flex="5" hide-xs hide-sm>
+                            <!-- Spacer //-->
+                        </div>
+
+                        <!--Ticket Tag-->
+                        <md-input-container class="md-block" flex-gt-sm>
+                            <label>Tags</label>
+                            <input name="tags" ng-model="tags" maxlength="100" />
+                            <div class="hint" ng-show="showHints">Tag this ticket to facilitate searching</div>
+                            <div ng-messages="ticketForm.tags.$error" ng-hide="showHints">
+                                <div ng-message-exp="['maxlength']">
+                                    Tags can not exceed 100 characters.
+                                </div>
+                            </div>
+                        </md-input-container>
+
+                    </div>
+
+                </div>
+            <md-input-container class="md-block" flex-gt-sm>
+                <label>Ticket Details</label>
+                <br />
+
+
+                <!--text-angular{name: "description", "ng-model" => "catalogItem.html_text", "ta-toolbar" => "[['bold','ul']]", class: " description", "required" => true, "ta-max-text" => 1000, "ta-text-editor-class" => "form-control-error ta-description-editor", "ta-toolbar-class" => "ta-toolbar", "ta-toolbar-button-class" => "ta-toolbar-button", "ng-keyup" => "countText($event)", tabindex: "2"}-->
+
+
+                <div text-angular ng-model="details" ta-text-editor-class="border-around" ta-html-editor-class="border-around" required minlength="10" maxlength="100"></div>
+                <div class="hint" ng-show="showHints">Enter as much as details as you can of the ticket</div>
+                <div ng-messages="ticketForm.details.$error" ng-hide="showHints">
+                    <div ng-message-exp="['required', 'minlength', 'maxlength']">
+                        Your email must be between 10 and 100 characters long.
+                    </div>
+                </div>
+            </md-input-container>
+
+            <button type="submit" class="btn btn-primary" ng-click="sendPost()">Save</button>
+            <button class="btn btn-default">Cancel</button>
+        </md-content>
+    </div>
+</form>

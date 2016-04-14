@@ -16,6 +16,10 @@
                 .state('tables', {
                     url: '/tables',
                     templateUrl: '../templates/tables.html'
+                })
+                .state('newTicket', {
+                    url: '/newTicket',
+                    templateUrl: '../templates/newTicket.html'
                 });
         }
     ]);

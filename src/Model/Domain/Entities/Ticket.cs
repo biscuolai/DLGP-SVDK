@@ -29,14 +29,16 @@ namespace TestApp.Model.Domain.Entities
 
 
         [Required(ErrorMessageResourceName = "FieldRequired")]
-        [StringLength(50, ErrorMessageResourceName = "FieldMaximumLength")]
-        [Display(ResourceType = typeof(String), Name = "TicketTicketType", ShortName = "TicketTicketTypeShort")]
-        public string TicketType { get; set; }
+        [Display(ResourceType = typeof(int), Name = "TicketContactTypeId", ShortName = "TicketContactTypeShort")]
+        public int ContactTypeId { get; set; }
 
         [Required(ErrorMessageResourceName = "FieldRequired")]
-        [StringLength(50, ErrorMessageResourceName = "FieldMaximumLength")]
-        [Display(ResourceType = typeof(String), Name = "TicketCategory", ShortName = "TicketCategoryShort")]
-        public string Category { get; set; }
+        [Display(ResourceType = typeof(int), Name = "TicketCategoryId", ShortName = "TicketCategoryShort")]
+        public int CategoryId { get; set; }
+
+        [Required(ErrorMessageResourceName = "FieldRequired")]
+        [Display(ResourceType = typeof(int), Name = "ConfigurationItemId", ShortName = "ConfigurationItemShort")]
+        public int ConfigurationItemId { get; set; }
 
         [Required(ErrorMessageResourceName = "FieldRequired")]
         [StringLength(500, ErrorMessageResourceName = "FieldMaximumLength")]
@@ -118,9 +120,8 @@ namespace TestApp.Model.Domain.Entities
         [Display(ResourceType = typeof(String), Name = "TicketLastUpdateDate", ShortName = "TicketLastUpdateDateShort")]
         public DateTimeOffset LastUpdateDate { get; set; }
 
-        [StringLength(25, ErrorMessageResourceName = "FieldMaximumLength")]
-        [Display(ResourceType = typeof(String), Name = "TicketPriority", ShortName = "TicketPriorityShort")]
-        public string Priority { get; set; }
+        [Display(ResourceType = typeof(int), Name = "TicketPriority", ShortName = "TicketPriorityShort")]
+        public int Priority { get; set; }
 
         [Display(ResourceType = typeof(String), Name = "TicketAffectsCustomer", ShortName = "TicketAffectsCustomerShort")]
         public bool AffectsCustomer { get; set; }
@@ -167,10 +168,10 @@ namespace TestApp.Model.Domain.Entities
 
         private void EnsureSubscriber(string user)
         {
-            //if (user != null && TicketSubscribers.All(s => s.SubscriberId != user))
-            //{
-            //    TicketSubscribers.Add(new TicketSubscriber() { SubscriberId = user });
-            //}
+            if (user != null && TicketSubscribers.All(s => s.SubscriberId != user))
+            {
+                TicketSubscribers.Add(new TicketSubscriber() { SubscriberId = user });
+            }
         }
 
         public TicketActivity GetAvailableActivites(string userId)
