@@ -8,8 +8,8 @@ using TestApp.Models;
 namespace TestApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20160414072051_CleanupFields")]
-    partial class CleanupFields
+    [Migration("20160414150147_InitialDB")]
+    partial class InitialDB
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -127,8 +127,6 @@ namespace TestApp.Migrations
                 {
                     b.Property<int>("TicketId")
                         .ValueGeneratedOnAdd();
-
-                    b.Property<bool>("AffectsCustomer");
 
                     b.Property<string>("AssignedTo")
                         .HasAnnotation("MaxLength", 256);

@@ -18,6 +18,7 @@ using TestApp.Web.Api;
 using TestApp.Repository.Repositories;
 using TestApp.Repository;
 using TestApp.Infrastructure;
+using TestApp.Api.ViewModels;
 
 namespace TestApp
 {

@@ -127,8 +127,6 @@ namespace TestApp.Migrations
                     b.Property<int>("TicketId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<bool>("AffectsCustomer");
-
                     b.Property<string>("AssignedTo")
                         .HasAnnotation("MaxLength", 256);
 

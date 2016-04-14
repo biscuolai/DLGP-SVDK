@@ -5,7 +5,7 @@ using Microsoft.Data.Entity.Metadata;
 
 namespace TestApp.Migrations
 {
-    public partial class InitialDatabase : Migration
+    public partial class InitialDB : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -87,7 +87,6 @@ namespace TestApp.Migrations
                 {
                     TicketId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    AffectsCustomer = table.Column<bool>(nullable: false),
                     AssignedTo = table.Column<string>(nullable: true),
                     CategoryId = table.Column<int>(nullable: false),
                     ConfigurationItemId = table.Column<int>(nullable: false),

@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using TestApp.Model.Domain.Entities;
 using System.Net;
 using System;
+using TestApp.Api.ViewModels;
 
 namespace TestApp.Web.Api
 {

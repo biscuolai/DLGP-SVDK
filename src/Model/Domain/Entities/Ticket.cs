@@ -123,9 +123,6 @@ namespace TestApp.Model.Domain.Entities
         [Display(ResourceType = typeof(int), Name = "TicketPriority", ShortName = "TicketPriorityShort")]
         public int Priority { get; set; }
 
-        [Display(ResourceType = typeof(String), Name = "TicketAffectsCustomer", ShortName = "TicketAffectsCustomerShort")]
-        public bool AffectsCustomer { get; set; }
-
         [Column(TypeName = "timestamp")]
         [MaxLength(8)]
         [Timestamp]

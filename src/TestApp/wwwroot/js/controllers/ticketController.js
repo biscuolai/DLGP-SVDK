@@ -118,6 +118,8 @@
                 'lastUpdateDate': new Date(),
                 'priority': $scope.selectedTicketPriority.id
             };
+
+            $http.post('/api/tickets', value);
         };
     }
 })();
