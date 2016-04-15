@@ -3,9 +3,11 @@
 
     angular
         .module('app')
-        .controller('ticketController', ['$http', '$scope', ticketController]);
+        .controller('ticketController', ['$http', '$scope', '$controller', ticketController]);
 
-    function ticketController($http, $scope) {
+    function ticketController($http, $scope, $controller) {
+
+        var vm = this;
 
         $scope.tickets = [];
 
@@ -14,9 +16,10 @@
         $scope.errorMessage = "";
         $scope.isBusy = true;
 
-        $scope.sortType = 'title';      // set the default sort type
-        $scope.sortReverse = false;     // set the default sort order
-        $scope.searchTicket = '';       // set the default search / filter term
+        // sort and search variables
+        $scope.sortType = 'TicketId';  // set the default sort type to Ticket Id
+        $scope.sortReverse = true;     // set the default sort order to Ascending
+        vm.searchTicket = "";                // set the default search / filter term to empty string
 
         $scope.details = "";
         $scope.tags = "";
@@ -43,7 +46,7 @@
             { id: 1, name: 'Phone' },
             { id: 2, name: 'Portal' }
         ];
-        $scope.selectedTicketContactType = { id: 1, name: 'Phone' };
+        $scope.selectedTicketContactType = { id: 2, name: 'Portal' };
 
         // ticket configuration item
         $scope.ticketConfigurationItem = [
@@ -120,6 +123,29 @@
             };
 
             $http.post('/api/tickets', value);
+
+            vm.ticketForm.$setPristine();
+            vm.ticketForm.$setUntouched();
+            $scope.title = "";
+            $scope.details = "";
+            $scope.tags = "";
+            $scope.selectedProject = { id: 1, name: 'Project1' };
+            $scope.selectedTicketCategory = { id: 0, name: 'Bug' };
+            $scope.selectedTicketContactType = { id: 2, name: 'Portal' };
+            $scope.selectedTicketConfigurationItem = { id: 1, name: 'ConfigurationItem1' };
+            $scope.selectedTicketPriority = { id: 3, name: '4 - Low' };
+            $scope.selectedTicketAssignedTo = { id: 0, name: 'Ilson Biscuola' };
+            $scope.selectedTicketStatus = { id: 0, name: 'New' };
+
+            //You need to supply a scope while instantiating.
+            //Provide the scope, you can also do $scope.$new(true) in order to create an isolated scope.
+            //In this case it is the child scope of this scope.
+            var alertCtrlViewModel = $scope.$new();
+            $controller('alertsController', { $scope: alertCtrlViewModel });
+            alertCtrlViewModel.clearAlert();
+            alertCtrlViewModel.addAlert('sdf', 'success'); //And call the method on the newScope.
+
+            debugger;
         };
     }
 })();

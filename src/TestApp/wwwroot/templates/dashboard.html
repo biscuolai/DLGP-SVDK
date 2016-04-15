@@ -52,11 +52,11 @@
 </div>
 
 <div class="row">
-    <div class="col-lg-12" ng-controller="ticketController as vm">
+    <div class="col-lg-12" data-ng-controller="ticketController as vm">
         <app-widget>
             <app-widget-header icon="fa-tasks" title="Tickets">
                 <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Search a ticket" ng-model="searchTicket" />
+                    <input type="text" class="form-control" placeholder="Search a ticket" ng-model="vm.searchTicket" />
                     <div class="input-group-btn">
                         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Action <span class="caret"></span></button>
                         <ul class="dropdown-menu">
@@ -73,12 +73,12 @@
                 <!--<div class="alert alert-info">
                     <p>Sort Type: {{ sortType }}</p>
                     <p>Sort Reverse: {{ sortReverse }}</p>
-                    <p>Search Query: {{ searchTicket }}</p>
-                </div>-->                
+                    <p>Search Query: {{ vm.searchTicket }}</p>
+                </div>-->
                 <div class="table-responsive">
                     <table class="table">
                         <thead>
-                            <!--<tr><th class="text-center">ID</th><th>Title</th><th>Assigned</th></tr>-->                        
+                            <!--<tr><th class="text-center">ID</th><th>Title</th><th>Assigned</th></tr>-->
                             <tr>
                                 <td>
                                     <a href="#" ng-click="sortType = 'TicketId'; sortReverse = !sortReverse">
@@ -139,7 +139,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr ng-repeat='ticket in tickets | orderBy:sortType:sortReverse | filter:searchTicket'>
+                            <tr ng-repeat='ticket in tickets | orderBy:sortType:sortReverse | filter:vm.searchTicket'>
                                 <td>{{ ticket.ticketId }}</td>
                                 <td>{{ ticket.projectId }}</td>
                                 <td>{{ ticket.title }}</td>
@@ -206,9 +206,6 @@
         </app-widget>
     </div>
 </div>-->
-
-
-
 <!--<div class="row">
     <div class="col-lg-6 col-sm-12" ng-controller="chartController">
         <div class="panel panel-default">

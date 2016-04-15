@@ -8,8 +8,8 @@ using TestApp.Models;
 namespace TestApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20160414150147_InitialDB")]
-    partial class InitialDB
+    [Migration("20160415015301_InitialDb")]
+    partial class InitialDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

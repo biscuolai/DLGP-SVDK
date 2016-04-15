@@ -14,14 +14,19 @@
             msg: 'Found a bug? Create an issue with as many details as you can.'
         }];
 
-        $scope.addAlert = function () {
+        $scope.addAlert = function (message, alertType) {
             $scope.alerts.push({
-                msg: 'Another alert!'
+                type: alertType,
+                msg: message
             });
         };
 
         $scope.closeAlert = function (index) {
             $scope.alerts.splice(index, 1);
+        };
+
+        $scope.clearAlert = function () {
+            $scope.alerts = [];
         };
     }
 })();
