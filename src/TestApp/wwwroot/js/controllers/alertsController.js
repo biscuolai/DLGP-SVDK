@@ -19,6 +19,8 @@
                 type: alertType,
                 msg: message
             });
+
+            return $scope.alerts;
         };
 
         $scope.closeAlert = function (index) {

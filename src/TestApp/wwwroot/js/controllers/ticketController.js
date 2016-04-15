@@ -3,9 +3,9 @@
 
     angular
         .module('app')
-        .controller('ticketController', ['$http', '$scope', '$controller', ticketController]);
+        .controller('ticketController', ['$http', '$scope', '$controller', '$location', ticketController]);
 
-    function ticketController($http, $scope, $controller) {
+    function ticketController($http, $scope, $controller, $location) {
 
         var vm = this;
 
@@ -15,6 +15,12 @@
 
         $scope.errorMessage = "";
         $scope.isBusy = true;
+
+        // datagrid configuration
+        vm.config = {
+            itemsPerPage: 5,
+            fillLastPage: true
+        };
 
         // sort and search variables
         $scope.sortType = 'TicketId';  // set the default sort type to Ticket Id
@@ -137,15 +143,47 @@
             $scope.selectedTicketAssignedTo = { id: 0, name: 'Ilson Biscuola' };
             $scope.selectedTicketStatus = { id: 0, name: 'New' };
 
-            //You need to supply a scope while instantiating.
-            //Provide the scope, you can also do $scope.$new(true) in order to create an isolated scope.
-            //In this case it is the child scope of this scope.
+            ////You need to supply a scope while instantiating.
+            ////Provide the scope, you can also do $scope.$new(true) in order to create an isolated scope.
+            ////In this case it is the child scope of this scope.
             var alertCtrlViewModel = $scope.$new();
             $controller('alertsController', { $scope: alertCtrlViewModel });
             alertCtrlViewModel.clearAlert();
-            alertCtrlViewModel.addAlert('sdf', 'success'); //And call the method on the newScope.
+            $scope.ticketAlerts = alertCtrlViewModel.addAlert('A new ticket has been created successfully.', 'success'); //And call the method on the newScope.
 
-            debugger;
+
+            //$scope.addAlert = function () {
+            //    $rootScope.$emit("addAlert", { message:'test', alertType:'success' });
+            //}
+
+            //window.location = '/dashboard.html';
+            //window.location.reload();
+
+            //$location.path('../templates/dashboard.html');
+
+            //debugger;
         };
+
+
+        $scope.viewby = 10;
+        $scope.totalItems = $scope.tickets.length;
+        $scope.currentPage = 4;
+        $scope.itemsPerPage = $scope.viewby;
+        $scope.maxSize = 5; //Number of pager buttons to show
+
+        $scope.setPage = function (pageNo) {
+            $scope.currentPage = pageNo;
+        };
+
+        $scope.pageChanged = function () {
+            console.log('Page changed to: ' + $scope.currentPage);
+        };
+
+        $scope.setItemsPerPage = function (num) {
+            $scope.itemsPerPage = num;
+            $scope.currentPage = 1; //reset to first page
+        }
     }
+   
 })();
+
