@@ -1,7 +1,7 @@
-﻿using TestApp.Model.Repositories;
-using TestApp.Model.Domain.Entities;
+﻿using DLGP_SVDK.Model.Repositories;
+using DLGP_SVDK.Model.Domain.Entities;
 
-namespace TestApp.Repository
+namespace DLGP_SVDK.Repository
 {
     public interface IProjectRepository : IRepository<Project>
     {

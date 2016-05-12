@@ -1,14 +1,14 @@
-﻿using TestApp.Model.Domain.Entities;
+﻿using DLGP_SVDK.Model.Domain.Entities;
 using Microsoft.Data.Entity;
 using Microsoft.AspNet.Identity.EntityFramework;
 
-namespace TestApp.Repository
+namespace DLGP_SVDK.Repository
 {
     public class ApplicationDbContext : IdentityDbContext
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Server=(localdb)\\MSSQLLocalDB;Database=TestAppDB;Trusted_Connection=True;MultipleActiveResultSets=true");
+            optionsBuilder.UseSqlServer("Server=(localdb)\\MSSQLLocalDB;Database=DLGPSVDKDB;Trusted_Connection=True;MultipleActiveResultSets=true");
         }
 
         public DbSet<Project> Projects { get; set; }

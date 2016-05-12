@@ -1,4 +1,4 @@
-﻿using TestApp.Model.Repositories;
+﻿using DLGP_SVDK.Model.Repositories;
 using Microsoft.Data.Entity;
 using System;
 using System.Collections.Generic;
@@ -7,7 +7,7 @@ using System.Linq.Expressions;
 using System.Collections;
 using Microsoft.AspNet.Identity.EntityFramework;
 
-namespace TestApp.Repository.Persistence
+namespace DLGP_SVDK.Repository.Persistence
 {
     public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
     {

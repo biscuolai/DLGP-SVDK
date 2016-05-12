@@ -3,19 +3,235 @@ using Microsoft.Data.Entity;
 using Microsoft.Data.Entity.Infrastructure;
 using Microsoft.Data.Entity.Metadata;
 using Microsoft.Data.Entity.Migrations;
-using TestApp.Models;
+using DLGP_SVDK.Models;
 
 namespace TestApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20160415015301_InitialDb")]
-    partial class InitialDb
+    [Migration("20160512044532_InitialDatabase")]
+    partial class InitialDatabase
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "7.0.0-rc1-16348")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("DLGP_SVDK.Model.Domain.Entities.Project", b =>
+                {
+                    b.Property<int>("ProjectId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("ProjectCode")
+                        .IsRequired()
+                        .HasAnnotation("MaxLength", 10);
+
+                    b.Property<string>("ProjectDescription")
+                        .HasAnnotation("MaxLength", 500);
+
+                    b.Property<string>("ProjectName")
+                        .IsRequired()
+                        .HasAnnotation("MaxLength", 100);
+
+                    b.Property<byte[]>("Version")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasAnnotation("MaxLength", 8);
+
+                    b.HasKey("ProjectId");
+                });
+
+            modelBuilder.Entity("DLGP_SVDK.Model.Domain.Entities.Ticket", b =>
+                {
+                    b.Property<int>("TicketId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("AssignedTo")
+                        .HasAnnotation("MaxLength", 256);
+
+                    b.Property<int>("CategoryId");
+
+                    b.Property<int>("ConfigurationItemId");
+
+                    b.Property<int>("ContactTypeId");
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasAnnotation("MaxLength", 256);
+
+                    b.Property<DateTimeOffset>("CreatedDate");
+
+                    b.Property<DateTimeOffset>("CurrentStatusDate");
+
+                    b.Property<string>("CurrentStatusSetBy")
+                        .IsRequired()
+                        .HasAnnotation("MaxLength", 256);
+
+                    b.Property<string>("Details")
+                        .IsRequired();
+
+                    b.Property<bool>("IsHtml");
+
+                    b.Property<string>("LastUpdateBy")
+                        .IsRequired()
+                        .HasAnnotation("MaxLength", 256);
+
+                    b.Property<DateTimeOffset>("LastUpdateDate");
+
+                    b.Property<string>("Owner")
+                        .IsRequired()
+                        .HasAnnotation("MaxLength", 256);
+
+                    b.Property<int>("Priority");
+
+                    b.Property<int>("ProjectId");
+
+                    b.Property<string>("TagList")
+                        .HasAnnotation("MaxLength", 100);
+
+                    b.Property<int>("TicketStatus");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasAnnotation("MaxLength", 500);
+
+                    b.Property<byte[]>("Version")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasAnnotation("MaxLength", 8)
+                        .HasAnnotation("Relational:ColumnType", "timestamp");
+
+                    b.HasKey("TicketId");
+
+                    b.HasAnnotation("Relational:TableName", "Ticket");
+                });
+
+            modelBuilder.Entity("DLGP_SVDK.Model.Domain.Entities.TicketEvent", b =>
+                {
+                    b.Property<int>("EventId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Comment");
+
+                    b.Property<string>("EventBy")
+                        .IsRequired()
+                        .HasAnnotation("MaxLength", 256);
+
+                    b.Property<DateTimeOffset>("EventDate")
+                        .ValueGeneratedOnAddOrUpdate();
+
+                    b.Property<string>("EventDescription")
+                        .HasAnnotation("MaxLength", 500);
+
+                    b.Property<bool>("IsHtml");
+
+                    b.Property<int>("TicketId");
+
+                    b.Property<byte[]>("Version")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasAnnotation("MaxLength", 8)
+                        .HasAnnotation("Relational:ColumnType", "timestamp");
+
+                    b.HasKey("EventId");
+                });
+
+            modelBuilder.Entity("DLGP_SVDK.Model.Domain.Entities.TicketEventNotification", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("EventId");
+
+                    b.Property<bool>("IsNew");
+
+                    b.Property<bool>("IsRead");
+
+                    b.Property<string>("SubscriberId")
+                        .HasAnnotation("MaxLength", 256);
+
+                    b.Property<int>("TicketId");
+
+                    b.Property<byte[]>("Version")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasAnnotation("MaxLength", 8)
+                        .HasAnnotation("Relational:ColumnType", "timestamp");
+
+                    b.HasKey("Id");
+                });
+
+            modelBuilder.Entity("DLGP_SVDK.Model.Domain.Entities.TicketSubscriber", b =>
+                {
+                    b.Property<string>("SubscriberId")
+                        .HasAnnotation("MaxLength", 256);
+
+                    b.Property<int>("TicketId");
+
+                    b.HasKey("SubscriberId");
+                });
+
+            modelBuilder.Entity("DLGP_SVDK.Model.Domain.Entities.TicketTag", b =>
+                {
+                    b.Property<int>("TicketTagId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("TagName")
+                        .IsRequired()
+                        .HasAnnotation("MaxLength", 100);
+
+                    b.Property<int>("TicketId");
+
+                    b.HasKey("TicketTagId");
+                });
+
+            modelBuilder.Entity("DLGP_SVDK.Models.ApplicationUser", b =>
+                {
+                    b.Property<string>("Id");
+
+                    b.Property<int>("AccessFailedCount");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken();
+
+                    b.Property<string>("Email")
+                        .HasAnnotation("MaxLength", 256);
+
+                    b.Property<bool>("EmailConfirmed");
+
+                    b.Property<bool>("LockoutEnabled");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasAnnotation("MaxLength", 256);
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasAnnotation("MaxLength", 256);
+
+                    b.Property<string>("PasswordHash");
+
+                    b.Property<string>("PhoneNumber");
+
+                    b.Property<bool>("PhoneNumberConfirmed");
+
+                    b.Property<string>("SecurityStamp");
+
+                    b.Property<bool>("TwoFactorEnabled");
+
+                    b.Property<string>("UserName")
+                        .HasAnnotation("MaxLength", 256);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedEmail")
+                        .HasAnnotation("Relational:Name", "EmailIndex");
+
+                    b.HasIndex("NormalizedUserName")
+                        .HasAnnotation("Relational:Name", "UserNameIndex");
+
+                    b.HasAnnotation("Relational:TableName", "AspNetUsers");
+                });
 
             modelBuilder.Entity("Microsoft.AspNet.Identity.EntityFramework.IdentityRole", b =>
                 {
@@ -99,220 +315,43 @@ namespace TestApp.Migrations
                     b.HasAnnotation("Relational:TableName", "AspNetUserRoles");
                 });
 
-            modelBuilder.Entity("TestApp.Model.Domain.Entities.Project", b =>
+            modelBuilder.Entity("DLGP_SVDK.Model.Domain.Entities.Ticket", b =>
                 {
-                    b.Property<int>("ProjectId")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("ProjectCode")
-                        .IsRequired()
-                        .HasAnnotation("MaxLength", 10);
-
-                    b.Property<string>("ProjectDescription")
-                        .HasAnnotation("MaxLength", 500);
-
-                    b.Property<string>("ProjectName")
-                        .IsRequired()
-                        .HasAnnotation("MaxLength", 100);
-
-                    b.Property<byte[]>("Version")
-                        .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasAnnotation("MaxLength", 8);
-
-                    b.HasKey("ProjectId");
+                    b.HasOne("DLGP_SVDK.Model.Domain.Entities.Project")
+                        .WithMany()
+                        .HasForeignKey("ProjectId");
                 });
 
-            modelBuilder.Entity("TestApp.Model.Domain.Entities.Ticket", b =>
+            modelBuilder.Entity("DLGP_SVDK.Model.Domain.Entities.TicketEvent", b =>
                 {
-                    b.Property<int>("TicketId")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("AssignedTo")
-                        .HasAnnotation("MaxLength", 256);
-
-                    b.Property<int>("CategoryId");
-
-                    b.Property<int>("ConfigurationItemId");
-
-                    b.Property<int>("ContactTypeId");
-
-                    b.Property<string>("CreatedBy")
-                        .IsRequired()
-                        .HasAnnotation("MaxLength", 256);
-
-                    b.Property<DateTimeOffset>("CreatedDate");
-
-                    b.Property<DateTimeOffset>("CurrentStatusDate");
-
-                    b.Property<string>("CurrentStatusSetBy")
-                        .IsRequired()
-                        .HasAnnotation("MaxLength", 256);
-
-                    b.Property<string>("Details")
-                        .IsRequired();
-
-                    b.Property<bool>("IsHtml");
-
-                    b.Property<string>("LastUpdateBy")
-                        .IsRequired()
-                        .HasAnnotation("MaxLength", 256);
-
-                    b.Property<DateTimeOffset>("LastUpdateDate");
-
-                    b.Property<string>("Owner")
-                        .IsRequired()
-                        .HasAnnotation("MaxLength", 256);
-
-                    b.Property<int>("Priority");
-
-                    b.Property<int>("ProjectId");
-
-                    b.Property<string>("TagList")
-                        .HasAnnotation("MaxLength", 100);
-
-                    b.Property<int>("TicketStatus");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasAnnotation("MaxLength", 500);
-
-                    b.Property<byte[]>("Version")
-                        .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasAnnotation("MaxLength", 8)
-                        .HasAnnotation("Relational:ColumnType", "timestamp");
-
-                    b.HasKey("TicketId");
-
-                    b.HasAnnotation("Relational:TableName", "Ticket");
+                    b.HasOne("DLGP_SVDK.Model.Domain.Entities.Ticket")
+                        .WithMany()
+                        .HasForeignKey("TicketId");
                 });
 
-            modelBuilder.Entity("TestApp.Model.Domain.Entities.TicketEvent", b =>
+            modelBuilder.Entity("DLGP_SVDK.Model.Domain.Entities.TicketEventNotification", b =>
                 {
-                    b.Property<int>("EventId")
-                        .ValueGeneratedOnAdd();
+                    b.HasOne("DLGP_SVDK.Model.Domain.Entities.TicketEvent")
+                        .WithMany()
+                        .HasForeignKey("EventId");
 
-                    b.Property<string>("Comment");
-
-                    b.Property<string>("EventBy")
-                        .IsRequired()
-                        .HasAnnotation("MaxLength", 256);
-
-                    b.Property<DateTimeOffset>("EventDate")
-                        .ValueGeneratedOnAddOrUpdate();
-
-                    b.Property<string>("EventDescription")
-                        .HasAnnotation("MaxLength", 500);
-
-                    b.Property<bool>("IsHtml");
-
-                    b.Property<int>("TicketId");
-
-                    b.Property<byte[]>("Version")
-                        .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasAnnotation("MaxLength", 8)
-                        .HasAnnotation("Relational:ColumnType", "timestamp");
-
-                    b.HasKey("EventId");
+                    b.HasOne("DLGP_SVDK.Model.Domain.Entities.TicketSubscriber")
+                        .WithMany()
+                        .HasForeignKey("SubscriberId");
                 });
 
-            modelBuilder.Entity("TestApp.Model.Domain.Entities.TicketEventNotification", b =>
+            modelBuilder.Entity("DLGP_SVDK.Model.Domain.Entities.TicketSubscriber", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int>("EventId");
-
-                    b.Property<bool>("IsNew");
-
-                    b.Property<bool>("IsRead");
-
-                    b.Property<string>("SubscriberId")
-                        .HasAnnotation("MaxLength", 256);
-
-                    b.Property<int>("TicketId");
-
-                    b.Property<byte[]>("Version")
-                        .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasAnnotation("MaxLength", 8)
-                        .HasAnnotation("Relational:ColumnType", "timestamp");
-
-                    b.HasKey("Id");
+                    b.HasOne("DLGP_SVDK.Model.Domain.Entities.Ticket")
+                        .WithMany()
+                        .HasForeignKey("TicketId");
                 });
 
-            modelBuilder.Entity("TestApp.Model.Domain.Entities.TicketSubscriber", b =>
+            modelBuilder.Entity("DLGP_SVDK.Model.Domain.Entities.TicketTag", b =>
                 {
-                    b.Property<string>("SubscriberId")
-                        .HasAnnotation("MaxLength", 256);
-
-                    b.Property<int>("TicketId");
-
-                    b.HasKey("SubscriberId");
-                });
-
-            modelBuilder.Entity("TestApp.Model.Domain.Entities.TicketTag", b =>
-                {
-                    b.Property<int>("TicketTagId")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("TagName")
-                        .IsRequired()
-                        .HasAnnotation("MaxLength", 100);
-
-                    b.Property<int>("TicketId");
-
-                    b.HasKey("TicketTagId");
-                });
-
-            modelBuilder.Entity("TestApp.Models.ApplicationUser", b =>
-                {
-                    b.Property<string>("Id");
-
-                    b.Property<int>("AccessFailedCount");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken();
-
-                    b.Property<string>("Email")
-                        .HasAnnotation("MaxLength", 256);
-
-                    b.Property<bool>("EmailConfirmed");
-
-                    b.Property<bool>("LockoutEnabled");
-
-                    b.Property<DateTimeOffset?>("LockoutEnd");
-
-                    b.Property<string>("NormalizedEmail")
-                        .HasAnnotation("MaxLength", 256);
-
-                    b.Property<string>("NormalizedUserName")
-                        .HasAnnotation("MaxLength", 256);
-
-                    b.Property<string>("PasswordHash");
-
-                    b.Property<string>("PhoneNumber");
-
-                    b.Property<bool>("PhoneNumberConfirmed");
-
-                    b.Property<string>("SecurityStamp");
-
-                    b.Property<bool>("TwoFactorEnabled");
-
-                    b.Property<string>("UserName")
-                        .HasAnnotation("MaxLength", 256);
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("NormalizedEmail")
-                        .HasAnnotation("Relational:Name", "EmailIndex");
-
-                    b.HasIndex("NormalizedUserName")
-                        .HasAnnotation("Relational:Name", "UserNameIndex");
-
-                    b.HasAnnotation("Relational:TableName", "AspNetUsers");
+                    b.HasOne("DLGP_SVDK.Model.Domain.Entities.Ticket")
+                        .WithMany()
+                        .HasForeignKey("TicketId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNet.Identity.EntityFramework.IdentityRoleClaim<string>", b =>
@@ -324,14 +363,14 @@ namespace TestApp.Migrations
 
             modelBuilder.Entity("Microsoft.AspNet.Identity.EntityFramework.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("TestApp.Models.ApplicationUser")
+                    b.HasOne("DLGP_SVDK.Models.ApplicationUser")
                         .WithMany()
                         .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNet.Identity.EntityFramework.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("TestApp.Models.ApplicationUser")
+                    b.HasOne("DLGP_SVDK.Models.ApplicationUser")
                         .WithMany()
                         .HasForeignKey("UserId");
                 });
@@ -342,48 +381,9 @@ namespace TestApp.Migrations
                         .WithMany()
                         .HasForeignKey("RoleId");
 
-                    b.HasOne("TestApp.Models.ApplicationUser")
+                    b.HasOne("DLGP_SVDK.Models.ApplicationUser")
                         .WithMany()
                         .HasForeignKey("UserId");
-                });
-
-            modelBuilder.Entity("TestApp.Model.Domain.Entities.Ticket", b =>
-                {
-                    b.HasOne("TestApp.Model.Domain.Entities.Project")
-                        .WithMany()
-                        .HasForeignKey("ProjectId");
-                });
-
-            modelBuilder.Entity("TestApp.Model.Domain.Entities.TicketEvent", b =>
-                {
-                    b.HasOne("TestApp.Model.Domain.Entities.Ticket")
-                        .WithMany()
-                        .HasForeignKey("TicketId");
-                });
-
-            modelBuilder.Entity("TestApp.Model.Domain.Entities.TicketEventNotification", b =>
-                {
-                    b.HasOne("TestApp.Model.Domain.Entities.TicketEvent")
-                        .WithMany()
-                        .HasForeignKey("EventId");
-
-                    b.HasOne("TestApp.Model.Domain.Entities.TicketSubscriber")
-                        .WithMany()
-                        .HasForeignKey("SubscriberId");
-                });
-
-            modelBuilder.Entity("TestApp.Model.Domain.Entities.TicketSubscriber", b =>
-                {
-                    b.HasOne("TestApp.Model.Domain.Entities.Ticket")
-                        .WithMany()
-                        .HasForeignKey("TicketId");
-                });
-
-            modelBuilder.Entity("TestApp.Model.Domain.Entities.TicketTag", b =>
-                {
-                    b.HasOne("TestApp.Model.Domain.Entities.Ticket")
-                        .WithMany()
-                        .HasForeignKey("TicketId");
                 });
         }
     }

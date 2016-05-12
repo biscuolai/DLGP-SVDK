@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Mvc.Rendering;
 
-namespace TestApp.ViewModels.Account
+namespace DLGP_SVDK.ViewModels.Account
 {
     public class SendCodeViewModel
     {

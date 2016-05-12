@@ -9,11 +9,11 @@ using Microsoft.AspNet.Mvc;
 using Microsoft.AspNet.Mvc.Rendering;
 using Microsoft.Data.Entity;
 using Microsoft.Extensions.Logging;
-using TestApp.Models;
-using TestApp.Services;
-using TestApp.ViewModels.Account;
+using DLGP_SVDK.Models;
+using DLGP_SVDK.Services;
+using DLGP_SVDK.ViewModels.Account;
 
-namespace TestApp.Controllers
+namespace DLGP_SVDK.Controllers
 {
     [Authorize]
     public class AccountController : Controller

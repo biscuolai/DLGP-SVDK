@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNet.Http.Authentication;
 using Microsoft.AspNet.Identity;
 
-namespace TestApp.ViewModels.Manage
+namespace DLGP_SVDK.ViewModels.Manage
 {
     public class ManageLoginsViewModel
     {

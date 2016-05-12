@@ -1,14 +1,14 @@
 ﻿using AutoMapper;
-using TestApp.Repository;
-using TestApp.Repository.Repositories;
+using DLGP_SVDK.Repository;
+using DLGP_SVDK.Repository.Repositories;
 using Microsoft.AspNet.Mvc;
 using System.Collections.Generic;
-using TestApp.Model.Domain.Entities;
+using DLGP_SVDK.Model.Domain.Entities;
 using System.Net;
 using System;
-using TestApp.Api.ViewModels;
+using DLGP_SVDK.Api.ViewModels;
 
-namespace TestApp.Web.Api
+namespace DLGP_SVDK.Web.Api
 {
     [Route("api/tickets")]
     public class TicketController: Controller

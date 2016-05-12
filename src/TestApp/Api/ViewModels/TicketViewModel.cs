@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TestApp.Api.ViewModels
+namespace DLGP_SVDK.Api.ViewModels
 {
     public class TicketViewModel
     {

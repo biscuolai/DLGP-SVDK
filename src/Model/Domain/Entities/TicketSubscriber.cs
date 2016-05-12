@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace TestApp.Model.Domain.Entities
+namespace DLGP_SVDK.Model.Domain.Entities
 {
     public class TicketSubscriber
     {

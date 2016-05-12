@@ -1,10 +1,10 @@
-﻿using TestApp.Repository.Repositories;
+﻿using DLGP_SVDK.Repository.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace TestApp.Repository
+namespace DLGP_SVDK.Repository
 {
     public class UnitOfWork : IUnitOfWork
     {

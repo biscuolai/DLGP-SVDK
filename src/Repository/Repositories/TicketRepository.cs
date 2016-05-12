@@ -1,10 +1,10 @@
-﻿using TestApp.Model.Domain.Entities;
-using TestApp.Repository.Persistence;
+﻿using DLGP_SVDK.Model.Domain.Entities;
+using DLGP_SVDK.Repository.Persistence;
 using Microsoft.Data.Entity;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace TestApp.Repository.Repositories
+namespace DLGP_SVDK.Repository.Repositories
 {
     public class TicketRepository : Repository<Ticket>, ITicketRepository
     {

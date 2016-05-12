@@ -7,11 +7,11 @@ using Microsoft.AspNet.Authorization;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Mvc;
 using Microsoft.Extensions.Logging;
-using TestApp.Models;
-using TestApp.Services;
-using TestApp.ViewModels.Manage;
+using DLGP_SVDK.Models;
+using DLGP_SVDK.Services;
+using DLGP_SVDK.ViewModels.Manage;
 
-namespace TestApp.Controllers
+namespace DLGP_SVDK.Controllers
 {
     [Authorize]
     public class ManageController : Controller

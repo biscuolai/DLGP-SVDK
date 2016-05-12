@@ -10,17 +10,17 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Serialization;
-using TestApp.Models;
-using TestApp.Services;
+using DLGP_SVDK.Models;
+using DLGP_SVDK.Services;
 using AutoMapper;
-using TestApp.Model.Domain.Entities;
-using TestApp.Web.Api;
-using TestApp.Repository.Repositories;
-using TestApp.Repository;
-using TestApp.Infrastructure;
-using TestApp.Api.ViewModels;
+using DLGP_SVDK.Model.Domain.Entities;
+using DLGP_SVDK.Web.Api;
+using DLGP_SVDK.Repository.Repositories;
+using DLGP_SVDK.Repository;
+using DLGP_SVDK.Infrastructure;
+using DLGP_SVDK.Api.ViewModels;
 
-namespace TestApp
+namespace DLGP_SVDK
 {
     public class Startup
     {

@@ -10,14 +10,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		global.json = global.json
 	EndProjectSection
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Model", "src\Model\Model.xproj", "{3B9A5F6B-4C2B-4029-A23B-B69537CAD48C}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "DLGP-SVDK.Model", "src\Model\DLGP-SVDK.Model.xproj", "{3B9A5F6B-4C2B-4029-A23B-B69537CAD48C}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Repository", "src\Repository\Repository.xproj", "{E851CE86-9F1D-4C60-991F-5197DAE68434}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "DLGP-SVDK.Repository", "src\Repository\DLGP-SVDK.Repository.xproj", "{E851CE86-9F1D-4C60-991F-5197DAE68434}"
 	ProjectSection(ProjectDependencies) = postProject
 		{3B9A5F6B-4C2B-4029-A23B-B69537CAD48C} = {3B9A5F6B-4C2B-4029-A23B-B69537CAD48C}
 	EndProjectSection
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "TestApp", "src\TestApp\TestApp.xproj", "{BEAF7786-11B8-4E4E-AAD0-6C3E7030567B}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "DLGP-SVDK.Web", "src\TestApp\DLGP-SVDK.Web.xproj", "{BEAF7786-11B8-4E4E-AAD0-6C3E7030567B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace TestApp.Model.Domain.Entities
+namespace DLGP_SVDK.Model.Domain.Entities
 {
     public class TicketEvent
     {

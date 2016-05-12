@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System;
 using Microsoft.Data.Entity.Metadata.Internal;
 
-namespace TestApp.Model.Domain.Entities
+namespace DLGP_SVDK.Model.Domain.Entities
 {
     [Table("Ticket")]
     public class Ticket 

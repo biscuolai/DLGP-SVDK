@@ -3,10 +3,10 @@ using Microsoft.AspNet.Identity;
 using System;
 using System.Linq;
 using System.Collections.Generic;
-using TestApp.Model.Domain.Entities;
-using TestApp.Models;
+using DLGP_SVDK.Model.Domain.Entities;
+using DLGP_SVDK.Models;
 
-namespace TestApp.Infrastructure
+namespace DLGP_SVDK.Infrastructure
 {
     public class AppContextSeedData
     {

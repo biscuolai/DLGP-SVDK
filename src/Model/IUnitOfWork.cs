@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TestApp.Repository
+namespace DLGP_SVDK.Repository
 {
     public interface IUnitOfWork : IDisposable
     {

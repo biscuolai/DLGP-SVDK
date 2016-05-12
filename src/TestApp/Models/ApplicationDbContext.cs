@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Data.Entity;
-using TestApp.Model.Domain.Entities;
+using DLGP_SVDK.Model.Domain.Entities;
 
-namespace TestApp.Models
+namespace DLGP_SVDK.Models
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {

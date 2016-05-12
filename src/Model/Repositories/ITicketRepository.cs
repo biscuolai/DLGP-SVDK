@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
-using TestApp.Model.Domain.Entities;
-using TestApp.Model.Repositories;
+using DLGP_SVDK.Model.Domain.Entities;
+using DLGP_SVDK.Model.Repositories;
 
-namespace TestApp.Repository
+namespace DLGP_SVDK.Repository
 {
     public interface ITicketRepository : IRepository<Ticket>
     {
