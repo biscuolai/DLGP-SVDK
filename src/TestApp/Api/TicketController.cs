@@ -44,9 +44,13 @@ namespace DLGP_SVDK.Web.Api
         [HttpGet("{id}")]
         public JsonResult Get(int id)
         {
-            
-            var result = Mapper.Map<Ticket>(_repository.GetTopUrgentTickets(10));
-            return new JsonResult(new { data = result, success = true });
+
+            using (var unitOfWork = new UnitOfWork(new ApplicationDbContext()))
+            {
+                // Get a particular ticket
+                var ticket = unitOfWork.Tickets.Get(id);
+                return new JsonResult(new { data = ticket, success = true });
+            }
             
             //return Json("null");
         }

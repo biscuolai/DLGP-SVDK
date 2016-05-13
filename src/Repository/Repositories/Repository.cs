@@ -1,11 +1,10 @@
 ﻿using DLGP_SVDK.Model.Repositories;
-using Microsoft.Data.Entity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Collections;
 using Microsoft.AspNet.Identity.EntityFramework;
+using DLGP_SVDK.Model.Extensions;
 
 namespace DLGP_SVDK.Repository.Persistence
 {
@@ -22,8 +21,7 @@ namespace DLGP_SVDK.Repository.Persistence
         {
             // Here we are working with a DbContext, not AppContext. So we don't have DbSets 
             // such as Projects or Tickets, and we need to use the generic Set() method to access them.
-            return null;
-            //return Context.Set<TEntity>().Find(id);
+            return Context.Set<TEntity>().Find(id);
         }
 
         public IEnumerable<TEntity> GetAll()
