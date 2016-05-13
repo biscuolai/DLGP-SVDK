@@ -27,7 +27,7 @@ namespace DLGP_SVDK.Model.Extensions
             var entry = entries.FirstOrDefault();
             if (entry != null)
             {
-                // Return the local object if it exists. 
+                // Return the local object if it exists.
                 return entry.Entity;
             }
 
