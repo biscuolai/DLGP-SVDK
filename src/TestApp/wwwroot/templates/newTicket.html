@@ -1,5 +1,5 @@
-﻿<div ng-controller="ticketCRUDController as vm" layout="column" ng-cloak class="md-inline-form">
-    <div class="row alerts-container" ng-controller="ticketCRUDController" data-ng-show="ticketAlerts.length">
+﻿<div ng-controller="ticketController as vm" layout="column" ng-cloak class="md-inline-form">
+    <div class="row alerts-container" ng-controller="ticketController" data-ng-show="ticketAlerts.length">
         <div class="col-xs-12">
             <uib-alert data-ng-repeat="alert in ticketAlerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</uib-alert>
         </div>

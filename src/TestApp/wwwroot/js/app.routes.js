@@ -20,10 +20,6 @@
                 .state('newTicket', {
                     url: '/newTicket',
                     templateUrl: '../templates/newTicket.html'
-                })
-                .state('editTicket', {
-                    url: '/editTicket',
-                    templateUrl: '../templates/editTicket.html'
                 });
         }
     ]);
