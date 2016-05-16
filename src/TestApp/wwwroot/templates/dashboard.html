@@ -52,11 +52,11 @@
 </div>
 
 <div class="row">
-    <div class="col-lg-12" data-ng-controller="ticketController as vm">
+    <div class="col-lg-12" data-ng-controller="ticketCRUDController">
         <app-widget>
             <app-widget-header icon="fa-tasks" title="Tickets">
                 <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Search a ticket" ng-model="vm.searchTicket" />
+                    <input type="text" class="form-control" placeholder="Search a ticket" ng-model="searchTicket" />
                     <div class="input-group-btn">
                         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Action <span class="caret"></span></button>
                         <ul class="dropdown-menu">
@@ -73,7 +73,7 @@
                 <!--<div class="alert alert-info">
                     <p>Sort Type: {{ sortType }}</p>
                     <p>Sort Reverse: {{ sortReverse }}</p>
-                    <p>Search Query: {{ vm.searchTicket }}</p>
+                    <p>Search Query: {{ searchTicket }}</p>
                 </div>-->
                 <div class="table-responsive">
                     <table class="table table-striped table-hover">
@@ -139,7 +139,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr ng-repeat='ticket in tickets | orderBy:sortType:sortReverse | filter:vm.searchTicket'>
+                            <tr ng-repeat='ticket in Tickets | orderBy:sortType:sortReverse | filter:searchTicket'>
                                 <td>{{ ticket.ticketId }}</td>
                                 <td>{{ ticket.projectId }}</td>
                                 <td>{{ ticket.title }}</td>
@@ -148,6 +148,10 @@
                                 <td>{{ ticket.priority }}</td>
                                 <td>{{ ticket.assignedTo }}</td>
                                 <td>{{ ticket.createdDate }}</td>
+                                <td>
+                                    <span ng-click="editTicket(ticket)" class="btn btn-primary">Edit</span>
+                                    <!--<span ng-click="deleteTicket(ticket)" class="btn btn-danger">Delete</span>-->
+                                </td>
                             </tr>
                         </tbody>
                     </table>

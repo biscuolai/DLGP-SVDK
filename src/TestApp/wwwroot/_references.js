@@ -6,6 +6,7 @@
 /// <reference path="js/controllers/chartcontroller.js" />
 /// <reference path="js/controllers/mastercontroller.js" />
 /// <reference path="js/controllers/ticketcontroller.js" />
+/// <reference path="js/controllers/ticketcrudcontroller.js" />
 /// <reference path="js/directives/loading.js" />
 /// <reference path="js/directives/widget.js" />
 /// <reference path="js/directives/widget-body.js" />
