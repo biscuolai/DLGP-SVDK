@@ -6,6 +6,7 @@ namespace DLGP_SVDK.Repository
     {
         IProjectRepository Projects { get; }
         ITicketRepository Tickets { get; }
+        ILookupValueRepository LookupValues { get; }
 
         /// <summary>
         /// Saves all pending changes

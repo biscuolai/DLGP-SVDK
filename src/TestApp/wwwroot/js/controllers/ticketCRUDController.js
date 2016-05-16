@@ -3,10 +3,10 @@
 
     angular
         .module('app')
-        .controller('ticketCRUDController', ['$http', '$scope', '$controller', '$location', '$rootScope', ticketCRUDController]);
+        .controller('ticketCRUDController', ['$http', '$controller', '$location', '$rootScope', ticketCRUDController]);
 
     //AngularJS controller method
-    function ticketCRUDController($http, $scope, $controller, $location, $rootScope) {
+    function ticketCRUDController($http, $controller, $location, $rootScope) {
 
         GetAllTickets();
 
@@ -20,27 +20,44 @@
             });
         }
 
+        function LoadAllDropDownLists() {
+            $http.get('/api/values/0').success(function (ContactType) {
+                $rootScope.ContactType = ContactType.data;
+                debugger;
+            })
+            .error(function () {
+                $rootScope.error = "An Error has occured while loading ContactType drop down list!";
+            });
+            $http.get('/api/values/1').success(function (Category) {
+                $rootScope.Category = Category.data;
+            })
+            .error(function () {
+                $rootScope.error = "An Error has occured while loading Category drop down list!";
+            });
+        }
+
         $rootScope.editTicket = function (Ticket) {
             // get Ticket by TicketId
             $http.get('/api/tickets/' + Ticket.ticketId).success(function (data) {
                 // success
                 $rootScope.Ticket = data.data;
-                debugger;
-                $rootScope.TicketId = $rootScope.Ticket.ticketId;
-                $rootScope.ProjectId = $rootScope.Ticket.projectId;
-                $rootScope.ContactTypeId = $rootScope.Ticket.contactTypeId;
-                $rootScope.CategoryId = $rootScope.Ticket.categoryId;
-                $rootScope.ConfigurationItemId = $rootScope.Ticket.configurationItemId;
-                $rootScope.Title = $rootScope.Ticket.title;
-                $rootScope.Details = $rootScope.Ticket.details;
-                $rootScope.isHtml = $rootScope.Ticket.isHtml;
-                $rootScope.TagList = $rootScope.Ticket.tagList;
-                $rootScope.AssignedTo = $rootScope.Ticket.assignedTo;
-                $rootScope.TicketStatus = $rootScope.Ticket.ticketStatus;
-                $rootScope.Priority = $rootScope.Ticket.priority;
+                //debugger;
+                //$rootScope.TicketId = $rootScope.Ticket.ticketId;
+                //$rootScope.ProjectId = $rootScope.Ticket.projectId;
+                //$rootScope.ContactTypeId = $rootScope.Ticket.contactTypeId;
+                //$rootScope.CategoryId = $rootScope.Ticket.categoryId;
+                //$rootScope.ConfigurationItemId = $rootScope.Ticket.configurationItemId;
+                //$rootScope.Title = $rootScope.Ticket.title;
+                //$rootScope.Details = $rootScope.Ticket.details;
+                //$rootScope.isHtml = $rootScope.Ticket.isHtml;
+                //$rootScope.TagList = $rootScope.Ticket.tagList;
+                //$rootScope.AssignedTo = $rootScope.Ticket.assignedTo;
+                //$rootScope.TicketStatus = $rootScope.Ticket.ticketStatus;
+                //$rootScope.Priority = $rootScope.Ticket.priority;
                 $rootScope.Action = "Update";
-                $rootScope.errorMessage = "Successfully loaded " + $rootScope.tickets;
+                $rootScope.errorMessage = "Successfully loaded " + $rootScope.Ticket.title;
 
+                LoadAllDropDownLists();
                 $location.path('/editTicket'); //redirect to edit Ticket template
             })
             .error(function () {
@@ -49,41 +66,41 @@
             });
         }
 
-        $rootScope.AddUpdateTicket = function () {
-            var Ticket = {
-                Title: $rootScope.TicketTitle,
-                Author: $rootScope.TicketAuthor,
-                Publisher: $rootScope.TicketPublisher,
-                Isbn: $rootScope.TicketIsbn
-            };
-            var getTicketAction = $rootScope.Action;
+        //$rootScope.AddUpdateTicket = function () {
+        //    var Ticket = {
+        //        Title: $rootScope.TicketTitle,
+        //        Author: $rootScope.TicketAuthor,
+        //        Publisher: $rootScope.TicketPublisher,
+        //        Isbn: $rootScope.TicketIsbn
+        //    };
+        //    var getTicketAction = $rootScope.Action;
 
-            if (getTicketAction == "Update") {
-                Ticket.Id = $rootScope.TicketId;
-                var getTicketData = updateTicket(Ticket);
-                getTicketData.then(function (msg) {
-                    GetAllTickets();
-                    alert(msg.data);
-                    $rootScope.divTicket = false;
-                }, function () {
-                    alert('Error in updating Ticket record');
-                });
-            } else {
-                var getTicketData = AddTicket(Ticket);
-                getTicketData.then(function (msg) {
-                    GetAllTickets();
-                    alert(msg.data);
-                    $rootScope.divTicket = false;
-                }, function () {
-                    alert('Error in adding Ticket record');
-                });
-            }
-        }
+        //    if (getTicketAction == "Update") {
+        //        Ticket.Id = $rootScope.TicketId;
+        //        var getTicketData = updateTicket(Ticket);
+        //        getTicketData.then(function (msg) {
+        //            GetAllTickets();
+        //            alert(msg.data);
+        //            $rootScope.divTicket = false;
+        //        }, function () {
+        //            alert('Error in updating Ticket record');
+        //        });
+        //    } else {
+        //        var getTicketData = AddTicket(Ticket);
+        //        getTicketData.then(function (msg) {
+        //            GetAllTickets();
+        //            alert(msg.data);
+        //            $rootScope.divTicket = false;
+        //        }, function () {
+        //            alert('Error in adding Ticket record');
+        //        });
+        //    }
+        //}
 
-        $rootScope.AddTicketDiv = function () {
-            ClearFields();
-            $rootScope.Action = "Add";
-        }
+        //$rootScope.AddTicketDiv = function () {
+        //    ClearFields();
+        //    $rootScope.Action = "Add";
+        //}
 
         $rootScope.deleteTicket = function (Ticket) {
             var getTicketData = DeleteTicket(Ticket.Id);
@@ -110,30 +127,20 @@
             $rootScope.Priority = "";
         }
 
-        $rootScope.Cancel = function () {
-            //$rootScope.divTicket = false;
+        $rootScope.cancel = function () {
+            ClearFields();
+            $location.path('/'); // cancel and redirect to dashboard
         };
 
         $rootScope.searchTicket = ""; // set the default search / filter term to empty string
 
-        //Select all Tickets
-        function getTickets($http, $scope) {
-            $http.get('/api/tickets').success(function (data) {
-                $rootScope.Tickets = data;
-            })
-            .error(function () {
-                $rootScope.error = "An Error has occured while loading tickets!";
-            });
-        };
-
         //Edit/Update operation
         $rootScope.updateTicket = function (Ticket) {                 
-            $http.put('/api/tickets/' + Ticket.TicketID, Ticket).success(function (data) {
+            $http.put('/api/tickets/' + Ticket.ticketId, Ticket).success(function (data) {
                 alert("Updated successfully!");             
-                $http.get('/api/tickets/').success(function (data) {
-                    $rootScope.Tickets = data;
-                    ClearFields();  
-                })               
+                GetAllTickets();
+                ClearFields();
+                $location.path('/'); // Updated successfully and redirect to dashboard
             }).error(function (data) {
                 $rootScope.error = "An Error has occured while updating! " + data;                
             });

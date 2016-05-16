@@ -1,8 +1,4 @@
 ﻿using DLGP_SVDK.Repository.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace DLGP_SVDK.Repository
 {
@@ -15,10 +11,12 @@ namespace DLGP_SVDK.Repository
             _context = context;
             Projects = new ProjectRepository(_context);
             Tickets = new TicketRepository(_context);
+            LookupValues = new LookupValueRepository(_context);
         }
 
         public IProjectRepository Projects { get; private set; }
         public ITicketRepository Tickets { get; private set; }
+        public ILookupValueRepository LookupValues { get; private set; }
 
         public int Commit()
         {

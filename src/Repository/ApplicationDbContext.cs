@@ -17,6 +17,7 @@ namespace DLGP_SVDK.Repository
         public DbSet<TicketEvent> TicketEvents { get; set; }
         public DbSet<TicketSubscriber> TicketSubscribers { get; set; }
         public DbSet<TicketTag> TicketTags { get; set; }
+        public DbSet<LookupValue> LookupValues { get; set; }
 
     }
 }

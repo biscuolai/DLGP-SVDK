@@ -1,8 +1,6 @@
 ﻿using AutoMapper;
 using DLGP_SVDK.Repository;
-using DLGP_SVDK.Repository.Repositories;
 using Microsoft.AspNet.Mvc;
-using System.Collections.Generic;
 using DLGP_SVDK.Model.Domain.Entities;
 using System.Net;
 using System;
@@ -13,7 +11,7 @@ namespace DLGP_SVDK.Web.Api
     [Route("api/tickets")]
     public class TicketController: Controller
     {
-        private ITicketRepository _repository;
+        //private ITicketRepository _repository;
 
         [HttpGet("")]
         public JsonResult GetAll()
@@ -44,11 +42,12 @@ namespace DLGP_SVDK.Web.Api
         [HttpGet("{id}")]
         public JsonResult Get(int id)
         {
-            
-            var result = Mapper.Map<Ticket>(_repository.GetTopUrgentTickets(10));
-            return new JsonResult(new { data = result, success = true });
-            
-            //return Json("null");
+            using (var unitOfWork = new UnitOfWork(new ApplicationDbContext()))
+            {
+                // Get a particular ticket
+                var ticket = unitOfWork.Tickets.Get(id);
+                return new JsonResult(new { data = ticket, success = true });
+            }
         }
 
         [HttpPost("")]
@@ -60,7 +59,7 @@ namespace DLGP_SVDK.Web.Api
                 {
                     var newTicket = Mapper.Map<TicketViewModel>(value);
 
-                    // Save to the database
+                    // Create a new ticket and save to the database
                     using (var unitOfWork = new UnitOfWork(new ApplicationDbContext()))
                     {
                         unitOfWork.Tickets.Add(Mapper.Map<Ticket>(newTicket));
@@ -81,6 +80,52 @@ namespace DLGP_SVDK.Web.Api
             return Json(new { Message = "Failed", ModelState = ModelState});
 
             //return Json("null");
+        }
+
+        [HttpPut("{id}")]
+        public JsonResult Put(int id, [FromBody] TicketViewModel value)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    // Update ticket and save to the database
+                    using (var unitOfWork = new UnitOfWork(new ApplicationDbContext()))
+                    {
+                        var existingTicket = unitOfWork.Tickets.Get(id);
+                        existingTicket.Title = value.Title;
+                        existingTicket.ContactTypeId = value.ContactTypeId;
+                        existingTicket.CategoryId = value.CategoryId;
+                        existingTicket.ConfigurationItemId = value.ConfigurationItemId;
+                        existingTicket.Details = value.Details;
+                        existingTicket.IsHtml = value.IsHtml;
+                        existingTicket.TagList = value.TagList;
+                        existingTicket.AssignedTo = value.AssignedTo;
+                        existingTicket.TicketStatus = (TicketStatus)value.TicketStatus;
+                        existingTicket.CurrentStatusDate = value.CurrentStatusDate;
+                        existingTicket.CurrentStatusSetBy = value.CurrentStatusSetBy;
+                        existingTicket.LastUpdateBy = value.LastUpdateBy;
+                        existingTicket.LastUpdateDate = value.LastUpdateDate;
+                        existingTicket.Priority = value.Priority;
+
+                        //unitOfWork.Tickets.Remove(Mapper.Map<Ticket>(existingTicket));
+                        //unitOfWork.Tickets.Add(Mapper.Map<Ticket>(value));
+                        unitOfWork.Tickets.Update(existingTicket);
+                        unitOfWork.Commit();
+
+                        Response.StatusCode = (int)HttpStatusCode.Accepted;
+                        return Json(Mapper.Map<TicketViewModel>(existingTicket));
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return Json(new { Message = ex.Message });
+            }
+
+            Response.StatusCode = (int)HttpStatusCode.BadRequest;
+            return Json(new { Message = "Failed", ModelState = ModelState });
         }
     }
 }

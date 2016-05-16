@@ -1,5 +1,6 @@
 ﻿using DLGP_SVDK.Model.Domain.Entities;
 using DLGP_SVDK.Repository.Persistence;
+using DLGP_SVDK.Model.Extensions;
 
 namespace DLGP_SVDK.Repository.Repositories
 {
@@ -11,9 +12,8 @@ namespace DLGP_SVDK.Repository.Repositories
 
         public Project GetProjectWithTickets(int id)
         {
-            return null;
             //todo: fix this.
-            //return AppContext.Projects.Find(id);
+            return AppContext.Projects.Find(id);
         }
 
         public ApplicationDbContext AppContext

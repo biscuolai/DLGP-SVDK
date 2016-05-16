@@ -8,14 +8,32 @@ using DLGP_SVDK.Models;
 namespace TestApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20160512044532_InitialDatabase")]
-    partial class InitialDatabase
+    [Migration("20160516072957_InitialDB")]
+    partial class InitialDB
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "7.0.0-rc1-16348")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("DLGP_SVDK.Model.Domain.Entities.LookupValue", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<bool>("Active");
+
+                    b.Property<int>("Name");
+
+                    b.Property<int>("Order");
+
+                    b.Property<string>("Value")
+                        .IsRequired()
+                        .HasAnnotation("MaxLength", 100);
+
+                    b.HasKey("Id");
+                });
 
             modelBuilder.Entity("DLGP_SVDK.Model.Domain.Entities.Project", b =>
                 {

@@ -1,29 +1,30 @@
 ﻿using DLGP_SVDK.Model.Repositories;
-using Microsoft.Data.Entity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Collections;
 using Microsoft.AspNet.Identity.EntityFramework;
+using DLGP_SVDK.Model.Extensions;
+using Microsoft.Data.Entity;
 
 namespace DLGP_SVDK.Repository.Persistence
 {
     public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
     {
         protected readonly IdentityDbContext Context;
+        protected readonly DbSet<TEntity> DbSet;
 
         public Repository(IdentityDbContext context)
         {
             Context = context;
+            DbSet = Context.Set<TEntity>();
         }
 
         public TEntity Get(int id)
         {
             // Here we are working with a DbContext, not AppContext. So we don't have DbSets 
             // such as Projects or Tickets, and we need to use the generic Set() method to access them.
-            return null;
-            //return Context.Set<TEntity>().Find(id);
+            return DbSet.Find(id);
         }
 
         public IEnumerable<TEntity> GetAll()
@@ -39,39 +40,41 @@ namespace DLGP_SVDK.Repository.Persistence
             // 
             // I didn't change it because I wanted the code to look like the videos. But feel free to change
             // this on your own.
-            return Context.Set<TEntity>().ToList();
+            return DbSet.ToList();
         }
 
         public IEnumerable<TEntity> Find(Expression<Func<TEntity, bool>> predicate)
         {
-            return null;
-            //return Context.Set<TEntity>().Where(predicate);
+            return DbSet.Where(predicate);
         }
 
         public TEntity SingleOrDefault(Expression<Func<TEntity, bool>> predicate)
         {
-            return null;
-            //return Context.Set<TEntity>().SingleOrDefault(predicate);
+            return DbSet.SingleOrDefault(predicate);
         }
 
         public void Add(TEntity entity)
         {
-            Context.Set<TEntity>().Add(entity);
+            DbSet.Add(entity);
         }
 
         public void AddRange(IEnumerable<TEntity> entities)
         {
-            Context.Set<TEntity>().AddRange(entities);
+            DbSet.AddRange(entities);
         }
-
+        
         public void Remove(TEntity entity)
         {
-            Context.Set<TEntity>().Remove(entity);
+            DbSet.Remove(entity);
         }
 
         public void RemoveRange(IEnumerable<TEntity> entities)
         {
-            Context.Set<TEntity>().RemoveRange(entities);
+            DbSet.RemoveRange(entities);
+        }
+        public void Update(TEntity entity)
+        {
+            DbSet.Attach(entity);
         }
     }
 }
