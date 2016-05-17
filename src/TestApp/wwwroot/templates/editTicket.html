@@ -13,23 +13,57 @@
             <label for="ticketTitle">Title</label>
             <input type="text" class="form-control" name="ticketTitle" ng-model="Ticket.title" required />
         </div>
-        <!--<div class="form-group">
-            <select ng-model="ContactType"
-                    ng-options="ContactType.value for ContactType in ContactType track by ContactType.Id">
+
+        <div>
+            <label for="ticketCategory">Category:</label>
+            <select name="Category" id="ticketCategory" class="form-control"
+                    ng-options="option.value for option in Category.availableOptions track by option.id"
+                    ng-model="Category.selectedOption"
+                    ng-selected="Ticket.categoryId" ng-change="Ticket.categoryId = Category.selectedOption.id">
+                <option value="">-- Select a Category --</option>
             </select>
-        </div>-->
-        <div class="form-group">
-            <label for="ticketContactTypeId">ContactType Id</label>
-            <input type="text" class="form-control" name="ticketContactTypeId" ng-model="Ticket.contactTypeId" required />
         </div>
-        <div class="form-group">
-            <label for="ticketCategoryId">Category Id</label>
-            <input type="text" class="form-control" name="ticketCategoryId" ng-model="Ticket.categoryId" required />
+
+        <div>
+            <label for="ticketContactType">Contact Type:</label>
+            <select name="ContactType" id="ticketContactType" class="form-control"
+                    ng-options="option.value for option in ContactType.availableOptions track by option.id"
+                    ng-model="ContactType.selectedOption"
+                    ng-selected="Ticket.contactTypeId" ng-change="Ticket.contactTypeId = ContactType.selectedOption.id">
+                <option value="">-- Select a Contact Type --</option>
+            </select>
         </div>
-        <div class="form-group">
-            <label for="ticketConfigurationItemId">Configuration Item Id</label>
-            <input type="text" class="form-control" name="ticketConfigurationItemId" ng-model="Ticket.configurationItemId" required />
+
+        <div>
+            <label for="ticketConfigurationItem">Configuration Item:</label>
+            <select name="ConfigurationItem" id="ticketConfigurationItem" class="form-control"
+                    ng-options="option.value for option in ConfigurationItem.availableOptions track by option.id"
+                    ng-model="ConfigurationItem.selectedOption"
+                    ng-selected="Ticket.configurationItemId" ng-change="Ticket.configurationItemId = ConfigurationItem.selectedOption.id">
+                <option value="">-- Select a Configuration Item --</option>
+            </select>
         </div>
+
+        <div>
+            <label for="ticketTicketStatus">Ticket Status:</label>
+            <select name="TicketStatus" id="ticketTicketStatus" class="form-control"
+                    ng-options="option.value for option in TicketStatus.availableOptions track by option.id"
+                    ng-model="TicketStatus.selectedOption"
+                    ng-selected="Ticket.ticketStatus" ng-change="Ticket.ticketStatus = TicketStatus.selectedOption.id">
+                <option value="">-- Select a Ticket Status --</option>
+            </select>
+        </div>
+
+        <div>
+            <label for="ticketPriority">Priority:</label>
+            <select name="Priority" id="ticketPriority" class="form-control"
+                    ng-options="option.value for option in Priority.availableOptions track by option.id"
+                    ng-model="Priority.selectedOption"
+                    ng-selected="Ticket.priority" ng-change="Ticket.priority = Priority.selectedOption.id">
+                <option value="">-- Select a Priority --</option>
+            </select>
+        </div>
+
         <div class="form-group">
             <label for="ticketDetails">Details</label>
             <input type="text" class="form-control" name="ticketDetails" ng-model="Ticket.details" required />
@@ -42,14 +76,7 @@
             <label for="ticketAssignedTo">Assigned To</label>
             <input type="text" class="form-control" name="ticketAssignedTo" ng-model="Ticket.assignedTo" required />
         </div>
-        <div class="form-group">
-            <label for="ticketTicketStatus">Ticket Status</label>
-            <input type="text" class="form-control" name="ticketTicketStatus" ng-model="Ticket.ticketStatus" required />
-        </div>
-        <div class="form-group">
-            <label for="ticketPriority">Priority</label>
-            <input type="text" class="form-control" name="ticketPriority" ng-model="Ticket.priority" required />
-        </div>
+
         <button type="submit" class="btn btn-primary" ng-click="updateTicket(Ticket)">Save</button>
         <button class="btn btn-default" ng-click="cancel()">Cancel</button>
     </div>

@@ -3,13 +3,13 @@
 
     angular
         .module('app')
-        .controller('ticketCRUDController', ['$http', '$controller', '$location', '$rootScope', ticketCRUDController]);
+        .controller('ticketCRUDController', ['$http', '$controller', '$location', '$rootScope', 'Constants', '$filter', ticketCRUDController]);
 
     //AngularJS controller method
-    function ticketCRUDController($http, $controller, $location, $rootScope) {
+    function ticketCRUDController($http, $controller, $location, $rootScope, Constants, $filter) {
 
         GetAllTickets();
-
+       
         //To Get all Ticket records  
         function GetAllTickets() {
             $http.get('/api/tickets').success(function (Ticket) {
@@ -20,16 +20,68 @@
             });
         }
 
-        function LoadAllDropDownLists() {
-            $http.get('/api/values/0').success(function (ContactType) {
-                $rootScope.ContactType = ContactType.data;
-                debugger;
+        function LoadAllDropDownLists(findItems) {
+            $http.get('/api/values/' + Constants.LookupValues['ContactType']).success(function (ContactType) {
+                $rootScope.ContactType = {
+                    availableOptions: ContactType.data,
+                    selectedOption: ContactType.data[0]
+                };
+
+                if (findItems === true) {
+                    $rootScope.ContactType.selectedOption = $filter('filter')($rootScope.ContactType.availableOptions, { id: $rootScope.Ticket.contactTypeId })[0];
+                }
             })
             .error(function () {
                 $rootScope.error = "An Error has occured while loading ContactType drop down list!";
             });
-            $http.get('/api/values/1').success(function (Category) {
-                $rootScope.Category = Category.data;
+            $http.get('/api/values/' + Constants.LookupValues['Category']).success(function (Category) {
+                $rootScope.Category = {
+                    availableOptions: Category.data,
+                    selectedOption: Category.data[0]
+                };
+
+                if (findItems === true) {
+                    $rootScope.Category.selectedOption = $filter('filter')($rootScope.Category.availableOptions, { id: $rootScope.Ticket.categoryId })[0];
+                }
+            })
+            .error(function () {
+                $rootScope.error = "An Error has occured while loading Category drop down list!";
+            });
+            $http.get('/api/values/' + Constants.LookupValues['ConfigurationItem']).success(function (ConfigurationItem) {
+                $rootScope.ConfigurationItem = {
+                    availableOptions: ConfigurationItem.data,
+                    selectedOption: ConfigurationItem.data[0]
+                };
+
+                if (findItems === true) {
+                    $rootScope.ConfigurationItem.selectedOption = $filter('filter')($rootScope.ConfigurationItem.availableOptions, { id: $rootScope.Ticket.configurationItemId })[0];
+                }
+            })
+            .error(function () {
+                $rootScope.error = "An Error has occured while loading Category drop down list!";
+            });
+            $http.get('/api/values/' + Constants.LookupValues['TicketStatus']).success(function (TicketStatus) {
+                $rootScope.TicketStatus = {
+                    availableOptions: TicketStatus.data,
+                    selectedOption: TicketStatus.data[0]
+                };
+
+                if (findItems === true) {
+                    $rootScope.TicketStatus.selectedOption = $filter('filter')($rootScope.TicketStatus.availableOptions, { id: $rootScope.Ticket.ticketStatus })[0];
+                }
+            })
+            .error(function () {
+                $rootScope.error = "An Error has occured while loading Category drop down list!";
+            });
+            $http.get('/api/values/' + Constants.LookupValues['Priority']).success(function (Priority) {
+                $rootScope.Priority = {
+                    availableOptions: Priority.data,
+                    selectedOption: Priority.data[0]
+                };
+
+                if (findItems === true) {
+                    $rootScope.Priority.selectedOption = $filter('filter')($rootScope.Priority.availableOptions, { id: $rootScope.Ticket.priority })[0];
+                }
             })
             .error(function () {
                 $rootScope.error = "An Error has occured while loading Category drop down list!";
@@ -57,7 +109,8 @@
                 $rootScope.Action = "Update";
                 $rootScope.errorMessage = "Successfully loaded " + $rootScope.Ticket.title;
 
-                LoadAllDropDownLists();
+                LoadAllDropDownLists(true);
+
                 $location.path('/editTicket'); //redirect to edit Ticket template
             })
             .error(function () {
@@ -135,7 +188,7 @@
         $rootScope.searchTicket = ""; // set the default search / filter term to empty string
 
         //Edit/Update operation
-        $rootScope.updateTicket = function (Ticket) {                 
+        $rootScope.updateTicket = function (Ticket) {
             $http.put('/api/tickets/' + Ticket.ticketId, Ticket).success(function (data) {
                 alert("Updated successfully!");             
                 GetAllTickets();

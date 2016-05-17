@@ -1,5 +1,6 @@
 ﻿/// <autosync enabled="true" />
 /// <reference path="../gulpfile.js" />
+/// <reference path="js/app.constants.js" />
 /// <reference path="js/app.js" />
 /// <reference path="js/app.routes.js" />
 /// <reference path="js/controllers/alertscontroller.js" />
