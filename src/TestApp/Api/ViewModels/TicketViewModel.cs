@@ -5,6 +5,7 @@ namespace DLGP_SVDK.Api.ViewModels
     public class TicketViewModel
     {
         public int ProjectId { get; set; }
+        public string ProjectName { get; set; }
         public int ContactTypeId { get; set; }
         public int CategoryId { get; set; }
         public int ConfigurationItemId { get; set; }

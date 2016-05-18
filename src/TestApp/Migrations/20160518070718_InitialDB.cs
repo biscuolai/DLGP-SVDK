@@ -16,7 +16,7 @@ namespace TestApp.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Active = table.Column<bool>(nullable: false),
-                    Name = table.Column<int>(nullable: false),
+                    LookupType = table.Column<int>(nullable: false),
                     Order = table.Column<int>(nullable: false),
                     Value = table.Column<string>(nullable: false)
                 },

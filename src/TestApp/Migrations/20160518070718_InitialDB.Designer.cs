@@ -8,7 +8,7 @@ using DLGP_SVDK.Models;
 namespace TestApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20160516072957_InitialDB")]
+    [Migration("20160518070718_InitialDB")]
     partial class InitialDB
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,7 +24,7 @@ namespace TestApp.Migrations
 
                     b.Property<bool>("Active");
 
-                    b.Property<int>("Name");
+                    b.Property<int>("LookupType");
 
                     b.Property<int>("Order");
 

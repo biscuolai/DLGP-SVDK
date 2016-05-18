@@ -2,7 +2,7 @@
 
 namespace DLGP_SVDK.Model.Domain.Entities
 {
-    public enum LookupValueName {
+    public enum LookupValueType {
         ContactType,
         Category,
         ConfigurationItem,
@@ -16,8 +16,8 @@ namespace DLGP_SVDK.Model.Domain.Entities
         public int Id { get; set; }
 
         [Required(ErrorMessageResourceName = "FieldRequired")]
-        [Display(Name = "Name", ResourceType = typeof(int))]
-        public LookupValueName Name { get; set; }
+        [Display(Name = "LookupType", ResourceType = typeof(int))]
+        public LookupValueType LookupType { get; set; }
 
         [Required(ErrorMessageResourceName = "FieldRequired")]
         [StringLength(100, ErrorMessageResourceName = "FieldMaximumLength")]

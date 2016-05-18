@@ -92,6 +92,7 @@ namespace DLGP_SVDK.Web.Api
                     // Update ticket and save to the database
                     using (var unitOfWork = new UnitOfWork(new ApplicationDbContext()))
                     {
+                        // updating values from existing ticket
                         var existingTicket = unitOfWork.Tickets.Get(id);
                         existingTicket.Title = value.Title;
                         existingTicket.ContactTypeId = value.ContactTypeId;
@@ -108,8 +109,7 @@ namespace DLGP_SVDK.Web.Api
                         existingTicket.LastUpdateDate = value.LastUpdateDate;
                         existingTicket.Priority = value.Priority;
 
-                        //unitOfWork.Tickets.Remove(Mapper.Map<Ticket>(existingTicket));
-                        //unitOfWork.Tickets.Add(Mapper.Map<Ticket>(value));
+                        // saving data into db
                         unitOfWork.Tickets.Update(existingTicket);
                         unitOfWork.Commit();
 

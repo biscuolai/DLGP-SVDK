@@ -1,6 +1,7 @@
 ﻿using DLGP_SVDK.Model.Domain.Entities;
 using DLGP_SVDK.Repository.Persistence;
-using DLGP_SVDK.Model.Extensions;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace DLGP_SVDK.Repository.Repositories
 {
@@ -10,13 +11,12 @@ namespace DLGP_SVDK.Repository.Repositories
         {
         }
 
-        public Project GetProjectWithTickets(int id)
+        public IEnumerable<Project> GetProjectList()
         {
-            //todo: fix this.
-            return AppContext.Projects.Find(id);
+            return ApplicationContext.Projects.OrderBy(c => c.ProjectName).ToList();
         }
 
-        public ApplicationDbContext AppContext
+        public ApplicationDbContext ApplicationContext
         {
             get { return Context as ApplicationDbContext; }
         }

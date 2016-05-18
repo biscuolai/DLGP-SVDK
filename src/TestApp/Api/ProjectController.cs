@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Microsoft.AspNet.Mvc;
+﻿using Microsoft.AspNet.Mvc;
 using DLGP_SVDK.Repository;
 using DLGP_SVDK.Model.Domain.Entities;
 
@@ -7,18 +6,29 @@ using DLGP_SVDK.Model.Domain.Entities;
 
 namespace DLGP_SVDK.Web.Api
 {
-    [Route("api/values")]
-    public class ValuesController : Controller
+    [Route("api/projects")]
+    public class ProjectController : Controller
     {
-        // GET: api/values
+        [HttpGet("")]
+        public JsonResult GetAll()
+        {
+            using (var unitOfWork = new UnitOfWork(new ApplicationDbContext()))
+            {
+                // Return all projects
+                var projects = unitOfWork.Projects.GetProjectList();
+                return new JsonResult(new { data = projects, success = true });
+            }
+        }
+
+        // GET: api/projects
         [HttpGet("{id}")]
         public JsonResult Get(int id)
         {
             using (var unitOfWork = new UnitOfWork(new ApplicationDbContext()))
             {
-                // Get all options for Priority field
-                var priorityList = unitOfWork.LookupValues.GetLookupValueList((LookupValueType)id);
-                return new JsonResult(new { data = priorityList, success = true });
+                // Get a particular project
+                var project = unitOfWork.Projects.Get(id);
+                return new JsonResult(new { data = project, success = true });
             }
         }
 

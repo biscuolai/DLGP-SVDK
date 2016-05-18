@@ -14,11 +14,22 @@
         function GetAllTickets() {
             $http.get('/api/tickets').success(function (Ticket) {
                 $rootScope.Tickets = Ticket.data;
+
+                LoadAllDropDownLists(false);
             })
             .error(function () {
                 $rootScope.error = "An Error has occured while loading tickets!";
             });
         }
+
+        //function GetProjectName() {
+        //    $http.get('/api/projects/' + $rootScope.Ticket.projectId).success(function (Project) {
+        //        $rootScope.Project = Project.data;
+        //    })
+        //    .error(function () {
+        //        $rootScope.error = "An Error has occured while loading Project!";
+        //    });
+        //}
 
         function LoadAllDropDownLists(findItems) {
             $http.get('/api/values/' + Constants.LookupValues['ContactType']).success(function (ContactType) {
@@ -86,6 +97,30 @@
             .error(function () {
                 $rootScope.error = "An Error has occured while loading Category drop down list!";
             });
+            $http.get('/api/projects').success(function (Project) {
+                $rootScope.Projects = {
+                    availableOptions: Project.data,
+                    selectedOption: Project.data[0]
+                };
+                if (findItems === true) {
+                    $rootScope.Projects.selectedOption = $filter('filter')($rootScope.Projects.availableOptions, { id: $rootScope.Ticket.projectId })[0];
+                }
+            })
+            .error(function () {
+                $rootScope.error = "An Error has occured while loading Project!";
+            });
+            $http.get('/api/admin/users').success(function (User) {
+                $rootScope.Users = {
+                    availableOptions: User.data,
+                    selectedOption: User.data[0]
+                };
+                if (findItems === true) {
+                    $rootScope.Users.selectedOption = $filter('filter')($rootScope.Users.availableOptions, { userName: $rootScope.Ticket.assignedTo })[0];
+                }
+            })
+            .error(function () {
+                $rootScope.error = "An Error has occured while loading Project!";
+            });
         }
 
         $rootScope.editTicket = function (Ticket) {
@@ -107,6 +142,7 @@
                 //$rootScope.TicketStatus = $rootScope.Ticket.ticketStatus;
                 //$rootScope.Priority = $rootScope.Ticket.priority;
                 $rootScope.Action = "Update";
+
                 $rootScope.errorMessage = "Successfully loaded " + $rootScope.Ticket.title;
 
                 LoadAllDropDownLists(true);
@@ -166,8 +202,7 @@
         }
 
         function ClearFields() {
-            $rootScope.TicketId = "";
-            $rootScope.ProjectId = "";
+            $rootScope.projectId = "";
             $rootScope.ContactTypeId = "";
             $rootScope.CategoryId = "";
             $rootScope.ConfigurationItemId = "";
@@ -178,6 +213,7 @@
             $rootScope.AssignedTo = "";
             $rootScope.TicketStatus = "";
             $rootScope.Priority = "";
+            $rootScope.assignedTo = "";
         }
 
         $rootScope.cancel = function () {
@@ -188,7 +224,10 @@
         $rootScope.searchTicket = ""; // set the default search / filter term to empty string
 
         //Edit/Update operation
-        $rootScope.updateTicket = function (Ticket) {
+        $rootScope.UpdateTicket = function (Ticket) {
+            // read fresh data from all dropdownlists
+            ReadFreshDataFromDropDownLists(Ticket);
+
             $http.put('/api/tickets/' + Ticket.ticketId, Ticket).success(function (data) {
                 alert("Updated successfully!");             
                 GetAllTickets();
@@ -199,12 +238,36 @@
             });
         };
 
+        function ReadFreshDataFromDropDownLists(Ticket) {
+            // read fresh data from all dropdownlists
+            Ticket.projectId = $rootScope.Projects.selectedOption.projectId;
+            Ticket.contactTypeId = $rootScope.ContactType.selectedOption.id;
+            Ticket.categoryId = $rootScope.Category.selectedOption.id;
+            Ticket.configurationItemId = $rootScope.ConfigurationItem.selectedOption.id;
+            Ticket.ticketStatus = $rootScope.TicketStatus.selectedOption.id;
+            Ticket.priority = $rootScope.Priority.selectedOption.id;
+            Ticket.assignedTo = $rootScope.Users.selectedOption.userName;
+        }
+
         // Insert operation / add ticket
-        $rootScope.AddTicket = function (Ticket) {        
+        $rootScope.AddTicket = function (Ticket) {
+
+            // read fresh data from all dropdownlists
+            ReadFreshDataFromDropDownLists(Ticket);
+
+            Ticket.createdBy = "System";
+            Ticket.createdDate = new Date();
+            Ticket.currentStatusDate = new Date();
+            Ticket.currentStatusSetBy = "biscuolai";
+            Ticket.lastUpdateBy = "biscuolai";
+            Ticket.lastUpdateDate = new Date();
+            Ticket.owner = "ilson_biscuola@dialog.com.au";
+
             $http.post('/api/tickets', Ticket).success(function (data) {
                 alert("Added successfully!!");                
                 $rootScope.Tickets.push(data);
-                ClearFields();                
+                ClearFields();
+                $location.path('/'); // Added successfully and redirect to dashboard
             }).error(function (data) {
                 $rootScope.error = "An error has occured while adding! " + data;                
             });

@@ -23,7 +23,7 @@ namespace TestApp.Migrations
 
                     b.Property<bool>("Active");
 
-                    b.Property<int>("Name");
+                    b.Property<int>("LookupType");
 
                     b.Property<int>("Order");
 

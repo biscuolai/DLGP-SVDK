@@ -1,147 +1,111 @@
-﻿<div ng-controller="ticketCRUDController as vm" layout="column" ng-cloak class="md-inline-form">
-    <div class="row alerts-container" ng-controller="ticketCRUDController" data-ng-show="ticketAlerts.length">
-        <div class="col-xs-12">
-            <uib-alert data-ng-repeat="alert in ticketAlerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</uib-alert>
-        </div>
+﻿<div ng-controller="ticketCRUDController">
+    <h2>Create New Ticket</h2>
+
+
+    <div>
+        <label for="ticketProject">Project:</label>
+        <select name="Project" id="ticketProject" class="form-control"
+                ng-options="option.projectName for option in Projects.availableOptions track by option.id"
+                ng-model="Projects.selectedOption"
+                ng-selected="Ticket.projectId" ng-change="Ticket.projectId = Projects.selectedOption.projectId">
+            <option value="">-- Select a Project --</option>
+        </select>
     </div>
-    <form name="vm.ticketForm">
-        <md-content layout-padding>
-            <h2>Create New Ticket</h2>
-            <div layout="column" ng-cloak class="md-inline-form">
-                <div layout-gt-sm="row">
+        
+    <!--<div class="form-group">
+        <label for="ticketTitle">Project</label>
+        <input type="text" class="form-control" name="ticketProjectId" ng-model="Project.projectName" />
+    </div>-->
 
-                    <!--Project-->
-                    <md-input-container class="md-block">
-                        <label>Project</label>
-                        <md-select ng-model="selectedProject" ng-model-options="{trackBy: '$value.id'}">
-                            <md-option ng-value="project" ng-repeat="project in projects">{{ project.name }}</md-option>
-                        </md-select>
-                        <div class="hint" ng-if="showHints">Please select the project</div>
-                        <div ng-messages="ticketForm.project.$error" ng-if="!showHints">
-                            <div ng-message="required">Project is required.</div>
-                        </div>
-                    </md-input-container>
+    <div class="form-group">
+        <label for="ticketTitle">Title</label>
+        <input type="text" class="form-control" name="ticketTitle" ng-model="Ticket.title" required />
+    </div>
 
-                    <div flex="5" hide-xs hide-sm>
-                        <!-- Spacer //-->
-                    </div>
+    <div>
+        <label for="ticketCategory">Category:</label>
+        <select name="Category" id="ticketCategory" class="form-control"
+                ng-options="option.value for option in Category.availableOptions track by option.id"
+                ng-model="Category.selectedOption"
+                ng-selected="Ticket.categoryId" ng-change="Ticket.categoryId = Category.selectedOption.id">
+            <option value="">-- Select a Category --</option>
+        </select>
+    </div>
 
-                    <!--Subject-->
-                    <md-input-container class="md-block" flex-gt-sm>
-                        <label>Title</label>
-                        <input maxlength="30" required ng-model="title" />
-                        <div class="hint" ng-if="showHints">Please enter the Ticket Title</div>
-                        <div ng-messages="ticketForm.title.$error" ng-if="!showHints">
-                            <div ng-message="required">Title is required.</div>
-                        </div>
-                    </md-input-container>
+    <div>
+        <label for="ticketContactType">Contact Type:</label>
+        <select name="ContactType" id="ticketContactType" class="form-control"
+                ng-options="option.value for option in ContactType.availableOptions track by option.id"
+                ng-model="ContactType.selectedOption"
+                ng-selected="Ticket.contactTypeId" ng-change="Ticket.contactTypeId = ContactType.selectedOption.id">
+            <option value="">-- Select a Contact Type --</option>
+        </select>
+    </div>
 
+    <div>
+        <label for="ticketConfigurationItem">Configuration Item:</label>
+        <select name="ConfigurationItem" id="ticketConfigurationItem" class="form-control"
+                ng-options="option.value for option in ConfigurationItem.availableOptions track by option.id"
+                ng-model="ConfigurationItem.selectedOption"
+                ng-selected="Ticket.configurationItemId" ng-change="Ticket.configurationItemId = ConfigurationItem.selectedOption.id">
+            <option value="">-- Select a Configuration Item --</option>
+        </select>
+    </div>
 
-                </div>
-                <div layout-gt-sm="row">
-                    <!--Ticket Category-->
-                    <md-input-container class="md-block" flex-gt-sm>
-                        <label>Category</label>
-                        <md-select ng-model="selectedTicketCategory" ng-model-options="{trackBy: '$value.id'}">
-                            <md-option ng-value="category" ng-repeat="category in ticketCategory">{{ category.name }}</md-option>
-                        </md-select>
-                    </md-input-container>
+    <div>
+        <label for="ticketTicketStatus">Ticket Status:</label>
+        <select name="TicketStatus" id="ticketTicketStatus" class="form-control"
+                ng-options="option.value for option in TicketStatus.availableOptions track by option.id"
+                ng-model="TicketStatus.selectedOption"
+                ng-selected="Ticket.ticketStatus" ng-change="Ticket.ticketStatus = TicketStatus.selectedOption.id">
+            <option value="">-- Select a Ticket Status --</option>
+        </select>
+    </div>
 
-                    <div flex="5" hide-xs hide-sm>
-                        <!-- Spacer //-->
-                    </div>
+    <div>
+        <label for="ticketPriority">Priority:</label>
+        <select name="Priority" id="ticketPriority" class="form-control"
+                ng-options="option.value for option in Priority.availableOptions track by option.id"
+                ng-model="Priority.selectedOption"
+                ng-selected="Ticket.priority" ng-change="Ticket.priority = Priority.selectedOption.id">
+            <option value="">-- Select a Priority --</option>
+        </select>
+    </div>
 
-                    <!--Ticket Contact Type-->
-                    <md-input-container class="md-block" flex-gt-sm>
-                        <label>Contact Type</label>
-                        <md-select ng-model="selectedTicketContactType" ng-model-options="{trackBy: '$value.id'}">
-                            <md-option ng-value="contact" ng-repeat="contact in ticketContactType">{{ contact.name }}</md-option>
-                        </md-select>
-                    </md-input-container>
+    <div class="form-group">
+        <label for="ticketDetails">Details</label>
+        <input class="form-control" name="ticketDetails" cols="10" rows="5" ng-model="Ticket.details" required />
+    </div>
 
-                    <div flex="5" hide-xs hide-sm>
-                        <!-- Spacer //-->
-                    </div>
+    <!--<label for="textDetails">Ticket Details</label>
+    <br />
 
-                    <!--Ticket Configuration Item-->
-                    <md-input-container class="md-block" flex-gt-sm>
-                        <label>Configuration Item</label>
-                        <md-select ng-model="selectedTicketConfigurationItem" ng-model-options="{trackBy: '$value.id'}">
-                            <md-option ng-value="configItem" ng-repeat="configItem in ticketConfigurationItem">{{ configItem.name }}</md-option>
-                        </md-select>
-                    </md-input-container>
+    <div id="textDetails" text-angular ng-model="Ticket.details" ta-text-editor-class="border-around" ta-html-editor-class="border-around" required minlength="10" maxlength="100"></div>
+    <div ng-messages="editTicket.details.$error">
+        <div ng-message-exp="['required', 'minlength', 'maxlength']">
+            The text must be between 10 and 500 characters long.
+        </div>
+    </div>-->
+      
+    <div class="form-group">
+        <label for="ticketTagList">Tag List</label>
+        <input type="text" class="form-control" name="ticketTagList" ng-model="Ticket.tagList" />
+    </div>
+    <div class="form-group">
+        <label for="ticketAssignedTo">Assigned To</label>
+        <input type="text" class="form-control" name="ticketAssignedTo" ng-model="Ticket.assignedTo" required />
+    </div>
 
-                    <div flex="5" hide-xs hide-sm>
-                        <!-- Spacer //-->
-                    </div>
+    <div>
+        <label for="ticketAssignedTo">Assigned To:</label>
+        <select name="AssignedTo" id="ticketAssignedTo" class="form-control"
+                ng-options="option.userName for option in Users.availableOptions track by option.id"
+                ng-model="Users.selectedOption"
+                ng-selected="Users.userName" ng-change="Ticket.assignedTo = Users.selectedOption.userName">
+            <option value="">-- Select a Priority --</option>
+        </select>
+    </div>
 
-                    <!--Ticket Priority-->
-                    <md-input-container class="md-block" flex-gt-sm>
-                        <label>Priority</label>
-                        <md-select ng-model="selectedTicketPriority" ng-model-options="{trackBy: '$value.id'}">
-                            <md-option ng-value="priority" ng-repeat="priority in ticketPriority">{{ priority.name }}</md-option>
-                        </md-select>
-                    </md-input-container>
-
-                </div>
-
-
-                <div layout-gt-sm="row">
-                    <!--Assigned To-->
-                    <md-input-container class="md-block" flex-gt-sm>
-                        <label>Assigned To</label>
-                        <md-select ng-model="selectedTicketAssignedTo" ng-model-options="{trackBy: '$value.id'}">
-                            <md-option ng-value="assignedto" ng-repeat="assignedto in ticketAssignedTo">{{ assignedto.name }}</md-option>
-                        </md-select>
-                    </md-input-container>
-
-                    <div flex="5" hide-xs hide-sm>
-                        <!-- Spacer //-->
-                    </div>
-
-                    <!--Ticket Status-->
-                    <md-input-container class="md-block" flex-gt-sm>
-                        <label>Ticket Status</label>
-                        <md-select ng-model="selectedTicketStatus" ng-model-options="{trackBy: '$value.id'}">
-                            <md-option ng-value="status" ng-repeat="status in ticketStatus">{{ status.name }}</md-option>
-                        </md-select>
-                    </md-input-container>
-
-                    <div flex="5" hide-xs hide-sm>
-                        <!-- Spacer //-->
-                    </div>
-
-                    <!--Ticket Tag-->
-                    <md-input-container class="md-block" flex-gt-sm>
-                        <label>Tags</label>
-                        <input name="tags" ng-model="tags" maxlength="100" />
-                        <div class="hint" ng-show="showHints">Tag this ticket to facilitate searching</div>
-                        <div ng-messages="ticketForm.tags.$error" ng-hide="showHints">
-                            <div ng-message-exp="['maxlength']">
-                                Tags can not exceed 100 characters.
-                            </div>
-                        </div>
-                    </md-input-container>
-
-                </div>
-
-            </div>
-            <md-input-container class="md-block" flex-gt-sm>
-                <label>Ticket Details</label>
-                <br />
-
-                <div text-angular ng-model="details" ta-text-editor-class="border-around" ta-html-editor-class="border-around" required minlength="10" maxlength="100"></div>
-                <div class="hint" ng-show="showHints">Enter as much as details as you can of the ticket</div>
-                <div ng-messages="ticketForm.details.$error" ng-hide="showHints">
-                    <div ng-message-exp="['required', 'minlength', 'maxlength']">
-                        Your email must be between 10 and 100 characters long.
-                    </div>
-                </div>
-
-                <button type="submit" class="btn btn-primary" ng-click="sendPost()">Save</button>
-                <button class="btn btn-default">Cancel</button>
-
-            </md-input-container>
-        </md-content>
-    </form>
+    <button type="submit" class="btn btn-primary" ng-click="AddTicket(Ticket)">Save</button>
+    <button class="btn btn-default" ng-click="cancel()">Cancel</button>
 </div>

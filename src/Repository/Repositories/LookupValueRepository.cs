@@ -10,9 +10,9 @@ namespace DLGP_SVDK.Repository.Repositories
         public LookupValueRepository(ApplicationDbContext context) : base(context)
         {
         }
-        public IEnumerable<LookupValue> GetLookupValueList(LookupValueName id)
+        public IEnumerable<LookupValue> GetLookupValueList(LookupValueType id)
         {
-            return ApplicationContext.LookupValues.OrderBy(c => c.Name).Where(x => x.Name == id).ToList();
+            return ApplicationContext.LookupValues.OrderBy(c => c.Order).Where(x => x.LookupType == id).ToList();
         }
 
         public ApplicationDbContext ApplicationContext

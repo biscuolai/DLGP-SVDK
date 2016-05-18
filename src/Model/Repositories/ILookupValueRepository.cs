@@ -6,6 +6,6 @@ namespace DLGP_SVDK.Repository
 {
     public interface ILookupValueRepository : IRepository<LookupValue>
     {
-        IEnumerable<LookupValue> GetLookupValueList(LookupValueName id);
+        IEnumerable<LookupValue> GetLookupValueList(LookupValueType id);
     }
 }
