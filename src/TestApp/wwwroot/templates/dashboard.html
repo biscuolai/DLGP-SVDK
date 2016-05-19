@@ -51,8 +51,8 @@
     </div>
 </div>
 
-<div class="row">
-    <div class="col-lg-12" data-ng-controller="ticketCRUDController">
+<div class="row" ng-controller="ticketCRUDController">
+    <div class="col-lg-12">
         <app-widget>
             <app-widget-header icon="fa-tasks" title="Tickets">
                 <div class="input-group">
@@ -140,7 +140,7 @@
                         </thead>
                         <tbody>
                             <tr ng-repeat='ticket in Tickets | orderBy:sortType:sortReverse | filter:searchTicket'>
-                                <td>{{ ticket.ticketId }}</td>
+                                <td><a style="font-weight:bold;" href="#/editTicket?action=edit&amp;id={{ticket.ticketId}}">{{ticket.ticketId}}</a></td>
                                 <td>{{ ticket.projectId }}</td>
                                 <td>{{ ticket.title }}</td>
                                 <td>{{ ticket.categoryId }}</td>
@@ -148,10 +148,6 @@
                                 <td>{{ ticket.priority }}</td>
                                 <td>{{ ticket.assignedTo }}</td>
                                 <td>{{ ticket.createdDate }}</td>
-                                <td>
-                                    <span ng-click="editTicket(ticket)" class="btn btn-primary">Edit</span>
-                                    <!--<span ng-click="deleteTicket(ticket)" class="btn btn-danger">Delete</span>-->
-                                </td>
                             </tr>
                         </tbody>
                     </table>

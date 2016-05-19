@@ -8,28 +8,50 @@
     //AngularJS controller method
     function ticketCRUDController($http, $controller, $location, $rootScope, Constants, $filter) {
 
-        GetAllTickets();
+        if ((($location.search().action !== undefined) && ($location.search().action === 'edit')) &&
+            (($location.search().id !== undefined) && ($location.search().id > 0))) {
+            // query parameter existing and get Ticket by TicketId
+            $http.get('/api/tickets/' + $location.search().id).success(function (data) {
+                // success
+                $rootScope.Ticket = data.data;
+
+                // Load all dropdownlists and set all values according this specific record
+                LoadAllDropDownLists(true);
+
+                //redirect to edit Ticket template
+                //$location.path('/editTicket'); 
+            })
+            .error(function () {
+                $rootScope.error = "An Error has occured while loading ticket!";
+            });
+        }
+        // no parameter has been passed, it can be a new ticket or dashboard page
+        else {
+            // it is a new ticket
+            if (($location.search().action !== undefined) && ($location.search().action === 'new')) {
+                // clear all fields 
+                ClearFields();
+                // Load all dropdownlists setting to default value
+                LoadAllDropDownLists(false);
+            }
+            // Request is coming from dashboard page. Load all ticket records
+            else {
+                // get the list of all tickets 
+                GetAllTickets();
+                // clear all parameters from URL
+                $location.search('');
+            }
+        }
        
         //To Get all Ticket records  
         function GetAllTickets() {
             $http.get('/api/tickets').success(function (Ticket) {
                 $rootScope.Tickets = Ticket.data;
-
-                LoadAllDropDownLists(false);
             })
             .error(function () {
                 $rootScope.error = "An Error has occured while loading tickets!";
             });
         }
-
-        //function GetProjectName() {
-        //    $http.get('/api/projects/' + $rootScope.Ticket.projectId).success(function (Project) {
-        //        $rootScope.Project = Project.data;
-        //    })
-        //    .error(function () {
-        //        $rootScope.error = "An Error has occured while loading Project!";
-        //    });
-        //}
 
         function LoadAllDropDownLists(findItems) {
             $http.get('/api/values/' + Constants.LookupValues['ContactType']).success(function (ContactType) {
@@ -103,7 +125,7 @@
                     selectedOption: Project.data[0]
                 };
                 if (findItems === true) {
-                    $rootScope.Projects.selectedOption = $filter('filter')($rootScope.Projects.availableOptions, { id: $rootScope.Ticket.projectId })[0];
+                    $rootScope.Projects.selectedOption = $filter('filter')($rootScope.Projects.availableOptions, { projectId: $rootScope.Ticket.projectId })[0];
                 }
             })
             .error(function () {
@@ -128,22 +150,6 @@
             $http.get('/api/tickets/' + Ticket.ticketId).success(function (data) {
                 // success
                 $rootScope.Ticket = data.data;
-                //debugger;
-                //$rootScope.TicketId = $rootScope.Ticket.ticketId;
-                //$rootScope.ProjectId = $rootScope.Ticket.projectId;
-                //$rootScope.ContactTypeId = $rootScope.Ticket.contactTypeId;
-                //$rootScope.CategoryId = $rootScope.Ticket.categoryId;
-                //$rootScope.ConfigurationItemId = $rootScope.Ticket.configurationItemId;
-                //$rootScope.Title = $rootScope.Ticket.title;
-                //$rootScope.Details = $rootScope.Ticket.details;
-                //$rootScope.isHtml = $rootScope.Ticket.isHtml;
-                //$rootScope.TagList = $rootScope.Ticket.tagList;
-                //$rootScope.AssignedTo = $rootScope.Ticket.assignedTo;
-                //$rootScope.TicketStatus = $rootScope.Ticket.ticketStatus;
-                //$rootScope.Priority = $rootScope.Ticket.priority;
-                $rootScope.Action = "Update";
-
-                $rootScope.errorMessage = "Successfully loaded " + $rootScope.Ticket.title;
 
                 LoadAllDropDownLists(true);
 
@@ -151,45 +157,8 @@
             })
             .error(function () {
                 $rootScope.error = "An Error has occured while loading ticket!";
-                $rootScope.errorMessage = "Failed to Load " + error;
             });
         }
-
-        //$rootScope.AddUpdateTicket = function () {
-        //    var Ticket = {
-        //        Title: $rootScope.TicketTitle,
-        //        Author: $rootScope.TicketAuthor,
-        //        Publisher: $rootScope.TicketPublisher,
-        //        Isbn: $rootScope.TicketIsbn
-        //    };
-        //    var getTicketAction = $rootScope.Action;
-
-        //    if (getTicketAction == "Update") {
-        //        Ticket.Id = $rootScope.TicketId;
-        //        var getTicketData = updateTicket(Ticket);
-        //        getTicketData.then(function (msg) {
-        //            GetAllTickets();
-        //            alert(msg.data);
-        //            $rootScope.divTicket = false;
-        //        }, function () {
-        //            alert('Error in updating Ticket record');
-        //        });
-        //    } else {
-        //        var getTicketData = AddTicket(Ticket);
-        //        getTicketData.then(function (msg) {
-        //            GetAllTickets();
-        //            alert(msg.data);
-        //            $rootScope.divTicket = false;
-        //        }, function () {
-        //            alert('Error in adding Ticket record');
-        //        });
-        //    }
-        //}
-
-        //$rootScope.AddTicketDiv = function () {
-        //    ClearFields();
-        //    $rootScope.Action = "Add";
-        //}
 
         $rootScope.deleteTicket = function (Ticket) {
             var getTicketData = DeleteTicket(Ticket.Id);
@@ -202,18 +171,20 @@
         }
 
         function ClearFields() {
-            $rootScope.projectId = "";
-            $rootScope.ContactTypeId = "";
-            $rootScope.CategoryId = "";
-            $rootScope.ConfigurationItemId = "";
-            $rootScope.Title = "";
-            $rootScope.Details = "";
-            $rootScope.isHtml = "";
-            $rootScope.TagList = "";
-            $rootScope.AssignedTo = "";
-            $rootScope.TicketStatus = "";
-            $rootScope.Priority = "";
-            $rootScope.assignedTo = "";
+            if ($rootScope.Ticket !== undefined) {
+                $rootScope.Ticket.projectId = "";
+                $rootScope.Ticket.contactTypeId = "";
+                $rootScope.Ticket.categoryId = "";
+                $rootScope.Ticket.configurationItemId = "";
+                $rootScope.Ticket.title = "";
+                $rootScope.Ticket.details = "";
+                $rootScope.Ticket.isHtml = "";
+                $rootScope.Ticket.tagList = "";
+                $rootScope.Ticket.assignedTo = "";
+                $rootScope.Ticket.ticketStatus = "";
+                $rootScope.Ticket.priority = "";
+                $rootScope.Ticket.assignedTo = "";
+            }
         }
 
         $rootScope.cancel = function () {
@@ -225,6 +196,9 @@
 
         //Edit/Update operation
         $rootScope.UpdateTicket = function (Ticket) {
+
+            debugger;
+
             // read fresh data from all dropdownlists
             ReadFreshDataFromDropDownLists(Ticket);
 
@@ -240,37 +214,43 @@
 
         function ReadFreshDataFromDropDownLists(Ticket) {
             // read fresh data from all dropdownlists
-            Ticket.projectId = $rootScope.Projects.selectedOption.projectId;
-            Ticket.contactTypeId = $rootScope.ContactType.selectedOption.id;
-            Ticket.categoryId = $rootScope.Category.selectedOption.id;
-            Ticket.configurationItemId = $rootScope.ConfigurationItem.selectedOption.id;
-            Ticket.ticketStatus = $rootScope.TicketStatus.selectedOption.id;
-            Ticket.priority = $rootScope.Priority.selectedOption.id;
-            Ticket.assignedTo = $rootScope.Users.selectedOption.userName;
+            if (Ticket !== undefined)
+            {
+                Ticket.projectId = $rootScope.Projects.selectedOption.projectId;
+                Ticket.contactTypeId = $rootScope.ContactType.selectedOption.id;
+                Ticket.categoryId = $rootScope.Category.selectedOption.id;
+                Ticket.configurationItemId = $rootScope.ConfigurationItem.selectedOption.id;
+                Ticket.ticketStatus = $rootScope.TicketStatus.selectedOption.id;
+                Ticket.priority = $rootScope.Priority.selectedOption.id;
+                Ticket.assignedTo = $rootScope.Users.selectedOption.userName;
+            }
         }
 
         // Insert operation / add ticket
         $rootScope.AddTicket = function (Ticket) {
+            if (Ticket !== undefined) {
+                // read fresh data from all dropdownlists
+                ReadFreshDataFromDropDownLists(Ticket);
 
-            // read fresh data from all dropdownlists
-            ReadFreshDataFromDropDownLists(Ticket);
+                Ticket.createdBy = "System";
+                Ticket.createdDate = new Date();
+                Ticket.currentStatusDate = new Date();
+                Ticket.currentStatusSetBy = "biscuolai";
+                Ticket.lastUpdateBy = "biscuolai";
+                Ticket.lastUpdateDate = new Date();
+                Ticket.owner = "ilson_biscuola@dialog.com.au";
 
-            Ticket.createdBy = "System";
-            Ticket.createdDate = new Date();
-            Ticket.currentStatusDate = new Date();
-            Ticket.currentStatusSetBy = "biscuolai";
-            Ticket.lastUpdateBy = "biscuolai";
-            Ticket.lastUpdateDate = new Date();
-            Ticket.owner = "ilson_biscuola@dialog.com.au";
+                $http.post('/api/tickets', Ticket).success(function (data) {
 
-            $http.post('/api/tickets', Ticket).success(function (data) {
-                alert("Added successfully!!");                
-                $rootScope.Tickets.push(data);
-                ClearFields();
-                $location.path('/'); // Added successfully and redirect to dashboard
-            }).error(function (data) {
-                $rootScope.error = "An error has occured while adding! " + data;                
-            });
+                    alert("Added successfully!!");
+
+                    //$rootScope.Tickets.push(data);
+                    GetAllTickets();
+                    $location.path('/'); // Added successfully and redirect to dashboard
+                }).error(function (data) {
+                    $rootScope.error = "An error has occured while adding! " + data;
+                });
+            }
         };
 
         //Delete Ticket

@@ -66,7 +66,7 @@ namespace DLGP_SVDK.Web.Api
                         unitOfWork.Commit();
 
                         Response.StatusCode = (int)HttpStatusCode.Created;
-                        return Json(Mapper.Map<TicketViewModel>(newTicket));
+                        return Json(newTicket);
                     }
                 }
             }
