@@ -49,9 +49,6 @@ namespace DLGP_SVDK.Model.Domain.Entities
         [Display(ResourceType = typeof(String), Name = "TicketDetails", ShortName = "TicketDetailsShort")]
         public string Details { get; set; }
 
-        [Display(ResourceType = typeof(String), Name = "TicketIsHtml", ShortName = "TicketIsHtmlShort")]
-        public bool IsHtml { get; set; }
-
         [StringLength(100, ErrorMessageResourceName = "FieldMaximumLength")]
         [Display(ResourceType = typeof(String), Name = "TicketTagList", ShortName = "TicketTagListShort")]
         public string TagList { get; set; }

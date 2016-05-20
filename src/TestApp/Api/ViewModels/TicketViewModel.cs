@@ -10,7 +10,6 @@ namespace DLGP_SVDK.Api.ViewModels
         public int ConfigurationItemId { get; set; }
         public string Title { get; set; }
         public string Details { get; set; }
-        public bool IsHtml { get; set; }
         public string TagList { get; set; }
         public string CreatedBy { get; set; }
         public DateTimeOffset CreatedDate { get; set; }

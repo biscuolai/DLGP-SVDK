@@ -70,7 +70,6 @@ namespace DLGP_SVDK.Infrastructure
                             CurrentStatusDate = DateTimeOffset.Now,
                             LastUpdateBy = "Oliver Fehr",
                             LastUpdateDate = DateTimeOffset.Now,
-                            IsHtml = false,
                             CurrentStatusSetBy = "biscuolai"
                         }
                     }

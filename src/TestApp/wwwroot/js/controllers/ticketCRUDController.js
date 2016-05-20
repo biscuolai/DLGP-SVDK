@@ -22,7 +22,9 @@
                 //$location.path('/editTicket'); 
             })
             .error(function () {
-                $rootScope.error = "An Error has occured while loading ticket!";
+                // show in alerts error message
+                $rootScope.clearAlert();
+                $rootScope.addAlert('An error has occured while loading ticket id = ' + $location.search().id, 'danger'); 
             });
         }
         // no parameter has been passed, it can be a new ticket or dashboard page
@@ -36,6 +38,11 @@
             }
             // Request is coming from dashboard page. Load all ticket records
             else {
+                // define the variable alerts if it does not exists
+                if ($rootScope.alerts === undefined) {
+                    $rootScope.alerts = [];
+                }
+
                 // get the list of all tickets 
                 GetAllTickets();
                 // clear all parameters from URL
@@ -49,7 +56,9 @@
                 $rootScope.Tickets = Ticket.data;
             })
             .error(function () {
-                $rootScope.error = "An Error has occured while loading tickets!";
+                // show in alerts error message
+                $rootScope.clearAlert();
+                $rootScope.addAlert('An error has occured while loading list of all tickets!', 'danger');
             });
         }
 
@@ -65,7 +74,9 @@
                 }
             })
             .error(function () {
-                $rootScope.error = "An Error has occured while loading ContactType drop down list!";
+                // show in alerts error message
+                $rootScope.clearAlert();
+                $rootScope.addAlert('An error has occured while loading contact type drop down list!', 'danger');
             });
             $http.get('/api/values/' + Constants.LookupValues['Category']).success(function (Category) {
                 $rootScope.Category = {
@@ -78,7 +89,8 @@
                 }
             })
             .error(function () {
-                $rootScope.error = "An Error has occured while loading Category drop down list!";
+                // show in alerts error message
+                $rootScope.addAlert('An error has occured while loading category drop down list!', 'danger');
             });
             $http.get('/api/values/' + Constants.LookupValues['ConfigurationItem']).success(function (ConfigurationItem) {
                 $rootScope.ConfigurationItem = {
@@ -91,7 +103,8 @@
                 }
             })
             .error(function () {
-                $rootScope.error = "An Error has occured while loading Category drop down list!";
+                // show in alerts error message
+                $rootScope.addAlert('An error has occured while loading configuration item drop down list!', 'danger');
             });
             $http.get('/api/values/' + Constants.LookupValues['TicketStatus']).success(function (TicketStatus) {
                 $rootScope.TicketStatus = {
@@ -104,7 +117,8 @@
                 }
             })
             .error(function () {
-                $rootScope.error = "An Error has occured while loading Category drop down list!";
+                // show in alerts error message
+                $rootScope.addAlert('An error has occured while loading ticket status drop down list!', 'danger');
             });
             $http.get('/api/values/' + Constants.LookupValues['Priority']).success(function (Priority) {
                 $rootScope.Priority = {
@@ -117,7 +131,8 @@
                 }
             })
             .error(function () {
-                $rootScope.error = "An Error has occured while loading Category drop down list!";
+                // show in alerts error message
+                $rootScope.addAlert('An error has occured while loading priority drop down list!', 'danger');
             });
             $http.get('/api/projects').success(function (Project) {
                 $rootScope.Projects = {
@@ -129,7 +144,8 @@
                 }
             })
             .error(function () {
-                $rootScope.error = "An Error has occured while loading Project!";
+                // show in alerts error message
+                $rootScope.addAlert('An error has occured while loading project drop down list!', 'danger');
             });
             $http.get('/api/admin/users').success(function (User) {
                 $rootScope.Users = {
@@ -141,7 +157,8 @@
                 }
             })
             .error(function () {
-                $rootScope.error = "An Error has occured while loading Project!";
+                // show in alerts error message
+                $rootScope.addAlert('An error has occured while loading assigned to drop down list!', 'danger');
             });
         }
 
@@ -156,7 +173,8 @@
                 $location.path('/editTicket'); //redirect to edit Ticket template
             })
             .error(function () {
-                $rootScope.error = "An Error has occured while loading ticket!";
+                // show in alerts error message
+                $rootScope.addAlert('An error has occured while loading ticket id = ' + Ticket.ticketId, 'danger');
             });
         }
 
@@ -178,7 +196,6 @@
                 $rootScope.Ticket.configurationItemId = "";
                 $rootScope.Ticket.title = "";
                 $rootScope.Ticket.details = "";
-                $rootScope.Ticket.isHtml = "";
                 $rootScope.Ticket.tagList = "";
                 $rootScope.Ticket.assignedTo = "";
                 $rootScope.Ticket.ticketStatus = "";
@@ -197,25 +214,35 @@
         //Edit/Update operation
         $rootScope.UpdateTicket = function (Ticket) {
 
-            debugger;
-
             // read fresh data from all dropdownlists
-            ReadFreshDataFromDropDownLists(Ticket);
+            Ticket.projectId = $rootScope.Projects.selectedOption.projectId;
+            Ticket.contactTypeId = $rootScope.ContactType.selectedOption.id;
+            Ticket.categoryId = $rootScope.Category.selectedOption.id;
+            Ticket.configurationItemId = $rootScope.ConfigurationItem.selectedOption.id;
+            Ticket.ticketStatus = $rootScope.TicketStatus.selectedOption.id;
+            Ticket.priority = $rootScope.Priority.selectedOption.id;
+            Ticket.assignedTo = $rootScope.Users.selectedOption.userName;
 
             $http.put('/api/tickets/' + Ticket.ticketId, Ticket).success(function (data) {
-                alert("Updated successfully!");             
                 GetAllTickets();
                 ClearFields();
                 $location.path('/'); // Updated successfully and redirect to dashboard
+
+                // show in alerts that ticket has been updated successfully
+                $rootScope.clearAlert();
+                $rootScope.addAlert('Ticket ID = ' + Ticket.ticketId + ' has been updated successfully!', 'success'); // And call the method on the newScope.
+
             }).error(function (data) {
-                $rootScope.error = "An Error has occured while updating! " + data;                
+                // show in alerts error message
+                $rootScope.clearAlert();
+                $rootScope.addAlert('An error has occured while updating ticket id = ' + Ticket.ticketId, 'danger');
             });
         };
 
-        function ReadFreshDataFromDropDownLists(Ticket) {
-            // read fresh data from all dropdownlists
-            if (Ticket !== undefined)
-            {
+        // Insert operation / add ticket
+        $rootScope.AddTicket = function (Ticket) {
+            if (Ticket !== undefined) {
+                // read fresh data from all dropdownlists
                 Ticket.projectId = $rootScope.Projects.selectedOption.projectId;
                 Ticket.contactTypeId = $rootScope.ContactType.selectedOption.id;
                 Ticket.categoryId = $rootScope.Category.selectedOption.id;
@@ -223,15 +250,6 @@
                 Ticket.ticketStatus = $rootScope.TicketStatus.selectedOption.id;
                 Ticket.priority = $rootScope.Priority.selectedOption.id;
                 Ticket.assignedTo = $rootScope.Users.selectedOption.userName;
-            }
-        }
-
-        // Insert operation / add ticket
-        $rootScope.AddTicket = function (Ticket) {
-            if (Ticket !== undefined) {
-                // read fresh data from all dropdownlists
-                ReadFreshDataFromDropDownLists(Ticket);
-
                 Ticket.createdBy = "System";
                 Ticket.createdDate = new Date();
                 Ticket.currentStatusDate = new Date();
@@ -241,14 +259,18 @@
                 Ticket.owner = "ilson_biscuola@dialog.com.au";
 
                 $http.post('/api/tickets', Ticket).success(function (data) {
-
-                    alert("Added successfully!!");
-
                     //$rootScope.Tickets.push(data);
                     GetAllTickets();
                     $location.path('/'); // Added successfully and redirect to dashboard
+
+                    // show in alerts that ticket has been added successfully
+                    $rootScope.clearAlert();
+                    $rootScope.addAlert('A new ticket has been added successfully!', 'success'); // And call the method on the newScope.
+
                 }).error(function (data) {
-                    $rootScope.error = "An error has occured while adding! " + data;
+                    // show in alerts error message
+                    $rootScope.clearAlert();
+                    $rootScope.addAlert('An error has occured while adding a new ticket!', 'danger');
                 });
             }
         };
@@ -256,13 +278,30 @@
         //Delete Ticket
         $rootScope.DeleteTicket = function (Ticket) {     
             $http.delete('/api/tickets/' + Ticket.TicketID).success(function (data) {
-                alert("Deleted successfully!!");
+                alert("Deleted successfully!");
                 $http.get('/api/tickets').success(function (data) {
                     $rootScope.Tickets = data;                    
                 })
             }).error(function (data) {
                 $rootScope.error = "An error has occured while deleting! " + data;                
             });
+        };
+
+        $rootScope.addAlert = function (message, alertType) {
+            $rootScope.alerts.push({
+                type: alertType,
+                msg: message
+            });
+
+            return $rootScope.alerts;
+        };
+
+        $rootScope.closeAlert = function (index) {
+            $rootScope.alerts.splice(index, 1);
+        };
+
+        $rootScope.clearAlert = function () {
+            $rootScope.alerts = [];
         };
     }
 })();

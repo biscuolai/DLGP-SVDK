@@ -114,7 +114,6 @@
                 'configurationItemId': $scope.selectedTicketConfigurationItem.id,
                 'title': $scope.title,
                 'details': $scope.details,
-                'isHtml': true,
                 'tagList': $scope.tags,
                 'createdBy': "@User.Identity.GetUserName()",
                 'createdDate': new Date(),

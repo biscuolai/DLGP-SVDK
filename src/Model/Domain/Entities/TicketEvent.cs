@@ -23,8 +23,6 @@ namespace DLGP_SVDK.Model.Domain.Entities
 
         public string Comment { get; set; }
 
-        public bool IsHtml { get; set; }
-
         [Required(ErrorMessageResourceName = "FieldRequired")]
         [StringLength(256, ErrorMessageResourceName = "FieldMaximumLength")]
         public string EventBy { get; set; }
@@ -64,8 +62,7 @@ namespace DLGP_SVDK.Model.Domain.Entities
                 Comment = comment,
                 EventBy = eventByUserId,
                 EventDate = DateTime.Now,
-                EventDescription = "",
-                IsHtml = false
+                EventDescription = ""
             };
             return tc;
         }

@@ -5,6 +5,7 @@ using DLGP_SVDK.Model.Domain.Entities;
 using System.Net;
 using System;
 using DLGP_SVDK.Api.ViewModels;
+using System.Linq;
 
 namespace DLGP_SVDK.Web.Api
 {
@@ -99,7 +100,6 @@ namespace DLGP_SVDK.Web.Api
                         existingTicket.CategoryId = value.CategoryId;
                         existingTicket.ConfigurationItemId = value.ConfigurationItemId;
                         existingTicket.Details = value.Details;
-                        existingTicket.IsHtml = value.IsHtml;
                         existingTicket.TagList = value.TagList;
                         existingTicket.AssignedTo = value.AssignedTo;
                         existingTicket.TicketStatus = (TicketStatus)value.TicketStatus;
