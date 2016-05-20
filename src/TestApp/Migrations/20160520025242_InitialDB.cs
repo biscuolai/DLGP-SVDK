@@ -91,7 +91,6 @@ namespace TestApp.Migrations
                     CurrentStatusDate = table.Column<DateTimeOffset>(nullable: false),
                     CurrentStatusSetBy = table.Column<string>(nullable: false),
                     Details = table.Column<string>(nullable: false),
-                    IsHtml = table.Column<bool>(nullable: false),
                     LastUpdateBy = table.Column<string>(nullable: false),
                     LastUpdateDate = table.Column<DateTimeOffset>(nullable: false),
                     Owner = table.Column<string>(nullable: false),
@@ -204,7 +203,6 @@ namespace TestApp.Migrations
                     EventBy = table.Column<string>(nullable: false),
                     EventDate = table.Column<DateTimeOffset>(nullable: false),
                     EventDescription = table.Column<string>(nullable: true),
-                    IsHtml = table.Column<bool>(nullable: false),
                     TicketId = table.Column<int>(nullable: false),
                     Version = table.Column<byte[]>(type: "timestamp", nullable: true)
                 },

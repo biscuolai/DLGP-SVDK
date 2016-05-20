@@ -8,7 +8,7 @@ using DLGP_SVDK.Models;
 namespace TestApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20160518070718_InitialDB")]
+    [Migration("20160520025242_InitialDB")]
     partial class InitialDB
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -88,8 +88,6 @@ namespace TestApp.Migrations
                     b.Property<string>("Details")
                         .IsRequired();
 
-                    b.Property<bool>("IsHtml");
-
                     b.Property<string>("LastUpdateBy")
                         .IsRequired()
                         .HasAnnotation("MaxLength", 256);
@@ -140,8 +138,6 @@ namespace TestApp.Migrations
 
                     b.Property<string>("EventDescription")
                         .HasAnnotation("MaxLength", 500);
-
-                    b.Property<bool>("IsHtml");
 
                     b.Property<int>("TicketId");
 

@@ -87,8 +87,6 @@ namespace TestApp.Migrations
                     b.Property<string>("Details")
                         .IsRequired();
 
-                    b.Property<bool>("IsHtml");
-
                     b.Property<string>("LastUpdateBy")
                         .IsRequired()
                         .HasAnnotation("MaxLength", 256);
@@ -139,8 +137,6 @@ namespace TestApp.Migrations
 
                     b.Property<string>("EventDescription")
                         .HasAnnotation("MaxLength", 500);
-
-                    b.Property<bool>("IsHtml");
 
                     b.Property<int>("TicketId");
 

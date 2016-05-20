@@ -11,7 +11,7 @@
                 <div class="widget-icon green pull-left">
                     <i class="fa fa-users"></i>
                 </div>
-                <div class="title">80</div>
+                <div class="title">{{newTickets}}</div>
                 <div class="comment">New Tickets</div>
             </app-widget-body>
         </app-widget>
@@ -19,11 +19,11 @@
     <div class="col-lg-3 col-md-6 col-xs-12">
         <app-widget>
             <app-widget-body>
-                <div class="widget-icon red pull-left">
+                <div class="widget-icon blue pull-left">
                     <i class="fa fa-tasks"></i>
                 </div>
-                <div class="title">16</div>
-                <div class="comment">On-Hold Tickets</div>
+                <div class="title">{{openTickets}}</div>
+                <div class="comment">Open Tickets</div>
             </app-widget-body>
         </app-widget>
     </div>
@@ -33,7 +33,7 @@
                 <div class="widget-icon orange pull-left">
                     <i class="fa fa-sitemap"></i>
                 </div>
-                <div class="title">225</div>
+                <div class="title">{{pendingTickets}}</div>
                 <div class="comment">Pending Tickets</div>
             </app-widget-body>
         </app-widget>
@@ -41,17 +41,17 @@
     <div class="col-lg-3 col-md-6 col-xs-12">
         <app-widget>
             <app-widget-body>
-                <div class="widget-icon blue pull-left">
+                <div class="widget-icon red pull-left">
                     <i class="fa fa-support"></i>
                 </div>
-                <div class="title">62</div>
-                <div class="comment">Closed Tickets</div>
+                <div class="title">{{onHoldTickets}}</div>
+                <div class="comment">On-Hold Tickets</div>
             </app-widget-body>
         </app-widget>
     </div>
 </div>
 
-<div class="row" ng-controller="ticketCRUDController">
+<div class="row">
     <div class="col-lg-12">
         <app-widget>
             <app-widget-header icon="fa-tasks" title="Tickets">
@@ -158,66 +158,5 @@
             </app-widget-body>
         </app-widget>
     </div>
-    <!--<div class="col-lg-6">
-        <app-widget>
-            <app-widget-header icon="fa-users" title="Users">
-                <input type="text" placeholder="Search" class="form-control" />
-            </app-widget-header>
-            <app-widget-body classes="medium no-padding">
-                <div class="table-responsive">
-                    <table class="table">
-                        <thead>
-                            <tr><th class="text-center">ID</th><th>Username</th><th>Role</th><th>Account</th></tr>
-                        </thead>
-                        <tbody>
-                            <tr><td class="text-center">1</td><td>Joe Bloggs</td><td>Super Admin</td><td>AZ23045</td></tr>
-                            <tr><td class="text-center">2</td><td>Timothy Hernandez</td><td>Admin</td><td>AU24783</td></tr>
-                            <tr><td class="text-center">3</td><td>Joe Bickham</td><td>User</td><td>AM23781</td></tr>
-                        </tbody>
-                    </table>
-                </div>
-            </app-widget-body>
-            <app-widget>
-    </div>-->
 </div>
 
-<!--<div class="row">
-    <div class="col-lg-6">
-        <app-widget>
-            <app-widget-header icon="fa-plus" title="Extras">
-                <button ng-click="" class="btn btn-sm btn-info">Manage</button>
-            </app-widget-header>
-            <app-widget-body>
-                <div class="message">
-                    Maybe an idea of <span class="error">critical tickets in this list!</span>
-                </div>
-                <hr />
-                <div class="message">
-                    <a href="#" target="_blank">UI Bootstrap</a> can be used.
-                </div>
-            </app-widget-body>
-        </app-widget>
-    </div>
-    <div class="col-lg-6">
-        <app-widget>
-            <app-widget-header icon="fa-cog fa-spin" title="Loading Directive">
-                <a href="http://tobiasahlin.com/spinkit/" target="_blank">Example of spinkit</a>
-            </app-widget-header>
-            <app-widget-body>
-                <app-loading>test</app-loading>
-            </app-widget-body>
-        </app-widget>
-    </div>
-</div>-->
-<!--<div class="row">
-    <div class="col-lg-6 col-sm-12" ng-controller="chartController">
-        <div class="panel panel-default">
-            <div class="panel-heading">Reactive Chart {{series}}</div>
-            <div class="panel-body">
-                <canvas id="base" class="chart chart-base" chart-type="type2" chart-data="data2" chart-labels="labels2" chart-legend="true"></canvas>
-                <button type="button" class="btn btn-primary pull-right" ng-click="toggle()">Toggle</button>
-                <canvas id="bar" class="chart chart-bar" data="data" labels="labels"></canvas>
-            </div>
-        </div>
-    </div>
-</div>-->

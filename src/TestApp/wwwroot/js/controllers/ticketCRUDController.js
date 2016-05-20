@@ -17,9 +17,8 @@
 
                 // Load all dropdownlists and set all values according this specific record
                 LoadAllDropDownLists(true);
-
-                //redirect to edit Ticket template
-                //$location.path('/editTicket'); 
+                // Clear all alert messages 
+                $rootScope.clearAlert();
             })
             .error(function () {
                 // show in alerts error message
@@ -35,6 +34,8 @@
                 ClearFields();
                 // Load all dropdownlists setting to default value
                 LoadAllDropDownLists(false);
+                // Clear all alert messages 
+                $rootScope.clearAlert();
             }
             // Request is coming from dashboard page. Load all ticket records
             else {
@@ -54,6 +55,21 @@
         function GetAllTickets() {
             $http.get('/api/tickets').success(function (Ticket) {
                 $rootScope.Tickets = Ticket.data;
+
+                $rootScope.newTickets = 0;
+                $rootScope.onHoldTickets = 0;
+                $rootScope.pendingTickets = 0;
+                $rootScope.openTickets = 0;
+
+                debugger;
+
+                for (var i = 0; i < $rootScope.Tickets.length; i++){
+                    if ($rootScope.Tickets[i].categoryId === Constants.Category['New']) { $rootScope.newTickets++ }
+                    else if ($rootScope.Tickets[i].categoryId === Constants.Category['Open']) { $rootScope.openTickets++ }
+                    else if ($rootScope.Tickets[i].categoryId === Constants.Category['PendingOnHold']) { $rootScope.onHoldTickets++ }
+                    else if (($rootScope.Tickets[i].categoryId === Constants.Category['PendingOnHold']) ||
+                             ($rootScope.Tickets[i].categoryId === Constants.Category['PendingRFI'])) { $rootScope.pendingTickets++ }
+                }
             })
             .error(function () {
                 // show in alerts error message
