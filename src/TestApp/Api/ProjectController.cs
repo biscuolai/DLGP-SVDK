@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNet.Mvc;
 using DLGP_SVDK.Repository;
 using DLGP_SVDK.Model.Domain.Entities;
+using Newtonsoft.Json;
 
 // For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -16,6 +17,10 @@ namespace DLGP_SVDK.Web.Api
             {
                 // Return all projects
                 var projects = unitOfWork.Projects.GetProjectList();
+
+                // serialize to string            
+                //string json2 = JsonConvert.SerializeObject(projects, Formatting.Indented);
+
                 return new JsonResult(new { data = projects, success = true });
             }
         }

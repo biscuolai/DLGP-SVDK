@@ -13,9 +13,9 @@ namespace DLGP_SVDK.Model.Domain.Entities
         public Ticket()
         {
             // ReSharper disable DoNotCallOverridableMethodsInConstructor
-            TicketEvents = new HashSet<TicketEvent>();
-            TicketSubscribers = new HashSet<TicketSubscriber>();
-            TicketTags = new HashSet<TicketTag>();
+            Events = new HashSet<TicketEvent>();
+            Subscribers = new HashSet<TicketSubscriber>();
+            Tags = new HashSet<TicketTag>();
             // ReSharper restore DoNotCallOverridableMethodsInConstructor
         }
         [Key]
@@ -39,6 +39,14 @@ namespace DLGP_SVDK.Model.Domain.Entities
         [Required(ErrorMessageResourceName = "FieldRequired")]
         [Display(ResourceType = typeof(int), Name = "ConfigurationItemId", ShortName = "ConfigurationItemShort")]
         public int ConfigurationItemId { get; set; }
+
+        [Required(ErrorMessageResourceName = "FieldRequired")]
+        [Display(ResourceType = typeof(int), Name = "TicketPriorityId", ShortName = "TicketPriorityShort")]
+        public int PriorityId { get; set; }
+
+        [Required(ErrorMessageResourceName = "FieldRequired")]
+        [Display(ResourceType = typeof(String), Name = "TicketTicketStatus", ShortName = "TicketTicketStatusShort")]
+        public int TicketStatusId { get; set; }
 
         [Required(ErrorMessageResourceName = "FieldRequired")]
         [StringLength(500, ErrorMessageResourceName = "FieldMaximumLength")]
@@ -97,10 +105,6 @@ namespace DLGP_SVDK.Model.Domain.Entities
             }
         }
 
-        [Required(ErrorMessageResourceName = "FieldRequired")]
-        [Display(ResourceType = typeof(String), Name = "TicketTicketStatus", ShortName = "TicketTicketStatusShort")]
-        public TicketStatus TicketStatus { get; set; }
-
         [Display(ResourceType = typeof(String), Name = "TicketCurrentStatusDate", ShortName = "TicketCurrentStatusDateShort")]
         public DateTimeOffset CurrentStatusDate { get; set; }
 
@@ -117,9 +121,6 @@ namespace DLGP_SVDK.Model.Domain.Entities
         [Display(ResourceType = typeof(String), Name = "TicketLastUpdateDate", ShortName = "TicketLastUpdateDateShort")]
         public DateTimeOffset LastUpdateDate { get; set; }
 
-        [Display(ResourceType = typeof(int), Name = "TicketPriority", ShortName = "TicketPriorityShort")]
-        public int Priority { get; set; }
-
         [Column(TypeName = "timestamp")]
         [MaxLength(8)]
         [Timestamp]
@@ -127,11 +128,21 @@ namespace DLGP_SVDK.Model.Domain.Entities
 
         public virtual Project Project { get; set; }
 
-        public virtual ICollection<TicketEvent> TicketEvents { get; set; }
+        public virtual TicketConfigurationItem ConfigurationItem { get; set; }
 
-        public virtual ICollection<TicketTag> TicketTags { get; set; }
+        public virtual TicketCategory Category { get; set; }
 
-        public virtual ICollection<TicketSubscriber> TicketSubscribers { get; set; }
+        public virtual TicketPriority Priority { get; set; }
+
+        public virtual TicketStatus Status { get; set; }
+
+        public virtual TicketContactType ContactType { get; set; }
+
+        public virtual ICollection<TicketEvent> Events { get; set; }
+
+        public virtual ICollection<TicketTag> Tags { get; set; }
+
+        public virtual ICollection<TicketSubscriber> Subscribers { get; set; }
 
         [NotMapped]
         internal string PreviousOwner { get; set; }
@@ -146,111 +157,111 @@ namespace DLGP_SVDK.Model.Domain.Entities
             get { return !string.IsNullOrEmpty(AssignedTo); }
         }
 
-        [NotMapped]
-        public bool IsOpen
-        {
-            get { return TicketStatus != TicketStatus.Resolved && TicketStatus != TicketStatus.Closed; }
-        }
+        //[NotMapped]
+        //public bool IsOpen
+        //{
+        //    get { return TicketStatus != TicketStatus.Resolved && TicketStatus != TicketStatus.Closed; }
+        //}
 
-        public void EnsureSubscribers()
-        {
-            EnsureSubscriber(Owner);
-            EnsureSubscriber(AssignedTo);
-            EnsureSubscriber(PreviousOwner);
-            EnsureSubscriber(PreviousAssignedUser);
-        }
+        //public void EnsureSubscribers()
+        //{
+        //    EnsureSubscriber(Owner);
+        //    EnsureSubscriber(AssignedTo);
+        //    EnsureSubscriber(PreviousOwner);
+        //    EnsureSubscriber(PreviousAssignedUser);
+        //}
 
-        private void EnsureSubscriber(string user)
-        {
-            if (user != null && TicketSubscribers.All(s => s.SubscriberId != user))
-            {
-                TicketSubscribers.Add(new TicketSubscriber() { SubscriberId = user });
-            }
-        }
+        //private void EnsureSubscriber(string user)
+        //{
+        //    if (user != null && TicketSubscribers.All(s => s.SubscriberId != user))
+        //    {
+        //        TicketSubscribers.Add(new TicketSubscriber() { SubscriberId = user });
+        //    }
+        //}
 
-        public TicketActivity GetAvailableActivites(string userId)
-        {
-            var isOwnedByMe = (Owner == userId);
-            var isMoreInfo = (TicketStatus == TicketStatus.MoreInfo);
-            var isAssignedToMe = (!string.IsNullOrEmpty(AssignedTo) && AssignedTo == userId);
-            var isResolved = TicketStatus == TicketStatus.Resolved;
+        //public TicketActivity GetAvailableActivites(string userId)
+        //{
+        //    var isOwnedByMe = (Owner == userId);
+        //    var isMoreInfo = (TicketStatus == TicketStatus.MoreInfo);
+        //    var isAssignedToMe = (!string.IsNullOrEmpty(AssignedTo) && AssignedTo == userId);
+        //    var isResolved = TicketStatus == TicketStatus.Resolved;
 
-            var validActivities = TicketActivity.None;
+        //    var validActivities = TicketActivity.None;
 
-            if (TicketId == default(int))
-            {
-                validActivities |= TicketActivity.Create | TicketActivity.CreateOnBehalfOf;
-            }
+        //    if (TicketId == default(int))
+        //    {
+        //        validActivities |= TicketActivity.Create | TicketActivity.CreateOnBehalfOf;
+        //    }
 
-            if (IsOpen)
-            {
-                validActivities |= TicketActivity.ModifyAttachments;
-            }
+        //    if (IsOpen)
+        //    {
+        //        validActivities |= TicketActivity.ModifyAttachments;
+        //    }
 
-            if (IsOpen)
-            {
-                if (isOwnedByMe || isAssignedToMe)
-                {
-                    validActivities |= TicketActivity.EditTicketInfo;
-                }
-                if (isMoreInfo)
-                {
-                    validActivities |= TicketActivity.SupplyMoreInfo;
-                    if (isAssignedToMe)
-                    {
-                        validActivities |= TicketActivity.CancelMoreInfo;
-                    }
-                }
-                else //!moreInfo
-                {
-                    validActivities |= TicketActivity.AddComment;
-                    if (isAssignedToMe)
-                    {
-                        validActivities |= TicketActivity.Resolve | TicketActivity.RequestMoreInfo;
-                    }
-                }
-            }
-            else //not open (resolved or closed)
-            {
-                validActivities |= TicketActivity.ReOpen;
-            }
-            if (isResolved)
-            {
-                if (isOwnedByMe)
-                {
-                    validActivities |= TicketActivity.Close;
-                }
-            }
-            if (IsOpen || isResolved)
-            {
-                if (IsAssigned)
-                {
-                    if (!isAssignedToMe)
-                    {
-                        validActivities |= TicketActivity.ReAssign;
-                    }
-                }
-                else//!assigned
-                {
-                    validActivities |= TicketActivity.Assign;
-                }
+        //    if (IsOpen)
+        //    {
+        //        if (isOwnedByMe || isAssignedToMe)
+        //        {
+        //            validActivities |= TicketActivity.EditTicketInfo;
+        //        }
+        //        if (isMoreInfo)
+        //        {
+        //            validActivities |= TicketActivity.SupplyMoreInfo;
+        //            if (isAssignedToMe)
+        //            {
+        //                validActivities |= TicketActivity.CancelMoreInfo;
+        //            }
+        //        }
+        //        else //!moreInfo
+        //        {
+        //            validActivities |= TicketActivity.AddComment;
+        //            if (isAssignedToMe)
+        //            {
+        //                validActivities |= TicketActivity.Resolve | TicketActivity.RequestMoreInfo;
+        //            }
+        //        }
+        //    }
+        //    else //not open (resolved or closed)
+        //    {
+        //        validActivities |= TicketActivity.ReOpen;
+        //    }
+        //    if (isResolved)
+        //    {
+        //        if (isOwnedByMe)
+        //        {
+        //            validActivities |= TicketActivity.Close;
+        //        }
+        //    }
+        //    if (IsOpen || isResolved)
+        //    {
+        //        if (IsAssigned)
+        //        {
+        //            if (!isAssignedToMe)
+        //            {
+        //                validActivities |= TicketActivity.ReAssign;
+        //            }
+        //        }
+        //        else//!assigned
+        //        {
+        //            validActivities |= TicketActivity.Assign;
+        //        }
 
-                if ((isAssignedToMe || isOwnedByMe) && !(isResolved && isOwnedByMe))
-                {
-                    validActivities |= TicketActivity.ForceClose;
-                }
+        //        if ((isAssignedToMe || isOwnedByMe) && !(isResolved && isOwnedByMe))
+        //        {
+        //            validActivities |= TicketActivity.ForceClose;
+        //        }
 
-                if (isAssignedToMe)
-                {
-                    validActivities |= TicketActivity.Pass | TicketActivity.GiveUp;
-                }
-                else//!isAssignedToMe
-                {
-                    validActivities |= TicketActivity.TakeOver;
-                }
-            }
-            return validActivities;
-        }
+        //        if (isAssignedToMe)
+        //        {
+        //            validActivities |= TicketActivity.Pass | TicketActivity.GiveUp;
+        //        }
+        //        else//!isAssignedToMe
+        //        {
+        //            validActivities |= TicketActivity.TakeOver;
+        //        }
+        //    }
+        //    return validActivities;
+        //}
 
         /// <summary>
         /// Performs an activity function on the ticket.

@@ -12,11 +12,15 @@ namespace DLGP_SVDK.Repository
             Projects = new ProjectRepository(_context);
             Tickets = new TicketRepository(_context);
             LookupValues = new LookupValueRepository(_context);
+            Categories = new CategoryRepository(_context);
+            ConfigurationItems = new ConfigurationItemRepository(_context);
         }
 
         public IProjectRepository Projects { get; private set; }
         public ITicketRepository Tickets { get; private set; }
         public ILookupValueRepository LookupValues { get; private set; }
+        public ICategoryRepository Categories { get; private set; }
+        public IConfigurationItemRepository ConfigurationItems { get; private set; }
 
         public int Commit()
         {

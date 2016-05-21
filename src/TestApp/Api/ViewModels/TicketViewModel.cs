@@ -15,11 +15,11 @@ namespace DLGP_SVDK.Api.ViewModels
         public DateTimeOffset CreatedDate { get; set; }
         public string Owner { get; set; }
         public string AssignedTo { get; set; }
-        public int TicketStatus { get; set; }
+        public int TicketStatusId { get; set; }
         public DateTimeOffset CurrentStatusDate { get; set; }
         public string CurrentStatusSetBy { get; set; }
         public string LastUpdateBy { get; set; }
         public DateTimeOffset LastUpdateDate { get; set; }
-        public int Priority { get; set; }
+        public int PriorityId { get; set; }
     }
 }

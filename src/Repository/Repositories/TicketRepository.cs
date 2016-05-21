@@ -13,7 +13,15 @@ namespace DLGP_SVDK.Repository.Repositories
         }
         public IEnumerable<Ticket> GetTopUrgentTickets(int count)
         {
-            return ApplicationContext.Tickets.OrderByDescending(c => c.Priority).Take(count).ToList();
+            return ApplicationContext.Tickets.Include(c => c.Project)
+                .Include(c => c.ConfigurationItem)
+                .Include(c => c.Status)
+                .Include(c => c.ContactType)
+                .Include(c => c.Priority)
+                .Include(c => c.Category).OrderByDescending(c => c.Priority).Take(count).ToList();
+                //.OrderByDescending(c => c.Priority).Take(count)
+                //.Include(l => l.LookupValues.Where(x => x.Id == l.CategoryId && x.Active == true && x.LookupType == LookupValueType.Category)
+                //.ToList());
         }
 
         public IEnumerable<Ticket> GetAllAssignedTickets(int pageIndex, int pageSize = 10)

@@ -2,10 +2,10 @@
 
 namespace DLGP_SVDK.Model.Domain.Entities
 {
-    public class TicketStatus
+    public class TicketPriority
     {
         [Key]
-        public int TicketStatusId { get; set; }
+        public int PriorityId { get; set; }
 
         [Required(ErrorMessageResourceName = "FieldRequired")]
         [StringLength(100, ErrorMessageResourceName = "FieldMaximumLength")]

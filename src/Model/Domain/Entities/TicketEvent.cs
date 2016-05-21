@@ -72,19 +72,19 @@ namespace DLGP_SVDK.Model.Domain.Entities
         /// </summary>
         public void CreateSubscriberEventNotifications()
         {
-            foreach (var subscriber in Ticket.TicketSubscribers)
-            {
-                var isSubscriberEvent = EventBy == subscriber.SubscriberId;
+            //foreach (var subscriber in Ticket.TicketSubscribers)
+            //{
+            //    var isSubscriberEvent = EventBy == subscriber.SubscriberId;
 
-                TicketEventNotifications.Add(
-                    new TicketEventNotification
-                    {
-                        IsNew = !isSubscriberEvent,
-                        IsRead = isSubscriberEvent,
-                        SubscriberId = subscriber.SubscriberId,
-                    });
+            //    TicketEventNotifications.Add(
+            //        new TicketEventNotification
+            //        {
+            //            IsNew = !isSubscriberEvent,
+            //            IsRead = isSubscriberEvent,
+            //            SubscriberId = subscriber.SubscriberId,
+            //        });
 
-            }
+            //}
         }
     }
 }

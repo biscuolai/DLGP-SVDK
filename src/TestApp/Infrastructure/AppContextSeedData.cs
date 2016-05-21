@@ -48,21 +48,115 @@ namespace DLGP_SVDK.Infrastructure
                     await _userManager.CreateAsync(newUser, "Password0!");
                 }
 
-                // Add new data
+                // Add a new project 
                 if (!_context.Projects.Any())
                 {
                     var ServiceDeskProject = new Project()
                     {
-                        ProjectCode = "DLGP.SVDK",
-                        ProjectName = "Service Desk",
-                        ProjectDescription = "Ticket system",
-                        Tickets = new List<Ticket>() {
-                        new Ticket() { ProjectId = 1,
-                            ContactTypeId = 0,
-                            CategoryId = 0,
+                        ProjectCode = "DLGP-SVDK",
+                        ProjectName = "Dialog Internal",
+                        ProjectDescription = "Ticket system"
+                    };
+
+                    // Adding data to Project and Ticket tables
+                    _context.Projects.Add(ServiceDeskProject);
+                    
+                    // save changes
+                    _context.SaveChanges();
+                }
+
+                // Add a new ticket and assign to that project
+                if (!_context.ConfigurationItems.Any())
+                {
+                    var ci = new TicketConfigurationItem();
+                    ci.Active = true;
+                    ci.Name = "Service Desk";
+                    ci.Order = 0;
+                    ci.ProjectId = 1;
+                    _context.ConfigurationItems.Add(ci);
+
+                    // save changes
+                    _context.SaveChanges();
+                }
+
+                // Add a new ticket and assign to that project
+                if (!_context.Categories.Any())
+                {
+                    var cat = new List<TicketCategory>() {
+                        new TicketCategory() { Active = true, Order = 0, Name = "Bug" },
+                        new TicketCategory() { Active = true, Order = 1, Name = "Enhancement" },
+                        new TicketCategory() { Active = true, Order = 2, Name = "Request For Information" },
+                    };
+
+                    _context.Categories.AddRange(cat);
+
+                    // save changes
+                    _context.SaveChanges();
+                }
+
+                // Add a new ticket and assign to that project
+                if (!_context.ContactTypes.Any())
+                {
+                    var ct = new List<TicketContactType>() {
+                        new TicketContactType() { Active = true, Order = 0, Name = "Portal" },
+                        new TicketContactType() { Active = true, Order = 1, Name = "Email" },
+                        new TicketContactType() { Active = true, Order = 2, Name = "Phone" }
+                    };
+
+                    _context.ContactTypes.AddRange(ct);
+
+                    // save changes
+                    _context.SaveChanges();
+                }
+
+                // Add a new ticket and assign to that project
+                if (!_context.Priotiries.Any())
+                {
+                    var p = new List<TicketPriority>() {
+                        new TicketPriority() { Active = true, Order = 0, Name = "1 - Critical" },
+                        new TicketPriority() { Active = true, Order = 1, Name = "2 - High" },
+                        new TicketPriority() { Active = true, Order = 2, Name = "3 - Medium" },
+                        new TicketPriority() { Active = true, Order = 3, Name = "4 - Low" }
+                    };
+
+                    _context.Priotiries.AddRange(p);
+
+                    // save changes
+                    _context.SaveChanges();
+                }
+
+                // Add a new ticket and assign to that project
+                if (!_context.Statuses.Any())
+                {
+                    var p = new List<TicketStatus>() {
+                        new TicketStatus() { Active = true, Order = 0, Name = "New" },
+                        new TicketStatus() { Active = true, Order = 1, Name = "Open" },
+                        new TicketStatus() { Active = true, Order = 2, Name = "Pending - Request for Information" },
+                        new TicketStatus() { Active = true, Order = 3, Name = "Pending - On Hold" },
+                        new TicketStatus() { Active = true, Order = 4, Name = "Resolved" },
+                        new TicketStatus() { Active = true, Order = 5, Name = "Cancelled" },
+                        new TicketStatus() { Active = true, Order = 6, Name = "Closed" }
+                    };
+
+                    _context.Statuses.AddRange(p);
+
+                    // save changes
+                    _context.SaveChanges();
+                }
+
+                // Add a new ticket and assign to that project
+                if (!_context.Tickets.Any())
+                {
+                    var Tickets = new List<Ticket>() {
+                        new Ticket()
+                        {   ProjectId = 1,
+                            ContactTypeId = 1,
+                            CategoryId = 1,
+                            ConfigurationItemId = 1,
                             Title = "System is down",
                             Details = "User abc called and said that the system xyz is down since 01/01/2016",
-                            Priority = 3,
+                            PriorityId = 3,
+                            TicketStatusId = 1,
                             Owner = "ilson_biscuola@dialog.com.au",
                             AssignedTo = "biscuolai",
                             CreatedBy = "System",
@@ -71,13 +165,9 @@ namespace DLGP_SVDK.Infrastructure
                             LastUpdateBy = "Oliver Fehr",
                             LastUpdateDate = DateTimeOffset.Now,
                             CurrentStatusSetBy = "biscuolai"
-                        }
-                    }
-                    };
+                        } };
 
-                    // Adding data to Project and Ticket tables
-                    _context.Projects.Add(ServiceDeskProject);
-                    _context.Tickets.AddRange(ServiceDeskProject.Tickets);
+                    _context.Tickets.AddRange(Tickets);
 
                     // save changes
                     _context.SaveChanges();
@@ -117,7 +207,6 @@ namespace DLGP_SVDK.Infrastructure
             }
             catch (Exception ex)
             {
-
                 throw ex;
             }
         }

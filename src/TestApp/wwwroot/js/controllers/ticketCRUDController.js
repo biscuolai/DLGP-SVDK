@@ -129,7 +129,7 @@
                 };
 
                 if (findItems === true) {
-                    $rootScope.TicketStatus.selectedOption = $filter('filter')($rootScope.TicketStatus.availableOptions, { id: $rootScope.Ticket.ticketStatus })[0];
+                    $rootScope.TicketStatus.selectedOption = $filter('filter')($rootScope.TicketStatus.availableOptions, { id: $rootScope.Ticket.ticketStatusId })[0];
                 }
             })
             .error(function () {
@@ -143,7 +143,7 @@
                 };
 
                 if (findItems === true) {
-                    $rootScope.Priority.selectedOption = $filter('filter')($rootScope.Priority.availableOptions, { id: $rootScope.Ticket.priority })[0];
+                    $rootScope.Priority.selectedOption = $filter('filter')($rootScope.Priority.availableOptions, { id: $rootScope.Ticket.priorityId })[0];
                 }
             })
             .error(function () {
@@ -214,8 +214,8 @@
                 $rootScope.Ticket.details = "";
                 $rootScope.Ticket.tagList = "";
                 $rootScope.Ticket.assignedTo = "";
-                $rootScope.Ticket.ticketStatus = "";
-                $rootScope.Ticket.priority = "";
+                $rootScope.Ticket.ticketStatusId = "";
+                $rootScope.Ticket.priorityId = "";
                 $rootScope.Ticket.assignedTo = "";
             }
         }
@@ -235,8 +235,8 @@
             Ticket.contactTypeId = $rootScope.ContactType.selectedOption.id;
             Ticket.categoryId = $rootScope.Category.selectedOption.id;
             Ticket.configurationItemId = $rootScope.ConfigurationItem.selectedOption.id;
-            Ticket.ticketStatus = $rootScope.TicketStatus.selectedOption.id;
-            Ticket.priority = $rootScope.Priority.selectedOption.id;
+            Ticket.ticketStatusId = $rootScope.TicketStatus.selectedOption.id;
+            Ticket.priorityId = $rootScope.Priority.selectedOption.id;
             Ticket.assignedTo = $rootScope.Users.selectedOption.userName;
 
             $http.put('/api/tickets/' + Ticket.ticketId, Ticket).success(function (data) {
@@ -263,8 +263,8 @@
                 Ticket.contactTypeId = $rootScope.ContactType.selectedOption.id;
                 Ticket.categoryId = $rootScope.Category.selectedOption.id;
                 Ticket.configurationItemId = $rootScope.ConfigurationItem.selectedOption.id;
-                Ticket.ticketStatus = $rootScope.TicketStatus.selectedOption.id;
-                Ticket.priority = $rootScope.Priority.selectedOption.id;
+                Ticket.ticketStatusId = $rootScope.TicketStatus.selectedOption.id;
+                Ticket.priorityId = $rootScope.Priority.selectedOption.id;
                 Ticket.assignedTo = $rootScope.Users.selectedOption.userName;
                 Ticket.createdBy = "System";
                 Ticket.createdDate = new Date();

@@ -22,6 +22,30 @@ namespace DLGP_SVDK.Web.Api
             }
         }
 
+        // GET: api/values
+        [HttpGet("categories")]
+        public JsonResult GetCategory()
+        {
+            using (var unitOfWork = new UnitOfWork(new ApplicationDbContext()))
+            {
+                // Get all options for Priority field
+                var list = unitOfWork.Categories.GetCategoryList();
+                return new JsonResult(new { data = list, success = true });
+            }
+        }
+
+        // GET: api/values
+        [HttpGet("items")]
+        public JsonResult GetConfigItems()
+        {
+            using (var unitOfWork = new UnitOfWork(new ApplicationDbContext()))
+            {
+                // Get all options for Priority field
+                var list = unitOfWork.ConfigurationItems.GetConfigurationItemList();
+                return new JsonResult(new { data = list, success = true });
+            }
+        }
+
         //// GET api/values/5
         //[HttpGet("{id}")]
         //public string Get(int id)

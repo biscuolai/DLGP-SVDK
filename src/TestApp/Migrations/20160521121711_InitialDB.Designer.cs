@@ -8,7 +8,7 @@ using DLGP_SVDK.Models;
 namespace TestApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20160520025242_InitialDB")]
+    [Migration("20160521121711_InitialDB")]
     partial class InitialDB
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -98,14 +98,14 @@ namespace TestApp.Migrations
                         .IsRequired()
                         .HasAnnotation("MaxLength", 256);
 
-                    b.Property<int>("Priority");
+                    b.Property<int>("PriorityId");
 
                     b.Property<int>("ProjectId");
 
                     b.Property<string>("TagList")
                         .HasAnnotation("MaxLength", 100);
 
-                    b.Property<int>("TicketStatus");
+                    b.Property<int>("TicketStatusId");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -120,6 +120,56 @@ namespace TestApp.Migrations
                     b.HasKey("TicketId");
 
                     b.HasAnnotation("Relational:TableName", "Ticket");
+                });
+
+            modelBuilder.Entity("DLGP_SVDK.Model.Domain.Entities.TicketCategory", b =>
+                {
+                    b.Property<int>("CategoryId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<bool>("Active");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasAnnotation("MaxLength", 100);
+
+                    b.Property<int>("Order");
+
+                    b.HasKey("CategoryId");
+                });
+
+            modelBuilder.Entity("DLGP_SVDK.Model.Domain.Entities.TicketConfigurationItem", b =>
+                {
+                    b.Property<int>("ConfigurationItemId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<bool>("Active");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasAnnotation("MaxLength", 100);
+
+                    b.Property<int>("Order");
+
+                    b.Property<int>("ProjectId");
+
+                    b.HasKey("ConfigurationItemId");
+                });
+
+            modelBuilder.Entity("DLGP_SVDK.Model.Domain.Entities.TicketContactType", b =>
+                {
+                    b.Property<int>("ContactTypeId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<bool>("Active");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasAnnotation("MaxLength", 100);
+
+                    b.Property<int>("Order");
+
+                    b.HasKey("ContactTypeId");
                 });
 
             modelBuilder.Entity("DLGP_SVDK.Model.Domain.Entities.TicketEvent", b =>
@@ -173,6 +223,38 @@ namespace TestApp.Migrations
                         .HasAnnotation("Relational:ColumnType", "timestamp");
 
                     b.HasKey("Id");
+                });
+
+            modelBuilder.Entity("DLGP_SVDK.Model.Domain.Entities.TicketPriority", b =>
+                {
+                    b.Property<int>("PriorityId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<bool>("Active");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasAnnotation("MaxLength", 100);
+
+                    b.Property<int>("Order");
+
+                    b.HasKey("PriorityId");
+                });
+
+            modelBuilder.Entity("DLGP_SVDK.Model.Domain.Entities.TicketStatus", b =>
+                {
+                    b.Property<int>("TicketStatusId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<bool>("Active");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasAnnotation("MaxLength", 100);
+
+                    b.Property<int>("Order");
+
+                    b.HasKey("TicketStatusId");
                 });
 
             modelBuilder.Entity("DLGP_SVDK.Model.Domain.Entities.TicketSubscriber", b =>
@@ -331,9 +413,29 @@ namespace TestApp.Migrations
 
             modelBuilder.Entity("DLGP_SVDK.Model.Domain.Entities.Ticket", b =>
                 {
+                    b.HasOne("DLGP_SVDK.Model.Domain.Entities.TicketCategory")
+                        .WithMany()
+                        .HasForeignKey("CategoryId");
+
+                    b.HasOne("DLGP_SVDK.Model.Domain.Entities.TicketConfigurationItem")
+                        .WithMany()
+                        .HasForeignKey("ConfigurationItemId");
+
+                    b.HasOne("DLGP_SVDK.Model.Domain.Entities.TicketContactType")
+                        .WithMany()
+                        .HasForeignKey("ContactTypeId");
+
+                    b.HasOne("DLGP_SVDK.Model.Domain.Entities.TicketPriority")
+                        .WithMany()
+                        .HasForeignKey("PriorityId");
+
                     b.HasOne("DLGP_SVDK.Model.Domain.Entities.Project")
                         .WithMany()
                         .HasForeignKey("ProjectId");
+
+                    b.HasOne("DLGP_SVDK.Model.Domain.Entities.TicketStatus")
+                        .WithMany()
+                        .HasForeignKey("TicketStatusId");
                 });
 
             modelBuilder.Entity("DLGP_SVDK.Model.Domain.Entities.TicketEvent", b =>

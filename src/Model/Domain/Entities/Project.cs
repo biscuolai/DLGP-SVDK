@@ -27,6 +27,6 @@ namespace DLGP_SVDK.Model.Domain.Entities
         [Timestamp]
         public byte[] Version { get; set; }
 
-        public virtual ICollection<Ticket> Tickets { get; set; } 
+        //public virtual ICollection<Ticket> Tickets { get; set; } 
     }
 }

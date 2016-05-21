@@ -40,6 +40,77 @@ namespace TestApp.Migrations
                     table.PrimaryKey("PK_Project", x => x.ProjectId);
                 });
             migrationBuilder.CreateTable(
+                name: "TicketCategory",
+                columns: table => new
+                {
+                    CategoryId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Active = table.Column<bool>(nullable: false),
+                    Name = table.Column<string>(nullable: false),
+                    Order = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TicketCategory", x => x.CategoryId);
+                });
+            migrationBuilder.CreateTable(
+                name: "TicketConfigurationItem",
+                columns: table => new
+                {
+                    ConfigurationItemId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Active = table.Column<bool>(nullable: false),
+                    Name = table.Column<string>(nullable: false),
+                    Order = table.Column<int>(nullable: false),
+                    ProjectId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TicketConfigurationItem", x => x.ConfigurationItemId);
+                });
+            migrationBuilder.CreateTable(
+                name: "TicketContactType",
+                columns: table => new
+                {
+                    ContactTypeId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Active = table.Column<bool>(nullable: false),
+                    Name = table.Column<string>(nullable: false),
+                    Order = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TicketContactType", x => x.ContactTypeId);
+                });
+            migrationBuilder.CreateTable(
+                name: "TicketPriority",
+                columns: table => new
+                {
+                    PriorityId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Active = table.Column<bool>(nullable: false),
+                    Name = table.Column<string>(nullable: false),
+                    Order = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TicketPriority", x => x.PriorityId);
+                });
+            migrationBuilder.CreateTable(
+                name: "TicketStatus",
+                columns: table => new
+                {
+                    TicketStatusId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Active = table.Column<bool>(nullable: false),
+                    Name = table.Column<string>(nullable: false),
+                    Order = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TicketStatus", x => x.TicketStatusId);
+                });
+            migrationBuilder.CreateTable(
                 name: "AspNetUsers",
                 columns: table => new
                 {
@@ -94,10 +165,10 @@ namespace TestApp.Migrations
                     LastUpdateBy = table.Column<string>(nullable: false),
                     LastUpdateDate = table.Column<DateTimeOffset>(nullable: false),
                     Owner = table.Column<string>(nullable: false),
-                    Priority = table.Column<int>(nullable: false),
+                    PriorityId = table.Column<int>(nullable: false),
                     ProjectId = table.Column<int>(nullable: false),
                     TagList = table.Column<string>(nullable: true),
-                    TicketStatus = table.Column<int>(nullable: false),
+                    TicketStatusId = table.Column<int>(nullable: false),
                     Title = table.Column<string>(nullable: false),
                     Version = table.Column<byte[]>(type: "timestamp", nullable: true)
                 },
@@ -105,10 +176,40 @@ namespace TestApp.Migrations
                 {
                     table.PrimaryKey("PK_Ticket", x => x.TicketId);
                     table.ForeignKey(
+                        name: "FK_Ticket_TicketCategory_CategoryId",
+                        column: x => x.CategoryId,
+                        principalTable: "TicketCategory",
+                        principalColumn: "CategoryId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Ticket_TicketConfigurationItem_ConfigurationItemId",
+                        column: x => x.ConfigurationItemId,
+                        principalTable: "TicketConfigurationItem",
+                        principalColumn: "ConfigurationItemId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Ticket_TicketContactType_ContactTypeId",
+                        column: x => x.ContactTypeId,
+                        principalTable: "TicketContactType",
+                        principalColumn: "ContactTypeId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Ticket_TicketPriority_PriorityId",
+                        column: x => x.PriorityId,
+                        principalTable: "TicketPriority",
+                        principalColumn: "PriorityId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
                         name: "FK_Ticket_Project_ProjectId",
                         column: x => x.ProjectId,
                         principalTable: "Project",
                         principalColumn: "ProjectId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Ticket_TicketStatus_TicketStatusId",
+                        column: x => x.TicketStatusId,
+                        principalTable: "TicketStatus",
+                        principalColumn: "TicketStatusId",
                         onDelete: ReferentialAction.Cascade);
                 });
             migrationBuilder.CreateTable(
@@ -309,7 +410,12 @@ namespace TestApp.Migrations
             migrationBuilder.DropTable("AspNetRoles");
             migrationBuilder.DropTable("AspNetUsers");
             migrationBuilder.DropTable("Ticket");
+            migrationBuilder.DropTable("TicketCategory");
+            migrationBuilder.DropTable("TicketConfigurationItem");
+            migrationBuilder.DropTable("TicketContactType");
+            migrationBuilder.DropTable("TicketPriority");
             migrationBuilder.DropTable("Project");
+            migrationBuilder.DropTable("TicketStatus");
         }
     }
 }

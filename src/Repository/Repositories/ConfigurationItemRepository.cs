@@ -1,20 +1,18 @@
 ﻿using DLGP_SVDK.Model.Domain.Entities;
 using DLGP_SVDK.Repository.Persistence;
-using Microsoft.Data.Entity;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace DLGP_SVDK.Repository.Repositories
 {
-    public class ProjectRepository : Repository<Project>, IProjectRepository
+    public class ConfigurationItemRepository : Repository<TicketConfigurationItem>, IConfigurationItemRepository
     {
-        public ProjectRepository(ApplicationDbContext context) : base(context)
+        public ConfigurationItemRepository(ApplicationDbContext context) : base(context)
         {
         }
-
-        public IEnumerable<Project> GetProjectList()
+        public IEnumerable<TicketConfigurationItem> GetConfigurationItemList()
         {
-            return ApplicationContext.Projects.OrderBy(c => c.ProjectName).ToList();
+            return ApplicationContext.ConfigurationItems.OrderBy(c => c.Order).ToList();
         }
 
         public ApplicationDbContext ApplicationContext

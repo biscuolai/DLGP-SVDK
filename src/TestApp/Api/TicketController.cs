@@ -6,6 +6,7 @@ using System.Net;
 using System;
 using DLGP_SVDK.Api.ViewModels;
 using System.Linq;
+using Newtonsoft.Json;
 
 namespace DLGP_SVDK.Web.Api
 {
@@ -17,27 +18,40 @@ namespace DLGP_SVDK.Web.Api
         [HttpGet("")]
         public JsonResult GetAll()
         {
-            using (var unitOfWork = new UnitOfWork(new ApplicationDbContext()))
+            try
             {
-                // Example1
-                //var course = unitOfWork.Courses.Get(1);
+                using (var unitOfWork = new UnitOfWork(new ApplicationDbContext()))
+                {
+                    // Example1
+                    //var course = unitOfWork.Courses.Get(1);
 
-                // Example2
-                var tickets = unitOfWork.Tickets.GetTopUrgentTickets(10);
-                return new JsonResult(new { data = tickets, success = true });
+                    // Example2
+                    var tickets = unitOfWork.Tickets.GetTopUrgentTickets(10);
 
-                // Example3
-                //var author = unitOfWork.Authors.GetAuthorWithCourses(1);
-                //unitOfWork.Tickets.RemoveRange(author.Courses);
-                //unitOfWork.Authors.Remove(author);
-                //unitOfWork.Complete();
+                    // serialize to string            
+                    //string json2 = JsonConvert.SerializeObject(tickets, Formatting.Indented);
+
+                    return new JsonResult(new { data = tickets, success = true });
+
+                    // Example3
+                    //var author = unitOfWork.Authors.GetAuthorWithCourses(1);
+                    //unitOfWork.Tickets.RemoveRange(author.Courses);
+                    //unitOfWork.Authors.Remove(author);
+                    //unitOfWork.Complete();
+                }
+
+
+                //var results = Mapper.Map<IEnumerable<TicketViewModel>>(_repository.GetTopUrgentTickets(10));
+                //return new JsonResult(new { data = results, success = true });
+
+                //return Json("null");
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return Json(new { Message = ex.Message });
             }
 
-
-            //var results = Mapper.Map<IEnumerable<TicketViewModel>>(_repository.GetTopUrgentTickets(10));
-            //return new JsonResult(new { data = results, success = true });
-            
-            //return Json("null");
         }
 
         [HttpGet("{id}")]
@@ -102,12 +116,12 @@ namespace DLGP_SVDK.Web.Api
                         existingTicket.Details = value.Details;
                         existingTicket.TagList = value.TagList;
                         existingTicket.AssignedTo = value.AssignedTo;
-                        existingTicket.TicketStatus = (TicketStatus)value.TicketStatus;
+                        existingTicket.TicketStatusId = value.TicketStatusId;
                         existingTicket.CurrentStatusDate = value.CurrentStatusDate;
                         existingTicket.CurrentStatusSetBy = value.CurrentStatusSetBy;
                         existingTicket.LastUpdateBy = value.LastUpdateBy;
                         existingTicket.LastUpdateDate = value.LastUpdateDate;
-                        existingTicket.Priority = value.Priority;
+                        existingTicket.PriorityId = value.PriorityId;
 
                         // saving data into db
                         unitOfWork.Tickets.Update(existingTicket);

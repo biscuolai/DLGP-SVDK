@@ -88,6 +88,13 @@
                                     </a>
                                 </td>
                                 <td>
+                                    <a href="#" ng-click="sortType = 'StatusId'; sortReverse = !sortReverse">
+                                        <strong>Status</strong>
+                                        <span ng-show="sortType == 'StatusId' && !sortReverse" class="fa fa-caret-down"></span>
+                                        <span ng-show="sortType == 'StatusId' && sortReverse" class="fa fa-caret-up"></span>
+                                    </a>
+                                </td>
+                                <td>
                                     <a href="#" ng-click="sortType = 'ProjectId'; sortReverse = !sortReverse">
                                         <strong>Project ID</strong>
                                         <span ng-show="sortType == 'ProjectId' && !sortReverse" class="fa fa-caret-down"></span>
@@ -141,11 +148,12 @@
                         <tbody>
                             <tr ng-repeat='ticket in Tickets | orderBy:sortType:sortReverse | filter:searchTicket'>
                                 <td><a style="font-weight:bold;" href="#/editTicket?action=edit&amp;id={{ticket.ticketId}}">{{ticket.ticketId}}</a></td>
-                                <td>{{ ticket.projectId }}</td>
+                                <td>{{ ticket.status.name }}</td>
+                                <td>{{ ticket.project.projectName }}</td>
                                 <td>{{ ticket.title }}</td>
-                                <td>{{ ticket.categoryId }}</td>
-                                <td>{{ ticket.configurationItemId }}</td>
-                                <td>{{ ticket.priority }}</td>
+                                <td>{{ ticket.category.name }}</td>
+                                <td>{{ ticket.configurationItem.name }}</td>
+                                <td>{{ ticket.priority.name }}</td>
                                 <td>{{ ticket.assignedTo }}</td>
                                 <td>{{ ticket.createdDate }}</td>
                             </tr>

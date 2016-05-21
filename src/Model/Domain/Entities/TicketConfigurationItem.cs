@@ -1,11 +1,18 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DLGP_SVDK.Model.Domain.Entities
 {
-    public class TicketStatus
+    public class TicketConfigurationItem
     {
         [Key]
-        public int TicketStatusId { get; set; }
+        public int ConfigurationItemId { get; set; }
+
+        [Required(ErrorMessageResourceName = "FieldRequired")]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        [Display(ResourceType = typeof(String), Name = "ConfigurationItemProject", ShortName = "ConfigurationItemProjectShort")]
+        public int ProjectId { get; set; }
 
         [Required(ErrorMessageResourceName = "FieldRequired")]
         [StringLength(100, ErrorMessageResourceName = "FieldMaximumLength")]
