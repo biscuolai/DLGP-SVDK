@@ -23,7 +23,7 @@ namespace DLGP_SVDK.Web.Api
         }
 
         // GET: api/values
-        [HttpGet("categories")]
+        [HttpGet("category")]
         public JsonResult GetCategory()
         {
             using (var unitOfWork = new UnitOfWork(new ApplicationDbContext()))
@@ -35,7 +35,43 @@ namespace DLGP_SVDK.Web.Api
         }
 
         // GET: api/values
-        [HttpGet("items")]
+        [HttpGet("priority")]
+        public JsonResult GetPriority()
+        {
+            using (var unitOfWork = new UnitOfWork(new ApplicationDbContext()))
+            {
+                // Get all options for Priority field
+                var list = unitOfWork.Priorities.GetPriorityList();
+                return new JsonResult(new { data = list, success = true });
+            }
+        }
+
+        // GET: api/values
+        [HttpGet("contacttype")]
+        public JsonResult GetContactType()
+        {
+            using (var unitOfWork = new UnitOfWork(new ApplicationDbContext()))
+            {
+                // Get all options for Priority field
+                var list = unitOfWork.ContactTypes.GetContactTypeList();
+                return new JsonResult(new { data = list, success = true });
+            }
+        }
+
+        // GET: api/values
+        [HttpGet("ticketstatus")]
+        public JsonResult GetTicketStatus()
+        {
+            using (var unitOfWork = new UnitOfWork(new ApplicationDbContext()))
+            {
+                // Get all options for Priority field
+                var list = unitOfWork.TicketStatuses.GetTicketStatusList();
+                return new JsonResult(new { data = list, success = true });
+            }
+        }
+
+        // GET: api/values
+        [HttpGet("configurationitem")]
         public JsonResult GetConfigItems()
         {
             using (var unitOfWork = new UnitOfWork(new ApplicationDbContext()))

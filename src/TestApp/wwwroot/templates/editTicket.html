@@ -9,7 +9,7 @@
         <div>
             <label for="ticketProject">Project:</label>
             <select name="Project" id="ticketProject" class="form-control" required
-                    ng-options="option.projectName for option in Projects.availableOptions track by option.id"
+                    ng-options="option.projectName for option in Projects.availableOptions track by option.projectId"
                     ng-model="Projects.selectedOption"
                     ng-selected="Ticket.projectId" ng-change="Ticket.projectId = Projects.selectedOption.projectId">
                 <option value="">-- Select a Project --</option>
@@ -24,9 +24,9 @@
         <div>
             <label for="ticketCategory">Category:</label>
             <select name="Category" id="ticketCategory" class="form-control" required
-                    ng-options="option.value for option in Category.availableOptions track by option.id"
+                    ng-options="option.name for option in Category.availableOptions track by option.categoryId"
                     ng-model="Category.selectedOption"
-                    ng-selected="Ticket.categoryId" ng-change="Ticket.categoryId = Category.selectedOption.id">
+                    ng-selected="Ticket.categoryId" ng-change="Ticket.categoryId = Category.selectedOption.categoryId">
                 <option value="">-- Select a Category --</option>
             </select>
         </div>
@@ -34,19 +34,21 @@
         <div>
             <label for="ticketContactType">Contact Type:</label>
             <select name="ContactType" id="ticketContactType" class="form-control" required
-                    ng-options="option.value for option in ContactType.availableOptions track by option.id"
+                    ng-options="option.name for option in ContactType.availableOptions track by option.contactTypeId"
                     ng-model="ContactType.selectedOption"
-                    ng-selected="Ticket.contactTypeId" ng-change="Ticket.contactTypeId = ContactType.selectedOption.id">
+                    ng-selected="Ticket.contactTypeId" ng-change="Ticket.contactTypeId = ContactType.selectedOption.contactTypeId">
+                                                        
                 <option value="">-- Select a Contact Type --</option>
             </select>
+            test contect type: {{ContentType.selectedOption}}
         </div>
 
         <div>
             <label for="ticketConfigurationItem">Configuration Item:</label>
             <select name="ConfigurationItem" id="ticketConfigurationItem" class="form-control" required
-                    ng-options="option.value for option in ConfigurationItem.availableOptions track by option.id"
+                    ng-options="option.name for option in ConfigurationItem.availableOptions track by option.configurationItemId"
                     ng-model="ConfigurationItem.selectedOption"
-                    ng-selected="Ticket.configurationItemId" ng-change="Ticket.configurationItemId = ConfigurationItem.selectedOption.id">
+                    ng-selected="Ticket.configurationItemId" ng-change="Ticket.configurationItemId = ConfigurationItem.selectedOption.configurationItemId">
                 <option value="">-- Select a Configuration Item --</option>
             </select>
             <span ng-show="editTicketForm.ConfigurationItem.$error.required">Please select a configuration item</span>
@@ -55,9 +57,9 @@
         <div>
             <label for="ticketTicketStatus">Ticket Status:</label>
             <select name="TicketStatus" id="ticketTicketStatus" class="form-control" required
-                    ng-options="option.value for option in TicketStatus.availableOptions track by option.id"
+                    ng-options="option.name for option in TicketStatus.availableOptions track by option.ticketStatusId"
                     ng-model="TicketStatus.selectedOption"
-                    ng-selected="Ticket.ticketStatus" ng-change="Ticket.ticketStatus = TicketStatus.selectedOption.id">
+                    ng-selected="Ticket.ticketStatusId" ng-change="Ticket.ticketStatus = TicketStatus.selectedOption.ticketStatusId">
                 <option value="">-- Select a Ticket Status --</option>
             </select>
         </div>
@@ -65,9 +67,9 @@
         <div>
             <label for="ticketPriority">Priority:</label>
             <select name="Priority" id="ticketPriority" class="form-control" required
-                    ng-options="option.value for option in Priority.availableOptions track by option.id"
+                    ng-options="option.name for option in Priority.availableOptions track by option.priorityId"
                     ng-model="Priority.selectedOption"
-                    ng-selected="Ticket.priority" ng-change="Ticket.priority = Priority.selectedOption.id">
+                    ng-selected="Ticket.priorityId" ng-change="Ticket.priority = Priority.selectedOption.priorityId">
                 <option value="">-- Select a Priority --</option>
             </select>
             <span ng-show="editTicketForm.Priority.$error.required">Please select a priotity</span>
@@ -91,7 +93,7 @@
             <select name="AssignedTo" id="ticketAssignedTo" class="form-control" required
                     ng-options="option.userName for option in Users.availableOptions track by option.id"
                     ng-model="Users.selectedOption"
-                    ng-selected="Users.userName" ng-change="Ticket.assignedTo = Users.selectedOption.userName">
+                    ng-selected="Ticket.assignedTo" ng-change="Ticket.assignedTo = Users.selectedOption.id">
                 <option value="">-- Select a Priority --</option>
             </select>
         </div>

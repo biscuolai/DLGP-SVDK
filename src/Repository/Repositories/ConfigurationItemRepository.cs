@@ -12,7 +12,7 @@ namespace DLGP_SVDK.Repository.Repositories
         }
         public IEnumerable<TicketConfigurationItem> GetConfigurationItemList()
         {
-            return ApplicationContext.ConfigurationItems.OrderBy(c => c.Order).ToList();
+            return ApplicationContext.TicketConfigurationItems.OrderBy(c => c.Order).ToList();
         }
 
         public ApplicationDbContext ApplicationContext

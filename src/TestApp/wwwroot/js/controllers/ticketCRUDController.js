@@ -61,14 +61,12 @@
                 $rootScope.pendingTickets = 0;
                 $rootScope.openTickets = 0;
 
-                debugger;
-
                 for (var i = 0; i < $rootScope.Tickets.length; i++){
-                    if ($rootScope.Tickets[i].categoryId === Constants.Category['New']) { $rootScope.newTickets++ }
-                    else if ($rootScope.Tickets[i].categoryId === Constants.Category['Open']) { $rootScope.openTickets++ }
-                    else if ($rootScope.Tickets[i].categoryId === Constants.Category['PendingOnHold']) { $rootScope.onHoldTickets++ }
-                    else if (($rootScope.Tickets[i].categoryId === Constants.Category['PendingOnHold']) ||
-                             ($rootScope.Tickets[i].categoryId === Constants.Category['PendingRFI'])) { $rootScope.pendingTickets++ }
+                    if ($rootScope.Tickets[i].ticketStatusId === Constants.TicketStatus['New']) { $rootScope.newTickets++ }
+                    else if ($rootScope.Tickets[i].ticketStatusId === Constants.TicketStatus['Open']) { $rootScope.openTickets++ }
+                    else if ($rootScope.Tickets[i].ticketStatusId === Constants.TicketStatus['PendingOnHold']) { $rootScope.onHoldTickets++ }
+                    else if (($rootScope.Tickets[i].ticketStatusId === Constants.TicketStatus['PendingOnHold']) ||
+                             ($rootScope.Tickets[i].ticketStatusId === Constants.TicketStatus['PendingRFI'])) { $rootScope.pendingTickets++ }
                 }
             })
             .error(function () {
@@ -79,14 +77,14 @@
         }
 
         function LoadAllDropDownLists(findItems) {
-            $http.get('/api/values/' + Constants.LookupValues['ContactType']).success(function (ContactType) {
+            $http.get('/api/values/contacttype').success(function (ContactType) {
                 $rootScope.ContactType = {
                     availableOptions: ContactType.data,
                     selectedOption: ContactType.data[0]
                 };
 
                 if (findItems === true) {
-                    $rootScope.ContactType.selectedOption = $filter('filter')($rootScope.ContactType.availableOptions, { id: $rootScope.Ticket.contactTypeId })[0];
+                    $rootScope.ContactType.selectedOption = $filter('filter')($rootScope.ContactType.availableOptions, { contactTypeId: $rootScope.Ticket.contactTypeId })[0];
                 }
             })
             .error(function () {
@@ -94,56 +92,56 @@
                 $rootScope.clearAlert();
                 $rootScope.addAlert('An error has occured while loading contact type drop down list!', 'danger');
             });
-            $http.get('/api/values/' + Constants.LookupValues['Category']).success(function (Category) {
+            $http.get('/api/values/category').success(function (Category) {
                 $rootScope.Category = {
                     availableOptions: Category.data,
                     selectedOption: Category.data[0]
                 };
 
                 if (findItems === true) {
-                    $rootScope.Category.selectedOption = $filter('filter')($rootScope.Category.availableOptions, { id: $rootScope.Ticket.categoryId })[0];
+                    $rootScope.Category.selectedOption = $filter('filter')($rootScope.Category.availableOptions, { categoryId: $rootScope.Ticket.categoryId })[0];
                 }
             })
             .error(function () {
                 // show in alerts error message
                 $rootScope.addAlert('An error has occured while loading category drop down list!', 'danger');
             });
-            $http.get('/api/values/' + Constants.LookupValues['ConfigurationItem']).success(function (ConfigurationItem) {
+            $http.get('/api/values/configurationitem').success(function (ConfigurationItem) {
                 $rootScope.ConfigurationItem = {
                     availableOptions: ConfigurationItem.data,
                     selectedOption: ConfigurationItem.data[0]
                 };
 
                 if (findItems === true) {
-                    $rootScope.ConfigurationItem.selectedOption = $filter('filter')($rootScope.ConfigurationItem.availableOptions, { id: $rootScope.Ticket.configurationItemId })[0];
+                    $rootScope.ConfigurationItem.selectedOption = $filter('filter')($rootScope.ConfigurationItem.availableOptions, { configurationItemId: $rootScope.Ticket.configurationItemId })[0];
                 }
             })
             .error(function () {
                 // show in alerts error message
                 $rootScope.addAlert('An error has occured while loading configuration item drop down list!', 'danger');
             });
-            $http.get('/api/values/' + Constants.LookupValues['TicketStatus']).success(function (TicketStatus) {
+            $http.get('/api/values/ticketstatus').success(function (TicketStatus) {
                 $rootScope.TicketStatus = {
                     availableOptions: TicketStatus.data,
                     selectedOption: TicketStatus.data[0]
                 };
 
                 if (findItems === true) {
-                    $rootScope.TicketStatus.selectedOption = $filter('filter')($rootScope.TicketStatus.availableOptions, { id: $rootScope.Ticket.ticketStatusId })[0];
+                    $rootScope.TicketStatus.selectedOption = $filter('filter')($rootScope.TicketStatus.availableOptions, { ticketStatusId: $rootScope.Ticket.ticketStatusId })[0];
                 }
             })
             .error(function () {
                 // show in alerts error message
                 $rootScope.addAlert('An error has occured while loading ticket status drop down list!', 'danger');
             });
-            $http.get('/api/values/' + Constants.LookupValues['Priority']).success(function (Priority) {
+            $http.get('/api/values/priority').success(function (Priority) {
                 $rootScope.Priority = {
                     availableOptions: Priority.data,
                     selectedOption: Priority.data[0]
                 };
 
                 if (findItems === true) {
-                    $rootScope.Priority.selectedOption = $filter('filter')($rootScope.Priority.availableOptions, { id: $rootScope.Ticket.priorityId })[0];
+                    $rootScope.Priority.selectedOption = $filter('filter')($rootScope.Priority.availableOptions, { priorityId: $rootScope.Ticket.priorityId })[0];
                 }
             })
             .error(function () {
@@ -169,7 +167,7 @@
                     selectedOption: User.data[0]
                 };
                 if (findItems === true) {
-                    $rootScope.Users.selectedOption = $filter('filter')($rootScope.Users.availableOptions, { userName: $rootScope.Ticket.assignedTo })[0];
+                    $rootScope.Users.selectedOption = $filter('filter')($rootScope.Users.availableOptions, { id: $rootScope.Ticket.assignedTo })[0];
                 }
             })
             .error(function () {
@@ -232,12 +230,12 @@
 
             // read fresh data from all dropdownlists
             Ticket.projectId = $rootScope.Projects.selectedOption.projectId;
-            Ticket.contactTypeId = $rootScope.ContactType.selectedOption.id;
-            Ticket.categoryId = $rootScope.Category.selectedOption.id;
-            Ticket.configurationItemId = $rootScope.ConfigurationItem.selectedOption.id;
-            Ticket.ticketStatusId = $rootScope.TicketStatus.selectedOption.id;
-            Ticket.priorityId = $rootScope.Priority.selectedOption.id;
-            Ticket.assignedTo = $rootScope.Users.selectedOption.userName;
+            Ticket.contactTypeId = $rootScope.ContactType.selectedOption.contactTypeId;
+            Ticket.categoryId = $rootScope.Category.selectedOption.categoryId;
+            Ticket.configurationItemId = $rootScope.ConfigurationItem.selectedOption.configurationItemId;
+            Ticket.ticketStatusId = $rootScope.TicketStatus.selectedOption.ticketStatusId;
+            Ticket.priorityId = $rootScope.Priority.selectedOption.priorityId;
+            Ticket.assignedTo = $rootScope.Users.selectedOption.id;
 
             $http.put('/api/tickets/' + Ticket.ticketId, Ticket).success(function (data) {
                 GetAllTickets();
@@ -260,12 +258,12 @@
             if (Ticket !== undefined) {
                 // read fresh data from all dropdownlists
                 Ticket.projectId = $rootScope.Projects.selectedOption.projectId;
-                Ticket.contactTypeId = $rootScope.ContactType.selectedOption.id;
-                Ticket.categoryId = $rootScope.Category.selectedOption.id;
-                Ticket.configurationItemId = $rootScope.ConfigurationItem.selectedOption.id;
-                Ticket.ticketStatusId = $rootScope.TicketStatus.selectedOption.id;
-                Ticket.priorityId = $rootScope.Priority.selectedOption.id;
-                Ticket.assignedTo = $rootScope.Users.selectedOption.userName;
+                Ticket.contactTypeId = $rootScope.ContactType.selectedOption.contactTypeId;
+                Ticket.categoryId = $rootScope.Category.selectedOption.categoryId;
+                Ticket.configurationItemId = $rootScope.ConfigurationItem.selectedOption.configurationItemId;
+                Ticket.ticketStatusId = $rootScope.TicketStatus.selectedOption.ticketStatusId;
+                Ticket.priorityId = $rootScope.Priority.selectedOption.priorityId;
+                Ticket.assignedTo = $rootScope.Users.selectedOption.id;
                 Ticket.createdBy = "System";
                 Ticket.createdDate = new Date();
                 Ticket.currentStatusDate = new Date();

@@ -5,14 +5,14 @@ using System.Linq;
 
 namespace DLGP_SVDK.Repository.Repositories
 {
-    public class CategoryRepository : Repository<TicketCategory>, ICategoryRepository
+    public class PriorityRepository : Repository<TicketPriority>, IPriorityRepository
     {
-        public CategoryRepository(ApplicationDbContext context) : base(context)
+        public PriorityRepository(ApplicationDbContext context) : base(context)
         {
         }
-        public IEnumerable<TicketCategory> GetCategoryList()
+        public IEnumerable<TicketPriority> GetPriorityList()
         {
-            return ApplicationContext.TicketCategories.OrderBy(c => c.Order).ToList();
+            return ApplicationContext.TicketPriotiries.OrderBy(c => c.Order).ToList();
         }
 
         public ApplicationDbContext ApplicationContext

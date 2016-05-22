@@ -18,7 +18,7 @@ namespace DLGP_SVDK.Repository.Repositories
                 .Include(c => c.Status)
                 .Include(c => c.ContactType)
                 .Include(c => c.Priority)
-                .Include(c => c.Category).OrderByDescending(c => c.Priority).Take(count).ToList();
+                .Include(c => c.Category).ToList();
                 //.OrderByDescending(c => c.Priority).Take(count)
                 //.Include(l => l.LookupValues.Where(x => x.Id == l.CategoryId && x.Active == true && x.LookupType == LookupValueType.Category)
                 //.ToList());

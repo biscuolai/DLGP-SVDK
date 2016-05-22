@@ -9,14 +9,14 @@
             TicketStatus: 3,
             Priority: 4
         },
-        Category: {
-            New: 0,
-            Open: 1,
-            PendingRFI: 2,
-            PendingOnHold: 3,
-            Resolved: 4,
-            Cancelled: 5,
-            Closed: 6
+        TicketStatus: {
+            New: 1,
+            Open: 2,
+            PendingRFI: 3,
+            PendingOnHold: 4,
+            Resolved: 5,
+            Cancelled: 6,
+            Closed: 7
         }
     }); 
 })();

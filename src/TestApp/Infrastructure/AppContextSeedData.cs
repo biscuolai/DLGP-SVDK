@@ -66,21 +66,21 @@ namespace DLGP_SVDK.Infrastructure
                 }
 
                 // Add a new ticket and assign to that project
-                if (!_context.ConfigurationItems.Any())
+                if (!_context.TicketConfigurationItems.Any())
                 {
                     var ci = new TicketConfigurationItem();
                     ci.Active = true;
                     ci.Name = "Service Desk";
                     ci.Order = 0;
                     ci.ProjectId = 1;
-                    _context.ConfigurationItems.Add(ci);
+                    _context.TicketConfigurationItems.Add(ci);
 
                     // save changes
                     _context.SaveChanges();
                 }
 
                 // Add a new ticket and assign to that project
-                if (!_context.Categories.Any())
+                if (!_context.TicketCategories.Any())
                 {
                     var cat = new List<TicketCategory>() {
                         new TicketCategory() { Active = true, Order = 0, Name = "Bug" },
@@ -88,14 +88,14 @@ namespace DLGP_SVDK.Infrastructure
                         new TicketCategory() { Active = true, Order = 2, Name = "Request For Information" },
                     };
 
-                    _context.Categories.AddRange(cat);
+                    _context.TicketCategories.AddRange(cat);
 
                     // save changes
                     _context.SaveChanges();
                 }
 
                 // Add a new ticket and assign to that project
-                if (!_context.ContactTypes.Any())
+                if (!_context.TicketContactTypes.Any())
                 {
                     var ct = new List<TicketContactType>() {
                         new TicketContactType() { Active = true, Order = 0, Name = "Portal" },
@@ -103,14 +103,14 @@ namespace DLGP_SVDK.Infrastructure
                         new TicketContactType() { Active = true, Order = 2, Name = "Phone" }
                     };
 
-                    _context.ContactTypes.AddRange(ct);
+                    _context.TicketContactTypes.AddRange(ct);
 
                     // save changes
                     _context.SaveChanges();
                 }
 
                 // Add a new ticket and assign to that project
-                if (!_context.Priotiries.Any())
+                if (!_context.TicketPriotiries.Any())
                 {
                     var p = new List<TicketPriority>() {
                         new TicketPriority() { Active = true, Order = 0, Name = "1 - Critical" },
@@ -119,14 +119,14 @@ namespace DLGP_SVDK.Infrastructure
                         new TicketPriority() { Active = true, Order = 3, Name = "4 - Low" }
                     };
 
-                    _context.Priotiries.AddRange(p);
+                    _context.TicketPriotiries.AddRange(p);
 
                     // save changes
                     _context.SaveChanges();
                 }
 
                 // Add a new ticket and assign to that project
-                if (!_context.Statuses.Any())
+                if (!_context.TicketStatuses.Any())
                 {
                     var p = new List<TicketStatus>() {
                         new TicketStatus() { Active = true, Order = 0, Name = "New" },
@@ -138,7 +138,7 @@ namespace DLGP_SVDK.Infrastructure
                         new TicketStatus() { Active = true, Order = 6, Name = "Closed" }
                     };
 
-                    _context.Statuses.AddRange(p);
+                    _context.TicketStatuses.AddRange(p);
 
                     // save changes
                     _context.SaveChanges();

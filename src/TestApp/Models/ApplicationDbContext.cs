@@ -13,11 +13,11 @@ namespace DLGP_SVDK.Models
         public DbSet<TicketSubscriber> TicketSubscribers { get; set; }
         public DbSet<TicketTag> TicketTags { get; set; }
         public DbSet<LookupValue> LookupValues { get; set; }
-        public DbSet<TicketConfigurationItem> ConfigurationItems { get; set; }
-        public DbSet<TicketCategory> Categories { get; set; }
-        public DbSet<TicketContactType> ContactTypes { get; set; }
-        public DbSet<TicketPriority> Priotiries { get; set; }
-        public DbSet<TicketStatus> Statuses { get; set; }
+        public DbSet<TicketConfigurationItem> TicketConfigurationItems { get; set; }
+        public DbSet<TicketCategory> TicketCategories { get; set; }
+        public DbSet<TicketContactType> TicketContactTypes { get; set; }
+        public DbSet<TicketPriority> TicketPriotiries { get; set; }
+        public DbSet<TicketStatus> TicketStatuses { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
