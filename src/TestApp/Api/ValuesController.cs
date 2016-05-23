@@ -10,17 +10,17 @@ namespace DLGP_SVDK.Web.Api
     [Route("api/values")]
     public class ValuesController : Controller
     {
-        // GET: api/values
-        [HttpGet("{id}")]
-        public JsonResult Get(int id)
-        {
-            using (var unitOfWork = new UnitOfWork(new ApplicationDbContext()))
-            {
-                // Get all options for Priority field
-                var priorityList = unitOfWork.LookupValues.GetLookupValueList((LookupValueType)id);
-                return new JsonResult(new { data = priorityList, success = true });
-            }
-        }
+        //// GET: api/values
+        //[HttpGet("{id}")]
+        //public JsonResult Get(int id)
+        //{
+        //    using (var unitOfWork = new UnitOfWork(new ApplicationDbContext()))
+        //    {
+        //        // Get all options for Priority field
+        //        var priorityList = unitOfWork.LookupValues.GetLookupValueList((LookupValueType)id);
+        //        return new JsonResult(new { data = priorityList, success = true });
+        //    }
+        //}
 
         // GET: api/values
         [HttpGet("category")]

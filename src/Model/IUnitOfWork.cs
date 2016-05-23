@@ -6,7 +6,6 @@ namespace DLGP_SVDK.Repository
     {
         IProjectRepository Projects { get; }
         ITicketRepository Tickets { get; }
-        ILookupValueRepository LookupValues { get; }
         ICategoryRepository Categories { get; }
         IConfigurationItemRepository ConfigurationItems { get; }
         IContactTypeRepository ContactTypes { get; }

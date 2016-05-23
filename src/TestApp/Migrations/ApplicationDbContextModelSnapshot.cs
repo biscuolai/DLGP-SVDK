@@ -16,24 +16,6 @@ namespace TestApp.Migrations
                 .HasAnnotation("ProductVersion", "7.0.0-rc1-16348")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("DLGP_SVDK.Model.Domain.Entities.LookupValue", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<bool>("Active");
-
-                    b.Property<int>("LookupType");
-
-                    b.Property<int>("Order");
-
-                    b.Property<string>("Value")
-                        .IsRequired()
-                        .HasAnnotation("MaxLength", 100);
-
-                    b.HasKey("Id");
-                });
-
             modelBuilder.Entity("DLGP_SVDK.Model.Domain.Entities.Project", b =>
                 {
                     b.Property<int>("ProjectId")

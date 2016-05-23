@@ -10,21 +10,6 @@ namespace TestApp.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "LookupValue",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Active = table.Column<bool>(nullable: false),
-                    LookupType = table.Column<int>(nullable: false),
-                    Order = table.Column<int>(nullable: false),
-                    Value = table.Column<string>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_LookupValue", x => x.Id);
-                });
-            migrationBuilder.CreateTable(
                 name: "Project",
                 columns: table => new
                 {
@@ -398,7 +383,6 @@ namespace TestApp.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable("LookupValue");
             migrationBuilder.DropTable("TicketEventNotification");
             migrationBuilder.DropTable("TicketTag");
             migrationBuilder.DropTable("AspNetRoleClaims");

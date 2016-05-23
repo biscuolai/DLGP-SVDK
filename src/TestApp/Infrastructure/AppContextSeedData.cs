@@ -174,36 +174,36 @@ namespace DLGP_SVDK.Infrastructure
                 }
 
                 // Add LookupValue data
-                if (!_context.LookupValues.Any())
-                {
-                    List<LookupValue> LV = new List<LookupValue>()
-                    {
-                        new LookupValue() { Active = true, LookupType = LookupValueType.Category, Order = 0, Value = "Bug" },
-                        new LookupValue() { Active = true, LookupType = LookupValueType.Category, Order = 1, Value = "Enhancement" },
-                        new LookupValue() { Active = true, LookupType = LookupValueType.Category, Order = 2, Value = "Request For Information" },
-                        new LookupValue() { Active = true, LookupType = LookupValueType.ConfigurationItem, Order = 0, Value = "Service Desk" },
-                        new LookupValue() { Active = true, LookupType = LookupValueType.ConfigurationItem, Order = 1, Value = "VRAT" },
-                        new LookupValue() { Active = true, LookupType = LookupValueType.ContactType, Order = 0, Value = "Portal" },
-                        new LookupValue() { Active = true, LookupType = LookupValueType.ContactType, Order = 1, Value = "Email" },
-                        new LookupValue() { Active = true, LookupType = LookupValueType.ContactType, Order = 2, Value = "Phone" },
-                        new LookupValue() { Active = true, LookupType = LookupValueType.Priority, Order = 0, Value = "1 - Critical" },
-                        new LookupValue() { Active = true, LookupType = LookupValueType.Priority, Order = 1, Value = "2 - High" },
-                        new LookupValue() { Active = true, LookupType = LookupValueType.Priority, Order = 2, Value = "3 - Medium" },
-                        new LookupValue() { Active = true, LookupType = LookupValueType.Priority, Order = 3, Value = "4 - Low" },
-                        new LookupValue() { Active = true, LookupType = LookupValueType.TicketStatus, Order = 0, Value = "New" },
-                        new LookupValue() { Active = true, LookupType = LookupValueType.TicketStatus, Order = 1, Value = "Open" },
-                        new LookupValue() { Active = true, LookupType = LookupValueType.TicketStatus, Order = 2, Value = "Pending - Request for Information" },
-                        new LookupValue() { Active = true, LookupType = LookupValueType.TicketStatus, Order = 3, Value = "Pending - On Hold" },
-                        new LookupValue() { Active = true, LookupType = LookupValueType.TicketStatus, Order = 4, Value = "Resolved" },
-                        new LookupValue() { Active = true, LookupType = LookupValueType.TicketStatus, Order = 5, Value = "Cancelled" },
-                        new LookupValue() { Active = true, LookupType = LookupValueType.TicketStatus, Order = 6, Value = "Closed" }
-                    };
+                //if (!_context.LookupValues.Any())
+                //{
+                //    List<LookupValue> LV = new List<LookupValue>()
+                //    {
+                //        new LookupValue() { Active = true, LookupType = LookupValueType.Category, Order = 0, Value = "Bug" },
+                //        new LookupValue() { Active = true, LookupType = LookupValueType.Category, Order = 1, Value = "Enhancement" },
+                //        new LookupValue() { Active = true, LookupType = LookupValueType.Category, Order = 2, Value = "Request For Information" },
+                //        new LookupValue() { Active = true, LookupType = LookupValueType.ConfigurationItem, Order = 0, Value = "Service Desk" },
+                //        new LookupValue() { Active = true, LookupType = LookupValueType.ConfigurationItem, Order = 1, Value = "VRAT" },
+                //        new LookupValue() { Active = true, LookupType = LookupValueType.ContactType, Order = 0, Value = "Portal" },
+                //        new LookupValue() { Active = true, LookupType = LookupValueType.ContactType, Order = 1, Value = "Email" },
+                //        new LookupValue() { Active = true, LookupType = LookupValueType.ContactType, Order = 2, Value = "Phone" },
+                //        new LookupValue() { Active = true, LookupType = LookupValueType.Priority, Order = 0, Value = "1 - Critical" },
+                //        new LookupValue() { Active = true, LookupType = LookupValueType.Priority, Order = 1, Value = "2 - High" },
+                //        new LookupValue() { Active = true, LookupType = LookupValueType.Priority, Order = 2, Value = "3 - Medium" },
+                //        new LookupValue() { Active = true, LookupType = LookupValueType.Priority, Order = 3, Value = "4 - Low" },
+                //        new LookupValue() { Active = true, LookupType = LookupValueType.TicketStatus, Order = 0, Value = "New" },
+                //        new LookupValue() { Active = true, LookupType = LookupValueType.TicketStatus, Order = 1, Value = "Open" },
+                //        new LookupValue() { Active = true, LookupType = LookupValueType.TicketStatus, Order = 2, Value = "Pending - Request for Information" },
+                //        new LookupValue() { Active = true, LookupType = LookupValueType.TicketStatus, Order = 3, Value = "Pending - On Hold" },
+                //        new LookupValue() { Active = true, LookupType = LookupValueType.TicketStatus, Order = 4, Value = "Resolved" },
+                //        new LookupValue() { Active = true, LookupType = LookupValueType.TicketStatus, Order = 5, Value = "Cancelled" },
+                //        new LookupValue() { Active = true, LookupType = LookupValueType.TicketStatus, Order = 6, Value = "Closed" }
+                //    };
 
-                    _context.LookupValues.AddRange(LV);
+                //    _context.LookupValues.AddRange(LV);
 
-                    // save changes
-                    _context.SaveChanges();
-                }
+                //    // save changes
+                //    _context.SaveChanges();
+                //}
             }
             catch (Exception ex)
             {
