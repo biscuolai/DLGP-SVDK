@@ -1,5 +1,5 @@
 ﻿<div class="row" ng-controller="pipeCtrl as mc">
-    <table class="table" st-pipe="mc.callServer" st-table="mc.displayed">
+    <table st-pipe="mc.callServer" st-table="mc.displayed" st-set-filter="myStrictFilter" class="table table-striped">
         <thead>
             <tr>
                 <th st-sort="ticketId">id</th>
@@ -8,8 +8,14 @@
                 <th st-sort="title">title</th>
             </tr>
             <tr>
-                <th><input id="searchTicket" st-search="ticketId" placeholder="search for id" class="input-sm form-control" type="search" /></th>
-                <th><input st-search="status.name" placeholder="search for ticket status" class="input-sm form-control" type="search"/></th>
+                <th><input st-search="ticketId" placeholder="search for id" class="input-sm form-control" type="search" /></th>
+                <!--<th><input st-search="status.name" placeholder="search for ticket status" class="input-sm form-control" type="search"/></th>-->
+                <th>
+                    <select st-search="status.name">
+                        <option value="">All</option>
+                        <option ng-repeat="row in mc.displayed | unique:'status.name'" value="{{row.status.name}}">{{row.status.name}}</option>
+                    </select>
+                </th>
                 <th><input st-search="project.projectName" placeholder="search for project name" class="input-sm form-control" type="search"/></th>
                 <th><input st-search="title" placeholder="search for ticket title" class="input-sm form-control" type="search"/></th>
             </tr>
