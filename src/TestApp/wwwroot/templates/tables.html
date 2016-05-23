@@ -1,76 +1,36 @@
-﻿<div class="row">
-    <div class="col-lg-6">
-        <app-widget>
-            <app-widget-header icon="fa-tasks" title="Tickets">
-                <button class="btn btn-sm btn-info">Manage</button>
-            </app-widget-header>
-            <app-widget-body classes="medium no-padding">
-                <div class="table-responsive">
-                    <table class="table">
-                        <tbody>
-                            <tr><td>RDVMPC001</td><td>238.103.133.37</td><td><span class="text-success"><i class="fa fa-check"></i></span></td></tr>
-                            <tr><td>RDVMPC002</td><td>68.66.63.170</td><td><span class="text-success"><i class="fa fa-check"></i></span></td></tr>
-                            <tr><td>RDVMPC003</td><td>76.117.212.33</td><td><span tooltip="Server Down!" class="text-danger"><i class="fa fa-warning"></i></span></td></tr>
-                            <tr><td>RDPHPC001</td><td>91.88.224.5</td><td><span class="text-success"><i class="fa fa-check"></i></span></td></tr>
-                            <tr><td>RDESX001</td><td>197.188.15.93</td><td><span class="text-success"><i class="fa fa-check"></i></span></td></tr>
-                            <tr><td>RDESX002</td><td>168.85.154.251</td><td><span class="text-success"><i class="fa fa-check"></i></span></td></tr>
-                            <tr><td>RDESX003</td><td>209.25.191.61</td><td><span tooltip="Server Down!" class="text-danger"><i class="fa fa-warning"></i></span></td></tr>
-                            <tr><td>RDESX004</td><td>252.37.192.235</td><td><span class="text-success"><i class="fa fa-check"></i></span></td></tr>
-                            <tr><td>RDTerminal01</td><td>139.71.18.207</td><td><span class="text-success"><i class="fa fa-check"></i></span></td></tr>
-                            <tr><td>RDTerminal02</td><td>136.80.122.212</td><td><span tooltip="Could not connect!" class="text-warning"><i class="fa fa-flash"></i></span></td></tr>
-                            <tr><td>RDDomainCont01</td><td>196.80.245.33</td><td><span class="text-success"><i class="fa fa-check"></i></span></td></tr>
-                        </tbody>
-                    </table>
-                </div>
-            </app-widget-body>
-            <app-widget-footer>
-                <ul class="pagination pagination-sm pull-right">
-                    <li><a href="#">&laquo;</a></li>
-                    <li><a href="#">1</a></li>
-                    <li><a href="#">2</a></li>
-                    <li><a href="#">3</a></li>
-                    <li><a href="#">4</a></li>
-                    <li><a href="#">5</a></li>
-                    <li><a href="#">&raquo;</a></li>
-                </ul>
-                <div class="clearfix"></div>
-            </app-widget-footer>
-        </app-widget>
-    </div>
-    <div class="col-lg-6">
-        <app-widget>
-            <app-widget-header icon="fa-tasks" title="Striped Servers">
-                <button class="btn btn-sm btn-info">Manage</button>
-            </app-widget-header>
-            <app-widget-body classes="medium no-padding">
-                <div class="table-responsive">
-                    <table class="table table-striped">
-                        <tbody>
-                            <tr><td>RDVMPC001</td><td>238.103.133.37</td><td><span class="text-success"><i class="fa fa-check"></i></span></td></tr>
-                            <tr><td>RDVMPC002</td><td>68.66.63.170</td><td><span class="text-success"><i class="fa fa-check"></i></span></td></tr>
-                            <tr><td>RDVMPC003</td><td>76.117.212.33</td><td><span tooltip="Server Down!" class="text-danger"><i class="fa fa-warning"></i></span></td></tr>
-                            <tr><td>RDPHPC001</td><td>91.88.224.5</td><td><span class="text-success"><i class="fa fa-check"></i></span></td></tr>
-                            <tr><td>RDESX001</td><td>197.188.15.93</td><td><span class="text-success"><i class="fa fa-check"></i></span></td></tr>
-                            <tr><td>RDESX002</td><td>168.85.154.251</td><td><span class="text-success"><i class="fa fa-check"></i></span></td></tr>
-                            <tr><td>RDESX003</td><td>209.25.191.61</td><td><span tooltip="Server Down!" class="text-danger"><i class="fa fa-warning"></i></span></td></tr>
-                            <tr><td>RDESX004</td><td>252.37.192.235</td><td><span class="text-success"><i class="fa fa-check"></i></span></td></tr>
-                            <tr><td>RDTerminal01</td><td>139.71.18.207</td><td><span class="text-success"><i class="fa fa-check"></i></span></td></tr>
-                            <tr><td>RDTerminal02</td><td>136.80.122.212</td><td><span tooltip="Could not connect!" class="text-warning"><i class="fa fa-flash"></i></span></td></tr>
-                            <tr><td>RDDomainCont01</td><td>196.80.245.33</td><td><span class="text-success"><i class="fa fa-check"></i></span></td></tr>
-                        </tbody>
-                    </table>
-                </div>
-            </app-widget-body>
-            <app-widget-footer>
-                <ul class="pagination pagination-sm pull-right">
-                    <li><a href="#">&laquo;</a></li>
-                    <li><a href="#">1</a></li>
-                    <li><a href="#">2</a></li>
-                    <li><a href="#">3</a></li>
-                    <li><a href="#">&raquo;</a></li>
-                </ul>
-                <div class="clearfix"></div>
-            </app-widget-footer>
-        </app-widget>
-    </div>
+﻿<div class="row" ng-controller="pipeCtrl as mc">
+    <table class="table" st-pipe="mc.callServer" st-table="mc.displayed">
+        <thead>
+            <tr>
+                <th st-sort="ticketId">id</th>
+                <th st-sort="status.name">name</th>
+                <th st-sort="project.projectName">project</th>
+                <th st-sort="title">title</th>
+            </tr>
+            <tr>
+                <th><input id="searchTicket" st-search="ticketId" placeholder="search for id" class="input-sm form-control" type="search" /></th>
+                <th><input st-search="status.name" placeholder="search for ticket status" class="input-sm form-control" type="search"/></th>
+                <th><input st-search="project.projectName" placeholder="search for project name" class="input-sm form-control" type="search"/></th>
+                <th><input st-search="title" placeholder="search for ticket title" class="input-sm form-control" type="search"/></th>
+            </tr>
+        </thead>
+        <tbody ng-show="!mc.isLoading">
+            <tr ng-repeat="row in mc.displayed">
+                <td>{{row.ticketId}}</td>
+                <td>{{row.status.name}}</td>
+                <td>{{row.project.projectName}}</td>
+                <td>{{row.title}}</td>
+            </tr>
+        </tbody>
+        <tbody ng-show="mc.isLoading">
+            <tr>
+                <td colspan="4" class="text-center"><app-loading ng-show="mc.isLoading"></app-loading></td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td class="text-center" st-pagination="" st-items-by-page="10" colspan="4"></td>
+            </tr>
+        </tfoot>
+    </table>	
 </div>

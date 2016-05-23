@@ -110,7 +110,7 @@ namespace DLGP_SVDK.Infrastructure
                 }
 
                 // Add a new ticket and assign to that project
-                if (!_context.TicketPriotiries.Any())
+                if (!_context.TicketPriorities.Any())
                 {
                     var p = new List<TicketPriority>() {
                         new TicketPriority() { Active = true, Order = 0, Name = "1 - Critical" },
@@ -119,7 +119,7 @@ namespace DLGP_SVDK.Infrastructure
                         new TicketPriority() { Active = true, Order = 3, Name = "4 - Low" }
                     };
 
-                    _context.TicketPriotiries.AddRange(p);
+                    _context.TicketPriorities.AddRange(p);
 
                     // save changes
                     _context.SaveChanges();

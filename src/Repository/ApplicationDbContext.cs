@@ -20,7 +20,7 @@ namespace DLGP_SVDK.Repository
         public DbSet<TicketConfigurationItem> TicketConfigurationItems { get; set; }
         public DbSet<TicketCategory> TicketCategories { get; set; }
         public DbSet<TicketContactType> TicketContactTypes { get; set; }
-        public DbSet<TicketPriority> TicketPriotiries { get; set; }
+        public DbSet<TicketPriority> TicketPriorities { get; set; }
         public DbSet<TicketStatus> TicketStatuses { get; set; }
     }
 }

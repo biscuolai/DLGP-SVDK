@@ -157,7 +157,7 @@
     width: 40px;
     height: 40px;
     position: relative;
-    margin: 100px auto;
+    margin: auto;
 }
 
 .double-bounce1, .double-bounce2 {
@@ -637,4 +637,17 @@ ul.sidebar {
 .dialogLogo {
     padding-top: 10px;
     padding-right: 30px;
+}
+
+.st-sort-ascent:before{
+    content: '\25B2';
+}
+
+.st-sort-descent:before{
+    content: '\25BC';
+}
+
+.st-selected{
+    background: #216eff !important;
+    color: white !important;
 }

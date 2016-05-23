@@ -58,7 +58,7 @@
                 <div class="input-group">
                     <input type="text" class="form-control" placeholder="Search a ticket" ng-model="searchTicket" />
                     <div class="input-group-btn">
-                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Action <span class="caret"></span></button>
+                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Go <span class="caret"></span></button>
                         <ul class="dropdown-menu">
                             <li><a href="#">Create new ticket</a></li>
                             <li><a href="#">My tickets</a></li>
@@ -96,7 +96,7 @@
                                 </td>
                                 <td>
                                     <a href="#" ng-click="sortType = 'ProjectId'; sortReverse = !sortReverse">
-                                        <strong>Project ID</strong>
+                                        <strong>Project</strong>
                                         <span ng-show="sortType == 'ProjectId' && !sortReverse" class="fa fa-caret-down"></span>
                                         <span ng-show="sortType == 'ProjectId' && sortReverse" class="fa fa-caret-up"></span>
                                     </a>
@@ -110,7 +110,7 @@
                                 </td>
                                 <td>
                                     <a href="#" ng-click="sortType = 'Category'; sortReverse = !sortReverse">
-                                        <strong>Category</strong>
+                                        <strong>Request Type</strong>
                                         <span ng-show="sortType == 'Category' && !sortReverse" class="fa fa-caret-down"></span>
                                         <span ng-show="sortType == 'Category' && sortReverse" class="fa fa-caret-up"></span>
                                     </a>
@@ -150,7 +150,7 @@
                                 <td><a style="font-weight:bold;" href="#/editTicket?action=edit&amp;id={{ticket.ticketId}}">{{ticket.ticketId}}</a></td>
                                 <td>{{ ticket.status.name }}</td>
                                 <td>{{ ticket.project.projectName }}</td>
-                                <td>{{ ticket.title }}</td>
+                                <td><a style="font-weight:bold;" href="#/editTicket?action=edit&amp;id={{ticket.ticketId}}">{{ ticket.title }}</a></td>
                                 <td>{{ ticket.category.name }}</td>
                                 <td>{{ ticket.configurationItem.name }}</td>
                                 <td>{{ ticket.priority.name }}</td>

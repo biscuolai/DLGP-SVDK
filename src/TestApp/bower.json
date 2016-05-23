@@ -3,6 +3,7 @@
   "private": true,
   "dependencies": {
     "angular": "1.*",
+    "angular-smart-table": "2.1.8",
     "angular-bootstrap": "*",
     "angular-chart.js": "0.9.0",
     "angular-cookies": "1.5.3",

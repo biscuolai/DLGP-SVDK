@@ -12,7 +12,7 @@ namespace DLGP_SVDK.Repository.Repositories
         }
         public IEnumerable<TicketPriority> GetPriorityList()
         {
-            return ApplicationContext.TicketPriotiries.OrderBy(c => c.Order).ToList();
+            return ApplicationContext.TicketPriorities.OrderBy(c => c.Order).ToList();
         }
 
         public ApplicationDbContext ApplicationContext
