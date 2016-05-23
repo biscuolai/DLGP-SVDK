@@ -1,5 +1,5 @@
 ﻿<div class="row" ng-controller="pipeCtrl as mc">
-    <table st-pipe="mc.callServer" st-table="mc.displayed" st-set-filter="myStrictFilter" class="table table-striped">
+    <table st-pipe="mc.callServer" st-table="mc.displayed" st-set-filter="datagridFilter" class="table table-striped">
         <thead>
             <tr>
                 <th st-sort="ticketId">id</th>
@@ -11,7 +11,7 @@
                 <th><input st-search="ticketId" placeholder="search for id" class="input-sm form-control" type="search" /></th>
                 <!--<th><input st-search="status.name" placeholder="search for ticket status" class="input-sm form-control" type="search"/></th>-->
                 <th>
-                    <select st-search="status.name">
+                    <select st-search="status.name" class="input-sm form-control">
                         <option value="">All</option>
                         <option ng-repeat="row in mc.displayed | unique:'status.name'" value="{{row.status.name}}">{{row.status.name}}</option>
                     </select>

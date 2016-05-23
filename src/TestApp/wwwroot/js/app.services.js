@@ -13,8 +13,6 @@
         //To Get all Ticket records  
         function GetAllTickets() {
 
-            debugger;
-
             $http.get('/api/tickets').success(function (Ticket) {
                 randomsItems = Ticket.data;
             })

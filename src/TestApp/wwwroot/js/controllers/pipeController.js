@@ -25,20 +25,31 @@
                 });
             };
         }])
-        .filter('myStrictFilter', function ($filter) {
+        .filter('datagridFilter', function ($filter) {
             return function (input, predicate) {
                 return $filter('filter')(input, predicate, true);
             }
         })
         .filter('unique', function () {
             return function (arr, field) {
-                var o = {}, i, l = arr.length, r = [];
-                for (i = 0; i < l; i += 1) {
-                    o[arr[i][field]] = arr[i];
+                var o = {}, i, l = arr.length, r = [], property = '', subProperty = '';
+                if (field.indexOf('.') != -1) {
+                    var res = field.split('.');
+                    property = res[0];
+                    subProperty = res[1];
+                }
+                for (i = 0; i < l; i++) {
+                    if (property !== '') {
+                        o[arr[i][property][subProperty]] = arr[i];
+                    }
+                    else {
+                        o[arr[i][field]] = arr[i];
+                    }
                 }
                 for (i in o) {
                     r.push(o[i]);
                 }
+
                 return r;
             };
         });
