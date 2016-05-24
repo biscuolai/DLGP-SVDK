@@ -18,6 +18,11 @@
             </app-widget-header>
             <app-widget-body classes="medium no-padding">
                 <div>
+                    <!--<label>query</label>
+                    <input class="form-control" ng-model="vm.query" placeholder="global search ..." type="text" />
+                    <button class="btn btn-primary" ng-click="vm.submitSearch(vm.query)">Submit</button>
+                    {{vm.query}}-->
+
                     <table st-pipe="vm.callServer" st-table="vm.displayed" class="table table-striped table-hover">
                         <!--st-set-filter="datagridFilter"-->
                         <thead>
@@ -29,7 +34,7 @@
                             </tr>
                             <tr>
                                 <th><input st-search="ticketId" placeholder="search for id" class="input-sm form-control" type="search" /></th>
-                                <th><input st-search="{{vm.selectedPredicate}}" placeholder="search for ticket status" class="input-sm form-control" type="search" ng-model="vm.selectedPredicateValue" /></th>
+                                <th><input st-search="status.name" placeholder="search for ticket status" class="input-sm form-control" type="search"/></th>
                                 <!--<th>
                                     <select st-search="status.name" class="input-sm form-control">
                                         <option ng-repeat="row in vm.displayed | unique:'status.name'"
@@ -45,7 +50,8 @@
                             </tr>
                         </thead>
                         <tbody ng-show="!vm.isLoading">
-                            <tr ng-repeat="row in vm.displayed">
+                            {{vm.queryResponse}}
+                            <tr ng-repeat="row in vm.displayed | filter: { status : { name: vm.queryResponse} }">
                                 <td>{{row.ticketId}}</td>
                                 <td>{{row.status.name}}</td>
                                 <td>{{row.project.projectName}}</td>
