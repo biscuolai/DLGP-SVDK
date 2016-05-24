@@ -6,7 +6,7 @@
         .factory('Resource', ['$http', '$q', '$filter', '$timeout', function ($http, $q, $filter, $timeout) {
 
         // the database (normally on your server)
-        var randomsItems = [];
+        var allTickets = [];
 
         GetAllTickets();
 
@@ -14,11 +14,11 @@
         function GetAllTickets() {
 
             $http.get('/api/tickets').success(function (Ticket) {
-                randomsItems = Ticket.data;
+                allTickets = Ticket.data;
             })
             .error(function () {
                 // reset variable
-                randomsItems = [];
+                allTickets = [];
             });
         }
 
@@ -26,7 +26,7 @@
 
             var deferred = $q.defer();
 
-            var filtered = params.search.predicateObject ? $filter('filter')(randomsItems, params.search.predicateObject) : randomsItems;
+            var filtered = params.search.predicateObject ? $filter('filter')(allTickets, params.search.predicateObject) : allTickets;
 
             if (params.sort.predicate) {
                 filtered = $filter('orderBy')(filtered, params.sort.predicate, params.sort.reverse);

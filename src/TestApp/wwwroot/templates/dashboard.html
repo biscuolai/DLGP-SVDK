@@ -56,17 +56,10 @@
         <app-widget>
             <app-widget-header icon="fa-tasks" title="Tickets">
                 <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Search a ticket" ng-model="searchTicket" />
-                    <div class="input-group-btn">
-                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Go <span class="caret"></span></button>
-                        <ul class="dropdown-menu">
-                            <li><a href="#">Create new ticket</a></li>
-                            <li><a href="#">My tickets</a></li>
-                            <li><a href="#">Something else here</a></li>
-                            <li role="separator" class="divider"></li>
-                            <li><a href="#">Separated link</a></li>
-                        </ul>
-                    </div><!-- /btn-group -->
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="button">Go</button>
+                    </span>
+                    <input type="text" class="form-control" placeholder="Search a ticket" ng-model="searchTicket">
                 </div><!-- /input-group -->
             </app-widget-header>
             <app-widget-body classes="medium no-padding">

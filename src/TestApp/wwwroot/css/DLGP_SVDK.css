@@ -651,3 +651,28 @@ ul.sidebar {
     background: #216eff !important;
     color: white !important;
 }
+
+thead th {
+    background-color: #30426a;
+    color: white;
+}
+
+table th,
+table td {
+  border: none !important
+}
+table th:first-child {
+  -moz-border-radius: 5px 0 0 0 !important;
+}
+table th:last-child {
+  -moz-border-radius: 0 5px 0 0 !important;
+}
+table tr:last-child td:first-child {
+  -moz-border-radius: 0 0 0 5px !important;
+}
+table tr:last-child td:last-child {
+  -moz-border-radius: 0 0 5px 0 !important;
+}
+table tr:hover td {
+  background-color: #ddd !important
+}
