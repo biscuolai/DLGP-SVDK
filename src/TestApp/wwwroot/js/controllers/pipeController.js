@@ -7,7 +7,7 @@
 
             var ctrl = this;
 
-            ctrl.selectedPredicate = 'status.name';
+            ctrl.selectedItem = 'My Tickets';
 
             ctrl.StatusViews = [
                 { id: 0, name: 'All Tickets' },
@@ -38,7 +38,12 @@
                 });
             };
 
-            this.queryResponse = "";
+            this.queryResponse =
+                {
+                    status: '',
+                    assignedTo: ''
+                };
+
             this.submitSearch = function (query) {
                 // place ajax http code here
                 this.queryResponse = query;
@@ -46,31 +51,33 @@
 
             this.showTicketList = function showTicketList(id) {
 
-                switch(id)
-                {
+                ctrl.selectedItem = ctrl.StatusViews[id].name;
+                ctrl.queryResponse.assignedTo = '';
+                switch (id) {
                     // all tickets
                     case 0:
-                        ctrl.queryResponse = '';
+                        ctrl.queryResponse.status = '';
                         break;
-                    // my tickets
+                        // my tickets
                     case 1:
-                        ctrl.queryResponse = '';
+                        ctrl.queryResponse.status = '';
+                        ctrl.queryResponse.assignedTo = '';
                         break;
                         // all new tickets
                     case 2:
-                        ctrl.queryResponse = 'new';
+                        ctrl.queryResponse.status = 'new';
                         break;
                         // all open tickets
                     case 3:
-                        ctrl.queryResponse = 'open';
+                        ctrl.queryResponse.status = 'open';
                         break;
                         // all pending tickets
                     case 4:
-                        ctrl.queryResponse = 'pending';
+                        ctrl.queryResponse.status = 'pending';
                         break;
                         // all closed tickets
                     case 5:
-                        ctrl.queryResponse = 'closed';
+                        ctrl.queryResponse.status = 'closed';
                         break;
                     default:
                         //
@@ -79,20 +86,4 @@
             }
 
         }])
-    .directive('searchWatchModel', function () {
-        return {
-            require: '^stTable',
-            scope: {
-                searchWatchModel: '='
-            },
-            link: function (scope, ele, attr, ctrl) {
-                var table = ctrl;
-
-                scope.$watch('searchWatchModel', function (val) {
-                    ctrl.search(val);
-                });
-
-            }
-        };
-    });
 })();

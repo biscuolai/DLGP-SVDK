@@ -4,27 +4,21 @@
             <app-widget-header icon="fa-tasks" title="List of tickets">
                 <div>
                     <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Search for
+                        {{ vm.selectedItem }}
                         <span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
                         <li ng-repeat="item in vm.StatusViews"
                             value="item.name"
                             ng-click="vm.showTicketList(item.id)"
-                            ng-selected="item.name"><a href="#/tables">{{ item.name }}</a></li>
-                        <!--<li role="separator" class="divider"></li>-->
+                            ng-selected="item.name"><a href="#/tables">{{ item.name }}</a>
+                        </li>
                     </ul>
                 </div>
             </app-widget-header>
             <app-widget-body classes="medium no-padding">
                 <div>
-                    <!--<label>query</label>
-                    <input class="form-control" ng-model="vm.query" placeholder="global search ..." type="text" />
-                    <button class="btn btn-primary" ng-click="vm.submitSearch(vm.query)">Submit</button>
-                    {{vm.query}}-->
-
                     <table st-pipe="vm.callServer" st-table="vm.displayed" class="table table-striped table-hover">
-                        <!--st-set-filter="datagridFilter"-->
                         <thead>
                             <tr>
                                 <th st-sort="ticketId">id</th>
@@ -35,23 +29,12 @@
                             <tr>
                                 <th><input st-search="ticketId" placeholder="search for id" class="input-sm form-control" type="search" /></th>
                                 <th><input st-search="status.name" placeholder="search for ticket status" class="input-sm form-control" type="search"/></th>
-                                <!--<th>
-                                    <select st-search="status.name" class="input-sm form-control">
-                                        <option ng-repeat="row in vm.displayed | unique:'status.name'"
-                                                value="{{row.status.name}}"
-                                                ng-click="vm.setTicketStatus(row.status.name)"
-                                                ng-selected="row.status.name">
-                                                {{row.status.name}}
-                                        </option>
-                                    </select>
-                                </th>-->
                                 <th><input st-search="project.projectName" placeholder="search for project name" class="input-sm form-control" type="search" /></th>
                                 <th><input st-search="title" placeholder="search for ticket title" class="input-sm form-control" type="search" /></th>
                             </tr>
                         </thead>
                         <tbody ng-show="!vm.isLoading">
-                            {{vm.queryResponse}}
-                            <tr ng-repeat="row in vm.displayed | filter: { status : { name: vm.queryResponse} }">
+                            <tr ng-repeat="row in vm.displayed | filter: { status : { name: vm.queryResponse}, assignedTo : vm.queryResponse } ">
                                 <td>{{row.ticketId}}</td>
                                 <td>{{row.status.name}}</td>
                                 <td>{{row.project.projectName}}</td>
