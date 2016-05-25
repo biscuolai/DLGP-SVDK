@@ -34,6 +34,33 @@ namespace DLGP_SVDK.Repository.Repositories
                 .ToList();
         }
 
+        public IEnumerable<Ticket> GetDashboardData()
+        {
+            //return null;
+            //var totals = ApplicationContext.Tickets.GroupBy(x =>
+            //    new { x.TicketStatusId }).Select(y =>
+            //          y.Sum(i => i.TicketStatusId == ));
+
+            //var groupsForIterate = data.GroupBy(x =>
+            //    new { x.Name, x.City, x.ZipCode });
+
+
+            var countNew = ApplicationContext.Tickets.Where(x => x.Status.Name == "New").Count();
+            //var month = ApplicationContext.Tickets.Where(x => x.CreatedDate); 
+
+            var dashBoardSummary = from b in ApplicationContext.Tickets
+                                   group b by b.Status.Name into g
+                                   let newTickets = g.Count()
+                                   select new
+                                   {
+                                       Owner = g.Key,
+                                       Tickets = newTickets
+                                   };
+
+
+            return null;
+        }
+
         public ApplicationDbContext ApplicationContext
         {
             get { return Context as ApplicationDbContext; }

@@ -28,6 +28,8 @@ namespace DLGP_SVDK.Web.Api
                     // Example2
                     var tickets = unitOfWork.Tickets.GetTopUrgentTickets(10);
 
+                    //var test = unitOfWork.Tickets.GetDashboardData();
+
                     // serialize to string            
                     //string json2 = JsonConvert.SerializeObject(tickets, Formatting.Indented);
 
