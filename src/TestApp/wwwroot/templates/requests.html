@@ -34,7 +34,7 @@
                             </tr>
                         </thead>
                         <tbody ng-show="!vm.isLoading">
-                            <tr ng-repeat="row in vm.displayed | filter: { status : { name: vm.queryResponse}, assignedTo : vm.queryResponse } ">
+                            <tr ng-repeat="row in vm.displayed | filter: { status : { name: vm.queryResponse.status}, assignedTo : vm.queryResponse.assignedTo } ">
                                 <td>{{row.ticketId}}</td>
                                 <td>{{row.status.name}}</td>
                                 <td>{{row.project.projectName}}</td>

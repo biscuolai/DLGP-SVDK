@@ -13,9 +13,9 @@
                     url: '/',
                     templateUrl: '../templates/dashboard.html'
                 })
-                .state('tables', {
-                    url: '/tables',
-                    templateUrl: '../templates/tables.html'
+                .state('requests', {
+                    url: '/requests',
+                    templateUrl: '../templates/requests.html'
                 })
                 .state('newTicket', {
                     url: '/newTicket',
