@@ -1,10 +1,10 @@
-﻿<div class="row alerts-container" ng-controller="ticketCRUDController" data-ng-show="alerts.length">
+﻿<div class="row alerts-container" ng-controller="ticketController" data-ng-show="alerts.length">
     <div class="col-xs-12">
         <uib-alert data-ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</uib-alert>
     </div>
 </div>
 
-<div class="row">
+<div class="row" ng-controller="dashboardController">
     <div class="col-lg-3 col-md-6 col-xs-12">
         <app-widget>
             <app-widget-body>
@@ -51,8 +51,7 @@
     </div>
 </div>
 
-<div class="row">
-    <div class="col-lg-12">
+<div class="row" ng-controller="dashboardController">
         <!--<app-widget>
             <app-widget-header icon="fa-tasks" title="Tickets">
                 <div class="input-group">
@@ -152,14 +151,10 @@
 
 
         <section id="reactive">
-            <div class="page-header">
-                <h1>Reactive</h1>
-                <p>All charts are reactive and will update automatically when data changes.</p>
-            </div>
             <div class="row">
-                <div class="col-lg-6 col-sm-12">
+                <div class="col-lg-6 col-xs-12">
                     <div class="panel panel-default">
-                        <div class="panel-heading">Chart Data</div>
+                        <div class="panel-heading">Ticket's Data</div>
                         <div class="panel-body">
                             <table class="table table-responsive table-condensed table-striped">
                                 <tr>
@@ -173,9 +168,9 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-6 col-sm-12">
+                <div class="col-lg-6 col-xs-12">
                     <div class="panel panel-default">
-                        <div class="panel-heading">Reactive Chart</div>
+                        <div class="panel-heading">Trend over time chart - Monthly</div>
                         <div class="panel-body">
                             <canvas id="tables" class="chart chart-line" chart-data="data"
                                     chart-labels="labels" chart-colours="colours"></canvas>
@@ -185,6 +180,5 @@
             </div>
         </section>
 
-    </div>
 </div>
 

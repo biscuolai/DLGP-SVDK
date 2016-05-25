@@ -3,7 +3,7 @@
 
     angular
         .module('app')
-        .controller('pipeController', ['Resource', function (service) {
+        .controller('datagridController', ['Resource', function (service) {
 
             var ctrl = this;
 

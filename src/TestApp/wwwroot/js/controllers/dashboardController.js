@@ -3,10 +3,10 @@
 
     angular
         .module('app')
-        .controller('ticketCRUDController', ['$http', '$controller', '$location', '$rootScope', 'Constants', '$filter', ticketCRUDController]);
+        .controller('ticketController', ['$http', '$controller', '$location', '$rootScope', 'Constants', '$filter', ticketController]);
 
     //AngularJS controller method
-    function ticketCRUDController($http, $controller, $location, $rootScope, Constants, $filter) {
+    function ticketController($http, $controller, $location, $rootScope, Constants, $filter) {
 
         if ((($location.search().action !== undefined) && ($location.search().action === 'edit')) &&
             (($location.search().id !== undefined) && ($location.search().id > 0))) {
@@ -317,43 +317,5 @@
         $rootScope.clearAlert = function () {
             $rootScope.alerts = [];
         };
-
-        $rootScope.labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
-        $rootScope.data = [
-          [65, 59, 80, 81, 56, 55, 40],
-          [28, 48, 40, 19, 86, 27, 90]
-        ];
-        $rootScope.colours = [
-          { // grey
-              fillColor: 'rgba(148,159,177,0.2)',
-              strokeColor: 'rgba(148,159,177,1)',
-              pointColor: 'rgba(148,159,177,1)',
-              pointStrokeColor: '#fff',
-              pointHighlightFill: '#fff',
-              pointHighlightStroke: 'rgba(148,159,177,0.8)'
-          },
-          { // dark grey
-              fillColor: 'rgba(77,83,96,0.2)',
-              strokeColor: 'rgba(77,83,96,1)',
-              pointColor: 'rgba(77,83,96,1)',
-              pointStrokeColor: '#fff',
-              pointHighlightFill: '#fff',
-              pointHighlightStroke: 'rgba(77,83,96,1)'
-          }
-        ];
-        $rootScope.randomize = function () {
-            $rootScope.data = $rootScope.data.map(function (data) {
-                return data.map(function (y) {
-                    y = y + Math.random() * 10 - 5;
-                    return parseInt(y < 0 ? 0 : y > 100 ? 100 : y);
-                });
-            });
-        };
-
-        function getRandomValue(data) {
-            var l = data.length, previous = l ? data[l - 1] : 50;
-            var y = previous + Math.random() * 10 - 5;
-            return y < 0 ? 0 : y > 100 ? 100 : y;
-        }
     }
 })();

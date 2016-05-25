@@ -3,186 +3,306 @@
 
     angular
         .module('app')
-        .controller('ticketController', ['$http', '$scope', '$controller', '$location', ticketController]);
+        .controller('ticketController', ['$http', '$controller', '$location', '$rootScope', 'Constants', '$filter', ticketController]);
 
-    function ticketController($http, $scope, $controller, $location) {
+    //AngularJS controller method
+    function ticketController($http, $controller, $location, $rootScope, Constants, $filter) {
 
-        var vm = this;
+        if ((($location.search().action !== undefined) && ($location.search().action === 'edit')) &&
+            (($location.search().id !== undefined) && ($location.search().id > 0))) {
+            // query parameter existing and get Ticket by TicketId
+            $http.get('/api/tickets/' + $location.search().id).success(function (data) {
+                // success
+                $rootScope.Ticket = data.data;
 
-        $scope.tickets = [];
+                // Load all dropdownlists and set all values according this specific record
+                LoadAllDropDownLists(true);
+                // Clear all alert messages 
+                $rootScope.clearAlert();
+            })
+            .error(function () {
+                // show in alerts error message
+                $rootScope.clearAlert();
+                $rootScope.addAlert('An error has occured while loading ticket id = ' + $location.search().id, 'danger'); 
+            });
+        }
+        // no parameter has been passed, it can be a new ticket or dashboard page
+        else {
+            // it is a new ticket
+            if (($location.search().action !== undefined) && ($location.search().action === 'new')) {
+                // clear all fields 
+                ClearFields();
+                // Load all dropdownlists setting to default value
+                LoadAllDropDownLists(false);
+                // Clear all alert messages 
+                $rootScope.clearAlert();
+            }
+            // Request is coming from dashboard page. Load all ticket records
+            else {
+                // define the variable alerts if it does not exists
+                if ($rootScope.alerts === undefined) {
+                    $rootScope.alerts = [];
+                }
 
-        $scope.showHints = false;
+                // get the list of all tickets 
+                GetAllTickets();
+                // clear all parameters from URL
+                $location.search('');
+            }
+        }
+       
+        //To Get all Ticket records  
+        function GetAllTickets() {
+            $http.get('/api/tickets').success(function (Ticket) {
+                $rootScope.Tickets = Ticket.data;
+            })
+            .error(function () {
+                // show in alerts error message
+                $rootScope.clearAlert();
+                $rootScope.addAlert('An error has occured while loading list of all tickets!', 'danger');
+            });
+        }
 
-        $scope.errorMessage = "";
-        $scope.isBusy = true;
+        function LoadAllDropDownLists(findItems) {
+            $http.get('/api/values/contacttype').success(function (ContactType) {
+                $rootScope.ContactType = {
+                    availableOptions: ContactType.data,
+                    selectedOption: ContactType.data[0]
+                };
 
-        // datagrid configuration
-        vm.config = {
-            itemsPerPage: 5,
-            fillLastPage: true
+                if (findItems === true) {
+                    $rootScope.ContactType.selectedOption = $filter('filter')($rootScope.ContactType.availableOptions, { contactTypeId: $rootScope.Ticket.contactTypeId })[0];
+                }
+            })
+            .error(function () {
+                // show in alerts error message
+                $rootScope.clearAlert();
+                $rootScope.addAlert('An error has occured while loading contact type drop down list!', 'danger');
+            });
+            $http.get('/api/values/category').success(function (Category) {
+                $rootScope.Category = {
+                    availableOptions: Category.data,
+                    selectedOption: Category.data[0]
+                };
+
+                if (findItems === true) {
+                    $rootScope.Category.selectedOption = $filter('filter')($rootScope.Category.availableOptions, { categoryId: $rootScope.Ticket.categoryId })[0];
+                }
+            })
+            .error(function () {
+                // show in alerts error message
+                $rootScope.addAlert('An error has occured while loading category drop down list!', 'danger');
+            });
+            $http.get('/api/values/configurationitem').success(function (ConfigurationItem) {
+                $rootScope.ConfigurationItem = {
+                    availableOptions: ConfigurationItem.data,
+                    selectedOption: ConfigurationItem.data[0]
+                };
+
+                if (findItems === true) {
+                    $rootScope.ConfigurationItem.selectedOption = $filter('filter')($rootScope.ConfigurationItem.availableOptions, { configurationItemId: $rootScope.Ticket.configurationItemId })[0];
+                }
+            })
+            .error(function () {
+                // show in alerts error message
+                $rootScope.addAlert('An error has occured while loading configuration item drop down list!', 'danger');
+            });
+            $http.get('/api/values/ticketstatus').success(function (TicketStatus) {
+                $rootScope.TicketStatus = {
+                    availableOptions: TicketStatus.data,
+                    selectedOption: TicketStatus.data[0]
+                };
+
+                if (findItems === true) {
+                    $rootScope.TicketStatus.selectedOption = $filter('filter')($rootScope.TicketStatus.availableOptions, { ticketStatusId: $rootScope.Ticket.ticketStatusId })[0];
+                }
+            })
+            .error(function () {
+                // show in alerts error message
+                $rootScope.addAlert('An error has occured while loading ticket status drop down list!', 'danger');
+            });
+            $http.get('/api/values/priority').success(function (Priority) {
+                $rootScope.Priority = {
+                    availableOptions: Priority.data,
+                    selectedOption: Priority.data[0]
+                };
+
+                if (findItems === true) {
+                    $rootScope.Priority.selectedOption = $filter('filter')($rootScope.Priority.availableOptions, { priorityId: $rootScope.Ticket.priorityId })[0];
+                }
+            })
+            .error(function () {
+                // show in alerts error message
+                $rootScope.addAlert('An error has occured while loading priority drop down list!', 'danger');
+            });
+            $http.get('/api/projects').success(function (Project) {
+                $rootScope.Projects = {
+                    availableOptions: Project.data,
+                    selectedOption: Project.data[0]
+                };
+                if (findItems === true) {
+                    $rootScope.Projects.selectedOption = $filter('filter')($rootScope.Projects.availableOptions, { projectId: $rootScope.Ticket.projectId })[0];
+                }
+            })
+            .error(function () {
+                // show in alerts error message
+                $rootScope.addAlert('An error has occured while loading project drop down list!', 'danger');
+            });
+            $http.get('/api/admin/users').success(function (User) {
+                $rootScope.Users = {
+                    availableOptions: User.data,
+                    selectedOption: User.data[0]
+                };
+                if (findItems === true) {
+                    $rootScope.Users.selectedOption = $filter('filter')($rootScope.Users.availableOptions, { id: $rootScope.Ticket.assignedTo })[0];
+                }
+            })
+            .error(function () {
+                // show in alerts error message
+                $rootScope.addAlert('An error has occured while loading assigned to drop down list!', 'danger');
+            });
+        }
+
+        $rootScope.editTicket = function (Ticket) {
+            // get Ticket by TicketId
+            $http.get('/api/tickets/' + Ticket.ticketId).success(function (data) {
+                // success
+                $rootScope.Ticket = data.data;
+
+                LoadAllDropDownLists(true);
+
+                $location.path('/editTicket'); //redirect to edit Ticket template
+            })
+            .error(function () {
+                // show in alerts error message
+                $rootScope.addAlert('An error has occured while loading ticket id = ' + Ticket.ticketId, 'danger');
+            });
+        }
+
+        $rootScope.deleteTicket = function (Ticket) {
+            var getTicketData = DeleteTicket(Ticket.Id);
+            getTicketData.then(function (msg) {
+                alert(msg.data);
+                GetAllTickets();
+            }, function () {
+                alert('Error in deleting Ticket record');
+            });
+        }
+
+        function ClearFields() {
+            if ($rootScope.Ticket !== undefined) {
+                $rootScope.Ticket.projectId = "";
+                $rootScope.Ticket.contactTypeId = "";
+                $rootScope.Ticket.categoryId = "";
+                $rootScope.Ticket.configurationItemId = "";
+                $rootScope.Ticket.title = "";
+                $rootScope.Ticket.details = "";
+                $rootScope.Ticket.tagList = "";
+                $rootScope.Ticket.assignedTo = "";
+                $rootScope.Ticket.ticketStatusId = "";
+                $rootScope.Ticket.priorityId = "";
+                $rootScope.Ticket.assignedTo = "";
+            }
+        }
+
+        $rootScope.cancel = function () {
+            ClearFields();
+            $location.path('/'); // cancel and redirect to dashboard
         };
 
-        // sort and search variables
-        $scope.sortType = 'TicketId';  // set the default sort type to Ticket Id
-        $scope.sortReverse = true;     // set the default sort order to Ascending
-        vm.searchTicket = "";                // set the default search / filter term to empty string
+        $rootScope.searchTicket = ""; // set the default search / filter term to empty string
 
-        $scope.details = "";
-        $scope.tags = "";
+        //Edit/Update operation
+        $rootScope.UpdateTicket = function (Ticket) {
 
-        // ticket category
-        $scope.projects = [
-            { id: 1, name: 'Project1' },
-            { id: 2, name: 'Project2' },
-            { id: 3, name: 'Project3' }
-        ];
-        $scope.selectedProject = { id: 1, name: 'Project1' };
+            // read fresh data from all dropdownlists
+            Ticket.projectId = $rootScope.Projects.selectedOption.projectId;
+            Ticket.contactTypeId = $rootScope.ContactType.selectedOption.contactTypeId;
+            Ticket.categoryId = $rootScope.Category.selectedOption.categoryId;
+            Ticket.configurationItemId = $rootScope.ConfigurationItem.selectedOption.configurationItemId;
+            Ticket.ticketStatusId = $rootScope.TicketStatus.selectedOption.ticketStatusId;
+            Ticket.priorityId = $rootScope.Priority.selectedOption.priorityId;
+            Ticket.assignedTo = $rootScope.Users.selectedOption.id;
 
-        // ticket category
-        $scope.ticketCategory = [
-            { id: 0, name: 'Bug' },
-            { id: 1, name: 'Enhancement' },
-            { id: 2, name: 'Request For Information' }
-        ];
-        $scope.selectedTicketCategory = { id: 0, name: 'Bug' };
+            $http.put('/api/tickets/' + Ticket.ticketId, Ticket).success(function (data) {
+                GetAllTickets();
+                ClearFields();
+                $location.path('/'); // Updated successfully and redirect to dashboard
 
-        // ticket contact type
-        $scope.ticketContactType = [
-            { id: 0, name: 'Email' },
-            { id: 1, name: 'Phone' },
-            { id: 2, name: 'Portal' }
-        ];
-        $scope.selectedTicketContactType = { id: 2, name: 'Portal' };
+                // show in alerts that ticket has been updated successfully
+                $rootScope.clearAlert();
+                $rootScope.addAlert('Ticket ID = ' + Ticket.ticketId + ' has been updated successfully!', 'success'); // And call the method on the newScope.
 
-        // ticket configuration item
-        $scope.ticketConfigurationItem = [
-            { id: 0, name: 'ConfigurationItem1' },
-            { id: 1, name: 'ConfigurationItem2' },
-            { id: 2, name: 'ConfigurationItem3' }
-        ];
-        $scope.selectedTicketConfigurationItem = { id: 1, name: 'ConfigurationItem1' };
+            }).error(function (data) {
+                // show in alerts error message
+                $rootScope.clearAlert();
+                $rootScope.addAlert('An error has occured while updating ticket id = ' + Ticket.ticketId, 'danger');
+            });
+        };
 
-        // ticket Priority
-        $scope.ticketPriority = [
-            { id: 0, name: '1 - Critical' },
-            { id: 1, name: '2 - High' },
-            { id: 2, name: '3 - Medium' },
-            { id: 3, name: '4 - Low' }
-        ];
-        $scope.selectedTicketPriority = { id: 3, name: '4 - Low' };
+        // Insert operation / add ticket
+        $rootScope.AddTicket = function (Ticket) {
+            if (Ticket !== undefined) {
+                // read fresh data from all dropdownlists
+                Ticket.projectId = $rootScope.Projects.selectedOption.projectId;
+                Ticket.contactTypeId = $rootScope.ContactType.selectedOption.contactTypeId;
+                Ticket.categoryId = $rootScope.Category.selectedOption.categoryId;
+                Ticket.configurationItemId = $rootScope.ConfigurationItem.selectedOption.configurationItemId;
+                Ticket.ticketStatusId = $rootScope.TicketStatus.selectedOption.ticketStatusId;
+                Ticket.priorityId = $rootScope.Priority.selectedOption.priorityId;
+                Ticket.assignedTo = $rootScope.Users.selectedOption.id;
+                Ticket.createdBy = "System";
+                Ticket.createdDate = new Date();
+                Ticket.currentStatusDate = new Date();
+                Ticket.currentStatusSetBy = "biscuolai";
+                Ticket.lastUpdateBy = "biscuolai";
+                Ticket.lastUpdateDate = new Date();
+                Ticket.owner = "ilson_biscuola@dialog.com.au";
 
-        // Assigned To
-        $scope.ticketAssignedTo = [
-            { id: 0, name: 'Ilson Biscuola' },
-            { id: 1, name: 'Wesley Sim' },
-            { id: 2, name: 'Phil Wiles' },
-            { id: 3, name: 'Jonathan Rowlands' }
-        ];
-        $scope.selectedTicketAssignedTo = { id: 0, name: 'Ilson Biscuola' };
+                $http.post('/api/tickets', Ticket).success(function (data) {
+                    //$rootScope.Tickets.push(data);
+                    GetAllTickets();
+                    $location.path('/'); // Added successfully and redirect to dashboard
 
-        // Ticket Status
-        $scope.ticketStatus = [
-            { id: 0, name: 'New' },
-            { id: 1, name: 'Open' },
-            { id: 2, name: 'Pending - Request for Information' },
-            { id: 3, name: 'Pending - On Hold' },
-            { id: 4, name: 'Ready For Test' },
-            { id: 5, name: 'Resolved' },
-            { id: 6, name: 'Cancelled' }
-        ];
-        $scope.selectedTicketStatus = { id: 0, name: 'New' };
+                    // show in alerts that ticket has been added successfully
+                    $rootScope.clearAlert();
+                    $rootScope.addAlert('A new ticket has been added successfully!', 'success'); // And call the method on the newScope.
 
-        $http.get("/api/tickets")
-            .then(function (response) {
-                // success
-                angular.copy(response.data.data, $scope.tickets);
+                }).error(function (data) {
+                    // show in alerts error message
+                    $rootScope.clearAlert();
+                    $rootScope.addAlert('An error has occured while adding a new ticket!', 'danger');
+                });
+            }
+        };
 
-                $scope.errorMessage = "Successfully loaded " + $scope.tickets;
-            }, function (error) {
-                // failure
-                $scope.errorMessage = "Failed to Load " + error;
-            })
-            .finally(function () {
-                $scope.isBusy = false;
+        //Delete Ticket
+        $rootScope.DeleteTicket = function (Ticket) {     
+            $http.delete('/api/tickets/' + Ticket.TicketID).success(function (data) {
+                alert("Deleted successfully!");
+                $http.get('/api/tickets').success(function (data) {
+                    $rootScope.Tickets = data;                    
+                })
+            }).error(function (data) {
+                $rootScope.error = "An error has occured while deleting! " + data;                
+            });
+        };
+
+        $rootScope.addAlert = function (message, alertType) {
+            $rootScope.alerts.push({
+                type: alertType,
+                msg: message
             });
 
-        $scope.sendPost = function () {
-            var value = {
-                'projectId': $scope.selectedProject.id,
-                'contactTypeId': $scope.selectedTicketContactType.id,
-                'categoryId': $scope.selectedTicketCategory.id,
-                'configurationItemId': $scope.selectedTicketConfigurationItem.id,
-                'title': $scope.title,
-                'details': $scope.details,
-                'tagList': $scope.tags,
-                'createdBy': "@User.Identity.GetUserName()",
-                'createdDate': new Date(),
-                'owner': "@User.Identity.GetUserName()",
-                'assignedTo': $scope.selectedTicketAssignedTo.name,
-                'ticketStatus': $scope.selectedTicketStatus.id,
-                'currentStatusDate': new Date(),
-                'currentStatusSetBy': "@User.Identity.GetUserName()",
-                'lastUpdateBy': "@User.Identity.GetUserName()",
-                'lastUpdateDate': new Date(),
-                'priority': $scope.selectedTicketPriority.id
-            };
-
-            $http.post('/api/tickets', value);
-
-            vm.ticketForm.$setPristine();
-            vm.ticketForm.$setUntouched();
-            $scope.title = "";
-            $scope.details = "";
-            $scope.tags = "";
-            $scope.selectedProject = { id: 1, name: 'Project1' };
-            $scope.selectedTicketCategory = { id: 0, name: 'Bug' };
-            $scope.selectedTicketContactType = { id: 2, name: 'Portal' };
-            $scope.selectedTicketConfigurationItem = { id: 1, name: 'ConfigurationItem1' };
-            $scope.selectedTicketPriority = { id: 3, name: '4 - Low' };
-            $scope.selectedTicketAssignedTo = { id: 0, name: 'Ilson Biscuola' };
-            $scope.selectedTicketStatus = { id: 0, name: 'New' };
-
-            ////You need to supply a scope while instantiating.
-            ////Provide the scope, you can also do $scope.$new(true) in order to create an isolated scope.
-            ////In this case it is the child scope of this scope.
-            var alertCtrlViewModel = $scope.$new();
-            $controller('alertsController', { $scope: alertCtrlViewModel });
-            alertCtrlViewModel.clearAlert();
-            $scope.ticketAlerts = alertCtrlViewModel.addAlert('A new ticket has been created successfully.', 'success'); //And call the method on the newScope.
-
-
-            //$scope.addAlert = function () {
-            //    $rootScope.$emit("addAlert", { message:'test', alertType:'success' });
-            //}
-
-            //window.location = '/dashboard.html';
-            //window.location.reload();
-
-            //$location.path('../templates/dashboard.html');
-
-            //debugger;
+            return $rootScope.alerts;
         };
 
-
-        $scope.viewby = 10;
-        $scope.totalItems = $scope.tickets.length;
-        $scope.currentPage = 4;
-        $scope.itemsPerPage = $scope.viewby;
-        $scope.maxSize = 5; //Number of pager buttons to show
-
-        $scope.setPage = function (pageNo) {
-            $scope.currentPage = pageNo;
+        $rootScope.closeAlert = function (index) {
+            $rootScope.alerts.splice(index, 1);
         };
 
-        $scope.pageChanged = function () {
-            console.log('Page changed to: ' + $scope.currentPage);
+        $rootScope.clearAlert = function () {
+            $rootScope.alerts = [];
         };
-
-        $scope.setItemsPerPage = function (num) {
-            $scope.itemsPerPage = num;
-            $scope.currentPage = 1; //reset to first page
-        }
     }
-   
 })();
-
