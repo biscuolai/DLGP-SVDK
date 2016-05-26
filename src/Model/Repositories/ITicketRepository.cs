@@ -8,6 +8,5 @@ namespace DLGP_SVDK.Repository
     {
         IEnumerable<Ticket> GetTopUrgentTickets(int count);
         IEnumerable<Ticket> GetAllAssignedTickets(int pageIndex, int pageSize);
-        IEnumerable<Ticket> GetDashboardData();
     }
 }
