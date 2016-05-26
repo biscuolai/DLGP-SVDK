@@ -1,3 +1,4 @@
+using DLGP_SVDK.Model.Domain.Common;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -51,18 +52,19 @@ namespace DLGP_SVDK.Model.Domain.Entities
         /// <param name="userName">Name of the user.</param>
         /// <returns>TicketEvent.</returns>
         public static TicketEvent CreateActivityEvent(
-        string eventByUserId,
-        TicketActivity activity,
-        string comment,
-        string newPriority,
-        string userName)
+            string eventByUserId,
+            TicketActivity activity,
+            string comment,
+            string newPriority,
+            string userName
+            )
         {
             var tc = new TicketEvent
             {
                 Comment = comment,
                 EventBy = eventByUserId,
                 EventDate = DateTime.Now,
-                EventDescription = ""
+                EventDescription = TicketTextUtility.GetTicketEventDescription(activity, newPriority, userName)
             };
             return tc;
         }
