@@ -16,7 +16,8 @@ namespace DLGP_SVDK.Repository
             Priorities = new PriorityRepository(_context);
             ContactTypes = new ContactTypeRepository(_context);
             TicketStatuses = new TicketStatusRepository(_context);
-            //Dashboard = new DashboardRepository(_context);
+            TicketEvents = new TicketEventRepository(_context);
+            DashboardSummary = new DashboardRepository(_context);
         }
 
         public IProjectRepository Projects { get; private set; }
@@ -27,6 +28,8 @@ namespace DLGP_SVDK.Repository
         public IContactTypeRepository ContactTypes { get; private set; }
         public ITicketStatusRepository TicketStatuses { get; private set; }
         public IDashboardRepository Dashboard { get; private set; }
+        public ITicketEventRepository TicketEvents { get; private set; }
+        public IDashboardRepository DashboardSummary { get; private set; }
 
         public int Commit()
         {

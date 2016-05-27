@@ -11,6 +11,7 @@ namespace DLGP_SVDK.Repository
         IContactTypeRepository ContactTypes { get; }
         IPriorityRepository Priorities { get; }
         ITicketStatusRepository TicketStatuses { get; }
+        IDashboardRepository DashboardSummary { get; }
 
         /// <summary>
         /// Saves all pending changes

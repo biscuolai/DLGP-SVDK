@@ -15,25 +15,23 @@ namespace DLGP_SVDK.Model.Domain.Common
         /// <exception cref="System.NullReferenceException"></exception>
         public static string GetTicketEventDescription(TicketActivity ticketEvent, string newPriority, string userName)
         {
-            //no real perf advantage to a stringbuilder here
-            var n = Enum.GetName(typeof(TicketActivity), ticketEvent);
-            var val = "";
-            var pval = "";
+            var activity = "Event: " + Enum.GetName(typeof(TicketActivity), ticketEvent);
+            //var pval = "";
             //var val = Strings.ResourceManager.GetString("TicketActivity" + n);
             //var pval = Strings.ResourceManager.GetString("TicketActivityPriority");
-            if (string.IsNullOrEmpty(val) || string.IsNullOrEmpty(pval))
-            {
-                throw new NullReferenceException();
-            }
+            //if (string.IsNullOrEmpty(val) || string.IsNullOrEmpty(pval))
+            //{
+            //    throw new NullReferenceException();
+            //}
             if (!string.IsNullOrEmpty(userName))
             {
-                val = string.Format(val, userName);
+                activity += " - User: " + userName;
             }
             if (!string.IsNullOrEmpty(newPriority))
             {
-                val += string.Format(pval, newPriority);
+                activity += " - Priority: " + newPriority;
             }
-            return val;
+            return activity;
         }
     }
 }

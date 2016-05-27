@@ -18,7 +18,7 @@ namespace DLGP_SVDK.Web.Api
                 using (var unitOfWork = new UnitOfWork(new ApplicationDbContext()))
                 {
                     // Return summary of dashboard data
-                    var summary = unitOfWork.Dashboard.GetDashboardData();
+                    var summary = unitOfWork.DashboardSummary.GetDashboardData();
 
                     return new JsonResult(new { data = summary, success = true });
                 }

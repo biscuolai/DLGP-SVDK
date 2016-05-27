@@ -79,6 +79,7 @@ namespace DLGP_SVDK.Web.Api
                     using (var unitOfWork = new UnitOfWork(new ApplicationDbContext()))
                     {
                         unitOfWork.Tickets.Add(Mapper.Map<Ticket>(newTicket));
+                        unitOfWork.TicketEvents.CreateActivityEvent("biscuolai", TicketActivity.Create, "test comment", "test priority", "user name");
                         unitOfWork.Commit();
 
                         Response.StatusCode = (int)HttpStatusCode.Created;
