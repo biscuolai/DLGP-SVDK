@@ -162,7 +162,7 @@ namespace DLGP_SVDK.Model.Domain.Entities
         [NotMapped]
         public bool IsOpen
         {
-            get { return ((Status.Name != "Resolved") && (Status.Name != "Closed")); }
+            get { return ((Status != null) && (Status.Name != "Resolved") && (Status.Name != "Closed")); }
         }
 
         public void EnsureSubscribers()
