@@ -1,3 +1,4 @@
+using DLGP_SVDK.Model.Domain.Common;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -51,18 +52,19 @@ namespace DLGP_SVDK.Model.Domain.Entities
         /// <param name="userName">Name of the user.</param>
         /// <returns>TicketEvent.</returns>
         public static TicketEvent CreateActivityEvent(
-        string eventByUserId,
-        TicketActivity activity,
-        string comment,
-        string newPriority,
-        string userName)
+            string eventByUserId,
+            TicketActivity activity,
+            string comment,
+            string newPriority,
+            string userName
+            )
         {
             var tc = new TicketEvent
             {
                 Comment = comment,
                 EventBy = eventByUserId,
                 EventDate = DateTime.Now,
-                EventDescription = ""
+                EventDescription = TicketTextUtility.GetTicketEventDescription(activity, newPriority, userName)
             };
             return tc;
         }
@@ -72,19 +74,19 @@ namespace DLGP_SVDK.Model.Domain.Entities
         /// </summary>
         public void CreateSubscriberEventNotifications()
         {
-            //foreach (var subscriber in Ticket.TicketSubscribers)
-            //{
-            //    var isSubscriberEvent = EventBy == subscriber.SubscriberId;
+            foreach (var subscriber in Ticket.Subscribers)
+            {
+                var isSubscriberEvent = EventBy == subscriber.SubscriberId;
 
-            //    TicketEventNotifications.Add(
-            //        new TicketEventNotification
-            //        {
-            //            IsNew = !isSubscriberEvent,
-            //            IsRead = isSubscriberEvent,
-            //            SubscriberId = subscriber.SubscriberId,
-            //        });
+                TicketEventNotifications.Add(
+                    new TicketEventNotification
+                    {
+                        IsNew = !isSubscriberEvent,
+                        IsRead = isSubscriberEvent,
+                        SubscriberId = subscriber.SubscriberId,
+                    });
 
-            //}
+            }
         }
     }
 }
