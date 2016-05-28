@@ -12,6 +12,24 @@ namespace DLGP_SVDK.Repository.Repositories
         public TicketRepository(ApplicationDbContext context) : base(context)
         {
         }
+
+        public int GetId(Ticket ticket)
+        {
+            return ApplicationContext.Entry(ticket).Entity.TicketId;
+        }
+
+        public Ticket Reload(int id)
+        {
+            return ApplicationContext.Tickets
+                .Include(c => c.Project)
+                .Include(c => c.ConfigurationItem)
+                .Include(c => c.Status)
+                .Include(c => c.ContactType)
+                .Include(c => c.Priority)
+                .Include(c => c.Category)
+                .First(x => x.TicketId == id);
+        }
+
         public IEnumerable<Ticket> GetTopUrgentTickets(int count)
         {
             return ApplicationContext.Tickets.Include(c => c.Project)

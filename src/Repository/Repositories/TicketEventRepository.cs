@@ -27,7 +27,7 @@ namespace DLGP_SVDK.Repository.Repositories
         /// <param name="userName">Name of the user.</param>
         /// <returns>TicketEvent.</returns>
         public TicketEvent CreateActivityEvent(
-            Ticket ticket,
+            int ticketId,
             string eventByUserId,
             TicketActivity activity,
             string comment,
@@ -37,7 +37,7 @@ namespace DLGP_SVDK.Repository.Repositories
         {
             var tc = new TicketEvent
             {
-                Ticket = ticket,
+                TicketId = ticketId,
                 Comment = comment,
                 EventBy = eventByUserId,
                 EventDate = DateTime.Now,

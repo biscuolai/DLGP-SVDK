@@ -3,10 +3,10 @@
 
     angular
         .module('app')
-        .controller('dashboardController', ['$http', '$scope', dashboardController]);
+        .controller('dashboardController', ['$http', '$scope', '$location', dashboardController]);
 
     //AngularJS controller method
-    function dashboardController($http, $scope) {
+    function dashboardController($http, $scope, $location) {
        
         GetDashboardData();
 
@@ -15,12 +15,13 @@
         $scope.onHoldTickets = 0;
         $scope.pendingTickets = 0;
         $scope.closedTickets = 0;
-        
+
+        // clear all parameters from URL
+        $location.search('');
+
         //To Get all Ticket records  
         function GetDashboardData() {
             $http.get('/api/dashboard').success(function (Dashboard) {
-
-                debugger;
 
                 $scope.Dashboard = Dashboard.data;
 
@@ -29,14 +30,6 @@
                 $scope.onHoldTickets = $scope.Dashboard.onHold;
                 $scope.pendingTickets = $scope.Dashboard.pending;
                 $scope.closedTickets = $scope.Dashboard.closed;
-
-                //for (var i = 0; i < $scope.Tickets.length; i++){
-                //    if ($scope.Tickets[i].ticketStatusId === Constants.TicketStatus['New']) { $scope.newTickets++ }
-                //    else if ($scope.Tickets[i].ticketStatusId === Constants.TicketStatus['Open']) { $scope.openTickets++ }
-                //    else if ($scope.Tickets[i].ticketStatusId === Constants.TicketStatus['PendingOnHold']) { $scope.onHoldTickets++ }
-                //    else if (($scope.Tickets[i].ticketStatusId === Constants.TicketStatus['PendingOnHold']) ||
-                //             ($scope.Tickets[i].ticketStatusId === Constants.TicketStatus['PendingRFI'])) { $scope.pendingTickets++ }
-                //}
             })
             .error(function () {
                 // show in alerts error message

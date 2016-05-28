@@ -79,7 +79,11 @@ namespace DLGP_SVDK.Web.Api
                     using (var unitOfWork = new UnitOfWork(new ApplicationDbContext()))
                     {
                         unitOfWork.Tickets.Add(newTicket);
-                        //unitOfWork.TicketEvents.CreateActivityEvent(newTicket, "biscuolai", TicketActivity.Create, "test comment", "test priority", "user name");
+                        unitOfWork.Commit();
+
+                        var ticketReload = unitOfWork.Tickets.Reload(unitOfWork.Tickets.GetId(newTicket));
+                        
+                        unitOfWork.TicketEvents.Add(unitOfWork.TicketEvents.CreateActivityEvent(ticketReload.TicketId, ticketReload.AssignedTo, TicketActivity.Create, ticketReload.Details, ticketReload.Priority.Name, ticketReload.AssignedTo));
                         unitOfWork.Commit();
 
                         Response.StatusCode = (int)HttpStatusCode.Created;
@@ -127,6 +131,13 @@ namespace DLGP_SVDK.Web.Api
 
                         // saving data into db
                         unitOfWork.Tickets.Update(existingTicket);
+
+                        unitOfWork.Commit();
+
+                        var ticketReload = unitOfWork.Tickets.Reload(unitOfWork.Tickets.GetId(existingTicket));
+
+                        unitOfWork.TicketEvents.Add(unitOfWork.TicketEvents.CreateActivityEvent(ticketReload.TicketId, ticketReload.AssignedTo, TicketActivity.EditTicketInfo, ticketReload.Details, ticketReload.Priority.Name, ticketReload.AssignedTo));
+
                         unitOfWork.Commit();
 
                         Response.StatusCode = (int)HttpStatusCode.Accepted;
