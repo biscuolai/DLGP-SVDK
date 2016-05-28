@@ -29,7 +29,6 @@ namespace DLGP_SVDK.Model.Domain.Entities
         public string EventBy { get; set; }
 
         [Required(ErrorMessageResourceName = "FieldRequired")]
-        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         public DateTimeOffset EventDate { get; set; }
 
         [Column(TypeName = "timestamp")]

@@ -79,28 +79,28 @@ namespace DLGP_SVDK.Web.Api
                     using (var unitOfWork = new UnitOfWork(new ApplicationDbContext()))
                     {
                         unitOfWork.Tickets.Add(newTicket);
+
                         unitOfWork.Commit();
 
                         var ticketReload = unitOfWork.Tickets.Reload(unitOfWork.Tickets.GetId(newTicket));
-                        
+
                         unitOfWork.TicketEvents.Add(unitOfWork.TicketEvents.CreateActivityEvent(ticketReload.TicketId, ticketReload.AssignedTo, TicketActivity.Create, ticketReload.Details, ticketReload.Priority.Name, ticketReload.AssignedTo));
+
                         unitOfWork.Commit();
 
                         Response.StatusCode = (int)HttpStatusCode.Created;
-                        return Json(newTicket);
+                        return Json(Mapper.Map<TicketViewModel>(newTicket));
                     }
                 }
             }
             catch (Exception ex)
             {
                 Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                return Json(new { Message = ex.Message });
+                return Json(new { Message = ex.Message, ModelState = ModelState });
             }
 
             Response.StatusCode = (int)HttpStatusCode.BadRequest;
-            return Json(new { Message = "Failed", ModelState = ModelState});
-
-            //return Json("null");
+            return Json(new { Message = "Failed to create a new ticket", ModelState = ModelState });
         }
 
         [HttpPut("{id}")]
@@ -134,7 +134,7 @@ namespace DLGP_SVDK.Web.Api
 
                         unitOfWork.Commit();
 
-                        var ticketReload = unitOfWork.Tickets.Reload(unitOfWork.Tickets.GetId(existingTicket));
+                        var ticketReload = unitOfWork.Tickets.Reload(id);
 
                         unitOfWork.TicketEvents.Add(unitOfWork.TicketEvents.CreateActivityEvent(ticketReload.TicketId, ticketReload.AssignedTo, TicketActivity.EditTicketInfo, ticketReload.Details, ticketReload.Priority.Name, ticketReload.AssignedTo));
 
@@ -148,11 +148,11 @@ namespace DLGP_SVDK.Web.Api
             catch (Exception ex)
             {
                 Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                return Json(new { Message = ex.Message });
+                return Json(new { Message = ex.Message, ModelState = ModelState });
             }
 
             Response.StatusCode = (int)HttpStatusCode.BadRequest;
-            return Json(new { Message = "Failed", ModelState = ModelState });
+            return Json(new { Message = "Failed to edit ticket", ModelState = ModelState });
         }
     }
 }
