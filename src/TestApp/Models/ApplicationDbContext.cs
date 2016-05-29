@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Data.Entity;
 using DLGP_SVDK.Model.Domain.Entities;
+using DLGP_SVDK.Model.Domain.Common;
 
 namespace DLGP_SVDK.Models
 {

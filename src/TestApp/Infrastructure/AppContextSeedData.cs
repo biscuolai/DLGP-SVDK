@@ -5,6 +5,7 @@ using System.Linq;
 using System.Collections.Generic;
 using DLGP_SVDK.Model.Domain.Entities;
 using DLGP_SVDK.Models;
+using DLGP_SVDK.Model.Domain.Common;
 
 namespace DLGP_SVDK.Infrastructure
 {
@@ -27,7 +28,7 @@ namespace DLGP_SVDK.Infrastructure
                 if (await _userManager.FindByEmailAsync("ilson_biscuola@dialog.com.au") == null)
                 {
                     // Add user Ilson Biscuola
-                    var newUser = new Models.ApplicationUser()
+                    var newUser = new ApplicationUser()
                     {
                         UserName = "biscuolai",
                         Email = "ilson_biscuola@dialog.com.au"
@@ -39,7 +40,7 @@ namespace DLGP_SVDK.Infrastructure
                 if (await _userManager.FindByEmailAsync("oliver_fehr@dialog.com.au") == null)
                 {
                     // Add user Oliver Fehr
-                    var newUser = new Models.ApplicationUser()
+                    var newUser = new ApplicationUser()
                     {
                         UserName = "fehro",
                         Email = "oliver_fehr@dialog.com.au"

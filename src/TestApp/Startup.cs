@@ -19,6 +19,8 @@ using DLGP_SVDK.Repository.Repositories;
 using DLGP_SVDK.Repository;
 using DLGP_SVDK.Infrastructure;
 using DLGP_SVDK.Api.ViewModels;
+using DLGP_SVDK.Model.Domain.Common;
+using DLGP_SVDK.Repository.Common;
 
 namespace DLGP_SVDK
 {
@@ -71,6 +73,7 @@ namespace DLGP_SVDK
 
             // Add application services.
             services.AddTransient<AppContextSeedData>();
+            services.AddTransient<UserProfile>();
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
 
