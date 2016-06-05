@@ -1,18 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Authorization;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Mvc;
 using Microsoft.AspNet.Mvc.Rendering;
-using Microsoft.Data.Entity;
 using Microsoft.Extensions.Logging;
-using DLGP_SVDK.Models;
 using DLGP_SVDK.Services;
 using DLGP_SVDK.ViewModels.Account;
-using DLGP_SVDK.Model.Domain.Common;
+using DLGP_SVDK.Model.Domain.Entities.Identity;
 
 namespace DLGP_SVDK.Controllers
 {

@@ -5,7 +5,8 @@ using System.Linq;
 using System.Collections.Generic;
 using DLGP_SVDK.Model.Domain.Entities;
 using DLGP_SVDK.Models;
-using DLGP_SVDK.Model.Domain.Common;
+using DLGP_SVDK.Model.Domain.Entities.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace DLGP_SVDK.Infrastructure
 {
@@ -13,17 +14,25 @@ namespace DLGP_SVDK.Infrastructure
     {
         private ApplicationDbContext _context;
         private UserManager<ApplicationUser> _userManager;
+        private RoleManager<IdentityRole> _rolesManager;
 
-        public AppContextSeedData(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
+        public AppContextSeedData(ApplicationDbContext context, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> rolesManager)
         {
             _context = context;
             _userManager = userManager;
+            _rolesManager = rolesManager;
         }
 
         public async Task EnsureSeedDataAsync()
         {
             try
             {
+                if (!await _rolesManager.RoleExistsAsync("admin"))
+                {
+                    var newRole = new IdentityRole("admin");
+
+                    await _rolesManager.CreateAsync(newRole);
+                }
 
                 if (await _userManager.FindByEmailAsync("ilson_biscuola@dialog.com.au") == null)
                 {
@@ -31,22 +40,26 @@ namespace DLGP_SVDK.Infrastructure
                     var newUser = new ApplicationUser()
                     {
                         UserName = "biscuolai",
-                        Email = "ilson_biscuola@dialog.com.au"
+                        Email = "ilson_biscuola@dialog.com.au",
+                        DisplayName = "Ilson Biscuola"
                     };
 
                     await _userManager.CreateAsync(newUser, "Password0!");
+                    await _userManager.AddToRoleAsync(newUser, "admin");
                 }
 
-                if (await _userManager.FindByEmailAsync("oliver_fehr@dialog.com.au") == null)
+                if (await _userManager.FindByEmailAsync("admin@dialog.com.au") == null)
                 {
-                    // Add user Oliver Fehr
-                    var newUser = new ApplicationUser()
+                    // Add user admin
+                    var newAdmin = new ApplicationUser()
                     {
-                        UserName = "fehro",
-                        Email = "oliver_fehr@dialog.com.au"
+                        UserName = "admin",
+                        Email = "admin@dialog.com.au",
+                        DisplayName = "Admin User"
                     };
 
-                    await _userManager.CreateAsync(newUser, "Password0!");
+                    await _userManager.CreateAsync(newAdmin, "Password0!");
+                    await _userManager.AddToRoleAsync(newAdmin, "admin");
                 }
 
                 // Add a new project 

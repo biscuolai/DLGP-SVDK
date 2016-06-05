@@ -1,4 +1,4 @@
-﻿using DLGP_SVDK.Model.Domain.Common;
+﻿using DLGP_SVDK.Model.Domain.Entities.Identity;
 using Microsoft.AspNet.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using System;

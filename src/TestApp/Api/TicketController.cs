@@ -5,18 +5,23 @@ using DLGP_SVDK.Model.Domain.Entities;
 using System.Net;
 using System;
 using DLGP_SVDK.Api.ViewModels;
-using System.Linq;
-using Newtonsoft.Json;
+using Microsoft.AspNet.Identity;
+using System.Threading.Tasks;
+using DLGP_SVDK.Model.Domain.Entities.Identity;
+using Microsoft.AspNet.Authorization;
 
 namespace DLGP_SVDK.Web.Api
 {
+    [Authorize]
     [Route("api/tickets")]
     public class TicketController: Controller
     {
         //private ITicketRepository _repository;
 
+        private UserManager<ApplicationUser> userManager;
+
         [HttpGet("")]
-        public JsonResult GetAll()
+        public async Task<JsonResult> GetAll()
         {
             try
             {
@@ -31,6 +36,8 @@ namespace DLGP_SVDK.Web.Api
 
                     // serialize to string            
                     //string json2 = JsonConvert.SerializeObject(tickets, Formatting.Indented);
+                    ApplicationUser test = await userManager.FindByIdAsync("e0568abd-81fa-43ab-ad50-978cdd36cd1a");
+
 
                     return new JsonResult(new { data = tickets, success = true });
 
@@ -56,12 +63,16 @@ namespace DLGP_SVDK.Web.Api
         }
 
         [HttpGet("{id}")]
-        public JsonResult Get(int id)
+        public async Task<JsonResult> Get(int id)
         {
             using (var unitOfWork = new UnitOfWork(new ApplicationDbContext()))
             {
                 // Get a particular ticket
                 var ticket = unitOfWork.Tickets.Get(id);
+
+                ApplicationUser test = await userManager.FindByIdAsync("e0568abd-81fa-43ab-ad50-978cdd36cd1a");
+                                
+
                 return new JsonResult(new { data = ticket, success = true });
             }
         }

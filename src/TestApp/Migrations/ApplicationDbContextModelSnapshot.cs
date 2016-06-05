@@ -16,6 +16,58 @@ namespace TestApp.Migrations
                 .HasAnnotation("ProductVersion", "7.0.0-rc1-16348")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+            modelBuilder.Entity("DLGP_SVDK.Model.Domain.Entities.Identity.ApplicationUser", b =>
+                {
+                    b.Property<string>("Id");
+
+                    b.Property<int>("AccessFailedCount");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken();
+
+                    b.Property<string>("DisplayName")
+                        .IsRequired()
+                        .HasAnnotation("MaxLength", 100);
+
+                    b.Property<string>("Email")
+                        .HasAnnotation("MaxLength", 256);
+
+                    b.Property<bool>("EmailConfirmed");
+
+                    b.Property<bool>("LockoutEnabled");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasAnnotation("MaxLength", 256);
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasAnnotation("MaxLength", 256);
+
+                    b.Property<string>("PasswordHash");
+
+                    b.Property<string>("PhoneNumber");
+
+                    b.Property<bool>("PhoneNumberConfirmed");
+
+                    b.Property<string>("SecurityStamp");
+
+                    b.Property<bool>("TwoFactorEnabled");
+
+                    b.Property<string>("UserName")
+                        .HasAnnotation("MaxLength", 256);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedEmail")
+                        .HasAnnotation("Relational:Name", "EmailIndex");
+
+                    b.HasIndex("NormalizedUserName")
+                        .HasAnnotation("Relational:Name", "UserNameIndex");
+
+                    b.HasAnnotation("Relational:TableName", "AspNetUsers");
+                });
+
             modelBuilder.Entity("DLGP_SVDK.Model.Domain.Entities.Project", b =>
                 {
                     b.Property<int>("ProjectId")
@@ -164,8 +216,7 @@ namespace TestApp.Migrations
                         .IsRequired()
                         .HasAnnotation("MaxLength", 256);
 
-                    b.Property<DateTimeOffset>("EventDate")
-                        .ValueGeneratedOnAddOrUpdate();
+                    b.Property<DateTimeOffset>("EventDate");
 
                     b.Property<string>("EventDescription")
                         .HasAnnotation("MaxLength", 500);
@@ -260,54 +311,6 @@ namespace TestApp.Migrations
                     b.Property<int>("TicketId");
 
                     b.HasKey("TicketTagId");
-                });
-
-            modelBuilder.Entity("DLGP_SVDK.Models.ApplicationUser", b =>
-                {
-                    b.Property<string>("Id");
-
-                    b.Property<int>("AccessFailedCount");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken();
-
-                    b.Property<string>("Email")
-                        .HasAnnotation("MaxLength", 256);
-
-                    b.Property<bool>("EmailConfirmed");
-
-                    b.Property<bool>("LockoutEnabled");
-
-                    b.Property<DateTimeOffset?>("LockoutEnd");
-
-                    b.Property<string>("NormalizedEmail")
-                        .HasAnnotation("MaxLength", 256);
-
-                    b.Property<string>("NormalizedUserName")
-                        .HasAnnotation("MaxLength", 256);
-
-                    b.Property<string>("PasswordHash");
-
-                    b.Property<string>("PhoneNumber");
-
-                    b.Property<bool>("PhoneNumberConfirmed");
-
-                    b.Property<string>("SecurityStamp");
-
-                    b.Property<bool>("TwoFactorEnabled");
-
-                    b.Property<string>("UserName")
-                        .HasAnnotation("MaxLength", 256);
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("NormalizedEmail")
-                        .HasAnnotation("Relational:Name", "EmailIndex");
-
-                    b.HasIndex("NormalizedUserName")
-                        .HasAnnotation("Relational:Name", "UserNameIndex");
-
-                    b.HasAnnotation("Relational:TableName", "AspNetUsers");
                 });
 
             modelBuilder.Entity("Microsoft.AspNet.Identity.EntityFramework.IdentityRole", b =>
@@ -460,14 +463,14 @@ namespace TestApp.Migrations
 
             modelBuilder.Entity("Microsoft.AspNet.Identity.EntityFramework.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("DLGP_SVDK.Models.ApplicationUser")
+                    b.HasOne("DLGP_SVDK.Model.Domain.Entities.Identity.ApplicationUser")
                         .WithMany()
                         .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNet.Identity.EntityFramework.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("DLGP_SVDK.Models.ApplicationUser")
+                    b.HasOne("DLGP_SVDK.Model.Domain.Entities.Identity.ApplicationUser")
                         .WithMany()
                         .HasForeignKey("UserId");
                 });
@@ -478,7 +481,7 @@ namespace TestApp.Migrations
                         .WithMany()
                         .HasForeignKey("RoleId");
 
-                    b.HasOne("DLGP_SVDK.Models.ApplicationUser")
+                    b.HasOne("DLGP_SVDK.Model.Domain.Entities.Identity.ApplicationUser")
                         .WithMany()
                         .HasForeignKey("UserId");
                 });

@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNet.Builder;
 using Microsoft.AspNet.Hosting;
 using Microsoft.AspNet.Identity.EntityFramework;
@@ -10,17 +7,18 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Serialization;
-using DLGP_SVDK.Models;
 using DLGP_SVDK.Services;
 using AutoMapper;
 using DLGP_SVDK.Model.Domain.Entities;
-using DLGP_SVDK.Web.Api;
 using DLGP_SVDK.Repository.Repositories;
 using DLGP_SVDK.Repository;
 using DLGP_SVDK.Infrastructure;
 using DLGP_SVDK.Api.ViewModels;
-using DLGP_SVDK.Model.Domain.Common;
 using DLGP_SVDK.Repository.Common;
+using DLGP_SVDK.Model.Domain.Entities.Identity;
+using Microsoft.AspNet.Authentication.Cookies;
+using System.Net;
+using System.Threading.Tasks;
 
 namespace DLGP_SVDK
 {
@@ -61,9 +59,35 @@ namespace DLGP_SVDK
                 .AddDbContext<Models.ApplicationDbContext>(options =>
                     options.UseSqlServer(Configuration["Data:DefaultConnection:ConnectionString"]));
 
-            services.AddIdentity<ApplicationUser, IdentityRole>()
-                .AddEntityFrameworkStores<Models.ApplicationDbContext>()
-                .AddDefaultTokenProviders();
+            services.AddIdentity<ApplicationUser, IdentityRole>(config =>
+            {
+                config.User.RequireUniqueEmail = true;
+                config.Password.RequiredLength = 8;
+                //config.Cookies.ApplicationCookie.LoginPath = new Microsoft.AspNet.Http.PathString("/Account/Login");
+                config.Cookies.ApplicationCookie.LoginPath = "/Account/Login";
+                //config.Cookies.ApplicationCookie.CookieHttpOnly = true;
+                //config.Cookies.ApplicationCookie.CookieSecure = CookieSecureOption.SameAsRequest;
+                config.Cookies.ApplicationCookie.Events = new CookieAuthenticationEvents()
+                {
+                    OnRedirectToLogin = ctx =>
+                    {
+                        if (ctx.Request.Path.StartsWithSegments("/api") &&
+                            ctx.Response.StatusCode == (int)HttpStatusCode.OK)
+                        {
+                            ctx.Response.Redirect("/Account/Login");
+                            ctx.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
+                        }
+                        else
+                        {
+                            ctx.Response.Redirect(ctx.RedirectUri);
+                        }
+
+                        return Task.FromResult(0);
+                    }
+                };
+            })
+            .AddEntityFrameworkStores<Models.ApplicationDbContext>()
+            .AddDefaultTokenProviders();
 
             services.AddMvc()
                 .AddJsonOptions(opt =>
@@ -73,7 +97,6 @@ namespace DLGP_SVDK
 
             // Add application services.
             services.AddTransient<AppContextSeedData>();
-            services.AddTransient<UserProfile>();
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
 
