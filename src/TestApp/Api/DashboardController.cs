@@ -2,11 +2,13 @@
 using DLGP_SVDK.Repository;
 using System;
 using System.Net;
+using Microsoft.AspNet.Authorization;
 
 // For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace DLGP_SVDK.Web.Api
 {
+    [Authorize]
     [Route("api/dashboard")]
     public class DashboardController : Controller
     {

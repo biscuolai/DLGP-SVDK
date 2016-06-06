@@ -19,6 +19,7 @@ using DLGP_SVDK.Model.Domain.Entities.Identity;
 using Microsoft.AspNet.Authentication.Cookies;
 using System.Net;
 using System.Threading.Tasks;
+using Microsoft.AspNet.Http;
 
 namespace DLGP_SVDK
 {
@@ -48,6 +49,18 @@ namespace DLGP_SVDK
 
         public static IConfigurationRoot Configuration { get; set; }
 
+
+        private static bool IsAjaxRequest(HttpRequest request)
+        {
+            IReadableStringCollection query = request.Query;
+            if ((query != null) && (query["X-Requested-With"] == "XMLHttpRequest"))
+            {
+                return true;
+            }
+            IHeaderDictionary headers = request.Headers;
+            return ((headers != null) && (headers["X-Requested-With"] == "XMLHttpRequest"));
+        }
+
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
@@ -63,23 +76,30 @@ namespace DLGP_SVDK
             {
                 config.User.RequireUniqueEmail = true;
                 config.Password.RequiredLength = 8;
-                //config.Cookies.ApplicationCookie.LoginPath = new Microsoft.AspNet.Http.PathString("/Account/Login");
-                config.Cookies.ApplicationCookie.LoginPath = "/Account/Login";
+                config.Cookies.ApplicationCookie.LoginPath = new PathString("/Account/Login");
+                //config.Cookies.ApplicationCookie.LoginPath = "/Account/Login";
                 //config.Cookies.ApplicationCookie.CookieHttpOnly = true;
                 //config.Cookies.ApplicationCookie.CookieSecure = CookieSecureOption.SameAsRequest;
                 config.Cookies.ApplicationCookie.Events = new CookieAuthenticationEvents()
                 {
                     OnRedirectToLogin = ctx =>
                     {
-                        if (ctx.Request.Path.StartsWithSegments("/api") &&
-                            ctx.Response.StatusCode == (int)HttpStatusCode.OK)
+                        if (!IsAjaxRequest(ctx.Request))
                         {
-                            ctx.Response.Redirect("/Account/Login");
                             ctx.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
+                            ctx.Response.Redirect(ctx.RedirectUri);
                         }
                         else
                         {
-                            ctx.Response.Redirect(ctx.RedirectUri);
+                            if (ctx.Request.Path.StartsWithSegments("/api") &&
+                                ctx.Response.StatusCode == (int)HttpStatusCode.OK)
+                            {
+                                ctx.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
+                            }
+                            else
+                            {
+                                ctx.Response.Redirect(ctx.RedirectUri);
+                            }
                         }
 
                         return Task.FromResult(0);
@@ -88,7 +108,7 @@ namespace DLGP_SVDK
             })
             .AddEntityFrameworkStores<Models.ApplicationDbContext>()
             .AddDefaultTokenProviders();
-
+            
             services.AddMvc()
                 .AddJsonOptions(opt =>
                 {

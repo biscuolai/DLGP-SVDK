@@ -1,25 +1,24 @@
 ﻿using Microsoft.AspNet.Mvc;
-using DLGP_SVDK.Models;
-using Microsoft.AspNet.Identity;
-using System.Security.Claims;
 using System.Linq;
-using Microsoft.AspNet.Identity.EntityFramework;
+using Microsoft.AspNet.Authorization;
+using DLGP_SVDK.Repository.Common;
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace DLGP_SVDK.Web.Api
 {
+    [Authorize]
     [Route("api/admin")]
     public class AdminController : Controller
     {
         // GET: api/admin/users
         [HttpGet("users")]
-        public JsonResult Get(int id)
+        public JsonResult Get()
         {
-            var context = new ApplicationDbContext();
-            var users = context.Users.Where(x => x.Roles.Select(y => y.RoleId).Contains("1")).ToList();
+            var users = new UserProfile();
+            var displayName = users.DisplayNameById("");
 
-            return new JsonResult(new { data = users, success = true });
+            return new JsonResult(new { data = displayName, success = true });
         }
 
         //[HttpGet("user")]

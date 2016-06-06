@@ -1,12 +1,12 @@
 ﻿using Microsoft.AspNet.Mvc;
 using DLGP_SVDK.Repository;
-using DLGP_SVDK.Model.Domain.Entities;
-using Newtonsoft.Json;
+using Microsoft.AspNet.Authorization;
 
 // For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace DLGP_SVDK.Web.Api
 {
+    [Authorize]
     [Route("api/projects")]
     public class ProjectController : Controller
     {

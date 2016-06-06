@@ -9,7 +9,7 @@
 
             // Application routes
             $stateProvider
-                .state('index', {
+                .state('dashboard', {
                     url: '/',
                     templateUrl: '../templates/dashboard.html'
                 })
