@@ -21,57 +21,32 @@ namespace DLGP_SVDK.Web.Api
         private UserManager<ApplicationUser> userManager;
 
         [HttpGet("")]
-        public async Task<JsonResult> GetAll()
+        public JsonResult GetAll()
         {
             try
             {
                 using (var unitOfWork = new UnitOfWork(new ApplicationDbContext()))
                 {
-                    // Example1
-                    //var course = unitOfWork.Courses.Get(1);
-
-                    // Example2
-                    var tickets = unitOfWork.Tickets.GetTopUrgentTickets(10);
-
-
-                    // serialize to string            
-                    //string json2 = JsonConvert.SerializeObject(tickets, Formatting.Indented);
-                    ApplicationUser test = await userManager.FindByIdAsync("e0568abd-81fa-43ab-ad50-978cdd36cd1a");
-
+                    // Get the list of all tickets and limit by page in the UI layer
+                    var tickets = unitOfWork.Tickets.GetAllTickets();
 
                     return new JsonResult(new { data = tickets, success = true });
-
-                    // Example3
-                    //var author = unitOfWork.Authors.GetAuthorWithCourses(1);
-                    //unitOfWork.Tickets.RemoveRange(author.Courses);
-                    //unitOfWork.Authors.Remove(author);
-                    //unitOfWork.Complete();
                 }
-
-
-                //var results = Mapper.Map<IEnumerable<TicketViewModel>>(_repository.GetTopUrgentTickets(10));
-                //return new JsonResult(new { data = results, success = true });
-
-                //return Json("null");
             }
             catch (Exception ex)
             {
                 Response.StatusCode = (int)HttpStatusCode.BadRequest;
                 return Json(new { Message = ex.Message });
             }
-
         }
 
         [HttpGet("{id}")]
-        public async Task<JsonResult> Get(int id)
+        public JsonResult Get(int id)
         {
             using (var unitOfWork = new UnitOfWork(new ApplicationDbContext()))
             {
                 // Get a particular ticket
                 var ticket = unitOfWork.Tickets.Get(id);
-
-                ApplicationUser test = await userManager.FindByIdAsync("e0568abd-81fa-43ab-ad50-978cdd36cd1a");
-                                
 
                 return new JsonResult(new { data = ticket, success = true });
             }

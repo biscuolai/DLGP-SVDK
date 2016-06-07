@@ -37,13 +37,24 @@ namespace DLGP_SVDK.Repository.Repositories
                 .Include(c => c.Status)
                 .Include(c => c.ContactType)
                 .Include(c => c.Priority)
-                .Include(c => c.Category).ToList();
-                //.OrderByDescending(c => c.Priority).Take(count)
-                //.Include(l => l.LookupValues.Where(x => x.Id == l.CategoryId && x.Active == true && x.LookupType == LookupValueType.Category)
-                //.ToList());
+                .Include(c => c.Category)
+                .OrderByDescending(c => c.Priority).Take(count)
+                .ToList();
         }
 
-        public IEnumerable<Ticket> GetAllAssignedTickets(int pageIndex, int pageSize = 10)
+        public IEnumerable<Ticket> GetAllTickets()
+        {
+            return ApplicationContext.Tickets.Include(c => c.Project)
+                .Include(c => c.ConfigurationItem)
+                .Include(c => c.Status)
+                .Include(c => c.ContactType)
+                .Include(c => c.Priority)
+                .Include(c => c.Category)
+                .OrderByDescending(c => c.Priority)
+                .ToList();
+        }
+
+        public IEnumerable<Ticket> GetAllTicketsLimitedByPage(int pageIndex, int pageSize = 10)
         {
             return ApplicationContext.Tickets
                 .Include(c => c.Project)

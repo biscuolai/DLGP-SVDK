@@ -19,8 +19,8 @@ namespace DLGP_SVDK.Model.Domain.Entities.Identity
         public async Task<IdentityResult> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
-            //var userIdentity = await manager.CreateIdentityAsync(this, DefaultAuthenticationTypes.ApplicationCookie);
-            //userIdentity.AddClaim(new Claim(ClaimTypes.GivenName, DisplayName));
+            // var userIdentity = await manager.CreateIdentityAsync(this, DefaultAuthenticationTypes.ApplicationCookie);
+            // userIdentity.AddClaim(new Claim(ClaimTypes.GivenName, DisplayName));
 
             var userIdentity = await manager.AddClaimAsync(this, new Claim(ClaimTypes.GivenName, DisplayName));
 

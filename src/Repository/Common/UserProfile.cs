@@ -2,6 +2,7 @@
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace DLGP_SVDK.Repository.Common
@@ -21,6 +22,22 @@ namespace DLGP_SVDK.Repository.Common
         {
             ApplicationUser result = await _userManager.FindByIdAsync(id);
             return result.DisplayName;
+        }
+
+        public IQueryable<IdentityUser> GetUsersInRole(ApplicationDbContext db, string roleName)
+        {
+            if (db != null && roleName != null)
+            {
+                var roles = db.Roles.Where(r => r.Name == roleName);
+                if (roles.Any())
+                {
+                    var roleId = roles.First().Id;
+                    return from user in db.Users
+                           where user.Roles.Any(r => r.RoleId == roleId)
+                           select user;
+                }
+            }
+            return null;
         }
     }
 }

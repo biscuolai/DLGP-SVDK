@@ -42,6 +42,10 @@ namespace DLGP_SVDK.Controllers
         public IActionResult Login()
         {
             //ViewData["ReturnUrl"] = returnUrl;
+            if (User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction(nameof(HomeController.Index), "Home");
+            }
             return View();
         }
 
@@ -62,6 +66,18 @@ namespace DLGP_SVDK.Controllers
                 {
                     _logger.LogInformation(1, "User logged in.");
                     return RedirectToLocal(returnUrl);
+                    //if (string.IsNullOrWhiteSpace(returnUrl))
+                    //{
+                    //    RedirectToAction("Index", "Home");
+                    //}
+                    //else
+                    //{
+                    //    Redirect(returnUrl);
+                    //}
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Username or Password Incorrect");
                 }
                 if (result.RequiresTwoFactor)
                 {
@@ -101,18 +117,18 @@ namespace DLGP_SVDK.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, DisplayName = model.DisplayName };
+                var user = new ApplicationUser { UserName = model.DisplayName, Email = model.Email, DisplayName = model.DisplayName };
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=532713
                     // Send an email with this link
-                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                    var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: HttpContext.Request.Scheme);
-                    await _emailSender.SendEmailAsync(model.Email, "Confirm your account",
-                        "Please confirm your account by clicking this link: <a href=\"" + callbackUrl + "\">link</a>");
-                    await _signInManager.SignInAsync(user, isPersistent: false);
-                    _logger.LogInformation(3, "User created a new account with password.");
+                    //var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                    //var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: HttpContext.Request.Scheme);
+                    //await _emailSender.SendEmailAsync(model.Email, "Confirm your account",
+                    //    "Please confirm your account by clicking this link: <a href=\"" + callbackUrl + "\">link</a>");
+                    //await _signInManager.SignInAsync(user, isPersistent: false);
+                    //_logger.LogInformation(3, "User created a new account with password.");
                     return RedirectToAction(nameof(HomeController.Index), "Home");
                 }
                 AddErrors(result);
@@ -128,9 +144,14 @@ namespace DLGP_SVDK.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> LogOff()
         {
-            await _signInManager.SignOutAsync();
+            if (User.Identity.IsAuthenticated)
+            {
+                await _signInManager.SignOutAsync();
+            }
+            //await _signInManager.SignOutAsync();
             _logger.LogInformation(4, "User logged out.");
-            return RedirectToAction(nameof(HomeController.Index), "Home");
+            //return RedirectToAction("Index", "Home");
+            return RedirectToAction(nameof(AccountController.Login), "Account");
         }
 
         //

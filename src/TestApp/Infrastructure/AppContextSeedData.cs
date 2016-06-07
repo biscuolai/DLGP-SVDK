@@ -34,6 +34,13 @@ namespace DLGP_SVDK.Infrastructure
                     await _rolesManager.CreateAsync(newRole);
                 }
 
+                if (!await _rolesManager.RoleExistsAsync("operator"))
+                {
+                    var newRole = new IdentityRole("operator");
+
+                    await _rolesManager.CreateAsync(newRole);
+                }
+
                 if (await _userManager.FindByEmailAsync("ilson_biscuola@dialog.com.au") == null)
                 {
                     // Add user Ilson Biscuola
@@ -60,6 +67,20 @@ namespace DLGP_SVDK.Infrastructure
 
                     await _userManager.CreateAsync(newAdmin, "Password0!");
                     await _userManager.AddToRoleAsync(newAdmin, "admin");
+                }
+
+                if (await _userManager.FindByEmailAsync("helpdesk@dialog.com.au") == null)
+                {
+                    // Add user admin
+                    var newOperator = new ApplicationUser()
+                    {
+                        UserName = "Operator",
+                        Email = "helpdesk@dialog.com.au",
+                        DisplayName = "Operator"
+                    };
+
+                    await _userManager.CreateAsync(newOperator, "Password0!");
+                    await _userManager.AddToRoleAsync(newOperator, "operator");
                 }
 
                 // Add a new project 
