@@ -1,5 +1,4 @@
-﻿<div id="page-wrapper" ng-class="{'open': toggle}" ng-cloak>
-
+﻿<div id="page-wrapper" ng-class="{'open': toggle}" ng-cloak ng-show="globals.currentUser">
     <!-- Sidebar -->
     <div id="sidebar-wrapper">
         <ul class="sidebar">
@@ -49,3 +48,5 @@
         </div><!-- End Page Content -->
     </div><!-- End Content Wrapper -->
 </div><!-- End Page Wrapper -->
+
+<div ui-view ng-hide="globals.currentUser"></div>

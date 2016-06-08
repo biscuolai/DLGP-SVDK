@@ -1,17 +1,17 @@
-﻿(function () {
-    'use strict';
+﻿//(function () {
+//    'use strict';
 
-    angular
-        .module('app')
-        .controller('loginController', ['$rootScope', '$http', function ($rootScope, $http) {
+//    angular
+//        .module('app')
+//        .controller('loginController', ['$rootScope', '$http', function ($rootScope, $http) {
 
-            isLoggedIn = false;
+//            isLoggedIn = false;
 
-            $http.get('/api/admin/issignedin').success(function (data) {
-                // success
-                $rootScope.auth = data;
-            });
+//            $http.get('/api/admin/issignedin').success(function (data) {
+//                // success
+//                $rootScope.auth = data;
+//            });
            
-            debugger;
-        }]);
-})();
+//            debugger;
+//        }]);
+//})();

@@ -4,7 +4,7 @@
     angular.module('app')
     .controller('masterController', ['$scope', '$cookieStore', masterController]);
 
-function masterController($scope, $cookieStore) {
+    function masterController($scope, $cookieStore) {
     /**
      * Sidebar Toggle & Cookie Control
      */
