@@ -9,24 +9,52 @@
 
             service.Login = function (username, password, callback) {
 
+                //debugger;
+
                 /* Dummy authentication for testing, uses $timeout to simulate api call
                  ----------------------------------------------*/
-                $timeout(function () {
-                    var response = { success: username === 'test' && password === 'test' };
-                    if (!response.success) {
-                        response.message = 'Username or password is incorrect';
-                    }
-                    callback(response);
-                }, 1000);
-
+                //$timeout(function () {
+                //    var response = { success: username === 'test' && password === 'test' };
+                //    if (!response.success) {
+                //        response.message = 'Username or password is incorrect';
+                //    }
+                //    callback(response);
+                //}, 1000);
 
                 /* Use this for real authentication
                  ----------------------------------------------*/
-                //$http.post('/api/authenticate', { username: username, password: password })
-                //    .success(function (response) {
-                //        callback(response);
-                //    });
+                $http({
+                    method: 'POST',
+                    url: '/api/user/login',
+                    data: {
+                        email: username, password: password, rememberMe: false
+                    },
+                    headers: {										
+                        '__RequestVerificationToken': $('input[name=__RequestVerificationToken]').attr('value')
+                    }
+                }).success(function (response) {
+                    debugger;
+                    callback(response);
+                });
+            };
 
+            service.Register = function (username, password, confirmPassword, displayname, callback) {
+
+                debugger;
+
+                $http({
+                    method: 'POST',
+                    url: '/api/user/register',
+                    data: {
+                        email: username, password: password, confirmPassword: confirmPassword, displayname: displayname,
+                    },
+                    headers: {
+                        '__RequestVerificationToken': $('input[name=__RequestVerificationToken]').attr('value')
+                    }
+                }).success(function (response) {
+                    debugger;
+                    callback(response);
+                });
             };
 
             service.SetCredentials = function (username, password) {

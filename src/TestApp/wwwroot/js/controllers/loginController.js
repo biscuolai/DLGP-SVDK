@@ -10,18 +10,26 @@
             AuthenticationService.ClearCredentials();
 
             $scope.login = function () {
+
+                debugger;
+
                 $scope.dataLoading = true;
                 AuthenticationService.Login($scope.username, $scope.password, function (response) {
 
-                    debugger;
-
                     if (response.success) {
+
+                        debugger;
+
                         AuthenticationService.SetCredentials($scope.username, $scope.password);
                         $location.path('/');
                     } else {
+
+                        debugger;
+
                         $scope.error = response.message;
                         $scope.dataLoading = false;
                     }
+
                 });
             };
         }]);

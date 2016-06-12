@@ -9,10 +9,13 @@ using Microsoft.Extensions.Logging;
 using DLGP_SVDK.Services;
 using DLGP_SVDK.ViewModels.Account;
 using DLGP_SVDK.Model.Domain.Entities.Identity;
+using System;
+using System.Net;
 
 namespace DLGP_SVDK.Controllers
 {
-    [Authorize]
+    [Route("api/user")]
+    //[Authorize]
     public class AccountController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;
@@ -49,54 +52,102 @@ namespace DLGP_SVDK.Controllers
             return View();
         }
 
+        //[HttpGet]
+        //[AllowAnonymous]
+        //public string GetAntiForgeryTokens()
+        //{
+        //    var antiForgery = Context.RequestServices.GetService<AntiForgery>();
+        //    AntiForgeryTokenSet antiForgeryTokenSet = antiForgery.GetTokens(Context, null);
+        //    string output = antiForgeryTokenSet.CookieToken + ":" + antiForgeryTokenSet.FormToken;
+        //    return output;
+        //}
+
         //
-        // POST: /Account/Login
-        [HttpPost]
+        // POST: /api/user/login
+        [HttpPost("login")]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login(LoginViewModel model, string returnUrl = null)
+        public async Task<JsonResult> Login([FromBody] LoginViewModel model, string returnUrl = null)
         {
-            ViewData["ReturnUrl"] = returnUrl;
-            if (ModelState.IsValid)
+            try
             {
-                // This doesn't count login failures towards account lockout
-                // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-                var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
-                if (result.Succeeded)
+                //ViewData["ReturnUrl"] = returnUrl;
+                if (ModelState.IsValid)
                 {
-                    _logger.LogInformation(1, "User logged in.");
-                    return RedirectToLocal(returnUrl);
-                    //if (string.IsNullOrWhiteSpace(returnUrl))
+                    // This doesn't count login failures towards account lockout
+                    // To enable password failures to trigger account lockout, set lockoutOnFailure: true
+                    var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
+                    if (result.Succeeded)
+                    {
+                        _logger.LogInformation(1, "User logged in.");
+                        return new JsonResult(new { message = "User logged in.", success = true });
+                    }
+                    else
+                    {
+                        _logger.LogInformation(1, "Username or Password Incorrect.");
+                        return new JsonResult(new { message = "Username or password is incorrect", success = false });
+                    }
+                    //if (result.RequiresTwoFactor)
                     //{
-                    //    RedirectToAction("Index", "Home");
+                    //    return RedirectToAction(nameof(SendCode), new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
+                    //}
+                    //if (result.IsLockedOut)
+                    //{
+                    //    _logger.LogWarning(2, "User account locked out.");
+                    //    return View("Lockout");
                     //}
                     //else
                     //{
-                    //    Redirect(returnUrl);
+                    //    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    //    return View(model);
                     //}
-                }
-                else
-                {
-                    ModelState.AddModelError("", "Username or Password Incorrect");
-                }
-                if (result.RequiresTwoFactor)
-                {
-                    return RedirectToAction(nameof(SendCode), new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
-                }
-                if (result.IsLockedOut)
-                {
-                    _logger.LogWarning(2, "User account locked out.");
-                    return View("Lockout");
-                }
-                else
-                {
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
-                    return View(model);
-                }
-            }
 
-            // If we got this far, something failed, redisplay form
-            return View(model);
+
+                    // original code
+
+                    //ViewData["ReturnUrl"] = returnUrl;
+                    //if (ModelState.IsValid)
+                    //{
+                    //    // This doesn't count login failures towards account lockout
+                    //    // To enable password failures to trigger account lockout, set lockoutOnFailure: true
+                    //    var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
+                    //    if (result.Succeeded)
+                    //    {
+                    //        _logger.LogInformation(1, "User logged in.");
+                    //        return RedirectToLocal(returnUrl);
+                    //    }
+                    //    else
+                    //    {
+                    //        ModelState.AddModelError("", "Username or Password Incorrect");
+                    //    }
+                    //    if (result.RequiresTwoFactor)
+                    //    {
+                    //        return RedirectToAction(nameof(SendCode), new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
+                    //    }
+                    //    if (result.IsLockedOut)
+                    //    {
+                    //        _logger.LogWarning(2, "User account locked out.");
+                    //        return View("Lockout");
+                    //    }
+                    //    else
+                    //    {
+                    //        ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    //        return View(model);
+                    //    }
+
+
+
+                }
+
+                // If we got this far, something failed, redisplay form
+                Response.StatusCode = (int)HttpStatusCode.Unauthorized;
+                return new JsonResult(new { message = "Error trying to login user.", success = false });
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return new JsonResult(new { message = ex.Message, success = false });
+            }
         }
 
         //
@@ -109,11 +160,11 @@ namespace DLGP_SVDK.Controllers
         }
 
         //
-        // POST: /Account/Register
-        [HttpPost]
+        // POST: /api/user/register
+        [HttpPost("register")]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Register(RegisterViewModel model)
+        public async Task<JsonResult> Register([FromBody] RegisterViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -128,21 +179,25 @@ namespace DLGP_SVDK.Controllers
                     //await _emailSender.SendEmailAsync(model.Email, "Confirm your account",
                     //    "Please confirm your account by clicking this link: <a href=\"" + callbackUrl + "\">link</a>");
                     //await _signInManager.SignInAsync(user, isPersistent: false);
-                    //_logger.LogInformation(3, "User created a new account with password.");
-                    return RedirectToAction(nameof(HomeController.Index), "Home");
+                    _logger.LogInformation(3, "User created a new account with password.");
+                    await _signInManager.SignInAsync(user, isPersistent: false);
+                    return new JsonResult(new { message = "User created successfully.", success = true });
+                    //return RedirectToAction(nameof(HomeController.Index), "Home");
                 }
-                AddErrors(result);
+                //AddErrors(result);
             }
 
             // If we got this far, something failed, redisplay form
-            return View(model);
+            //return View(model);
+            _logger.LogInformation(1, "Something went wrong when creating new user.");
+            return new JsonResult(new { message = "Something went wrong when creating new user.", success = false });
         }
 
         //
-        // POST: /Account/LogOff
-        [HttpPost]
+        // POST: /api/user/logoff
+        [HttpPost("logoff")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> LogOff()
+        public async Task<JsonResult> LogOff()
         {
             if (User.Identity.IsAuthenticated)
             {
@@ -151,7 +206,8 @@ namespace DLGP_SVDK.Controllers
             //await _signInManager.SignOutAsync();
             _logger.LogInformation(4, "User logged out.");
             //return RedirectToAction("Index", "Home");
-            return RedirectToAction(nameof(AccountController.Login), "Account");
+            //return RedirectToAction(nameof(AccountController.Login), "Account");
+            return new JsonResult(new { message = "User logged out.", success = true });
         }
 
         //

@@ -20,6 +20,9 @@ using Microsoft.AspNet.Authentication.Cookies;
 using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Http;
+using Microsoft.AspNet.Antiforgery;
+using DLGP_SVDK.Web.Extensions;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace DLGP_SVDK
 {
@@ -48,7 +51,6 @@ namespace DLGP_SVDK
         }
 
         public static IConfigurationRoot Configuration { get; set; }
-
 
         private static bool IsAjaxRequest(HttpRequest request)
         {
@@ -80,6 +82,8 @@ namespace DLGP_SVDK
                 //config.Cookies.ApplicationCookie.LoginPath = "/Account/Login";
                 //config.Cookies.ApplicationCookie.CookieHttpOnly = true;
                 //config.Cookies.ApplicationCookie.CookieSecure = CookieSecureOption.SameAsRequest;
+                config.User.AllowedUserNameCharacters =
+                "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+ ";
                 config.Cookies.ApplicationCookie.Events = new CookieAuthenticationEvents()
                 {
                     OnRedirectToLogin = ctx =>
@@ -114,6 +118,17 @@ namespace DLGP_SVDK
                 {
                     opt.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
                 });
+
+            // Configure Identity Options
+            var antiforgeryOptionsConfig = Configuration.GetSection("AntiforgeryOptions");
+            services.Configure<AntiforgeryOptions>(antiforgeryOptionsConfig);
+
+            // Add Antiforgery services to the service container
+            services.AddAntiforgery();
+
+            // HACK: Header based Antiforgery Token won't be supported until RC2 
+            var serviceDescriptor = ServiceDescriptor.Singleton(typeof(IAntiforgeryTokenStore), typeof(CustomAntiforgeryTokenStore));
+            services.Replace(serviceDescriptor);
 
             // Add application services.
             services.AddTransient<AppContextSeedData>();

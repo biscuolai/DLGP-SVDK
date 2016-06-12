@@ -68,11 +68,11 @@
                     templateUrl: '../templates/user.html',
                     accessLevel: accessLevels.user
                 })
-                .state('app.register', {
+                .state('register', {
                     url: '/register',
                     templateUrl: '../templates/register.html',
                     controller: 'registerController',
-                    accessLevel: accessLevels.anon
+                    accessLevel: accessLevels.public
                 });
             // For unmatched routes
             $urlRouterProvider.otherwise('/login');

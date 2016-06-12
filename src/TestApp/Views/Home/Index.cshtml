@@ -1,4 +1,5 @@
-﻿<div id="page-wrapper" ng-class="{'open': toggle}" ng-cloak ng-show="globals.currentUser">
+﻿@Html.AntiForgeryToken()
+<div id="page-wrapper" ng-class="{'open': toggle}" ng-cloak ng-show="globals.currentUser">
     <!-- Sidebar -->
     <div id="sidebar-wrapper">
         <ul class="sidebar">
