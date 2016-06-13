@@ -130,6 +130,11 @@ namespace DLGP_SVDK
             var serviceDescriptor = ServiceDescriptor.Singleton(typeof(IAntiforgeryTokenStore), typeof(CustomAntiforgeryTokenStore));
             services.Replace(serviceDescriptor);
 
+            services.ConfigureAntiforgery(config =>
+            {
+                config.SuppressXFrameOptionsHeader = true;
+            });
+            
             // Add application services.
             services.AddTransient<AppContextSeedData>();
             services.AddTransient<IEmailSender, AuthMessageSender>();

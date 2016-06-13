@@ -10,7 +10,13 @@ namespace DLGP_SVDK.Repository.Common
     public class UserProfile
     {
         private UserManager<ApplicationUser> _userManager;
-        private RoleManager<IdentityRole> _roleManager;
+        //private RoleManager<IdentityRole> _roleManager;
+
+        public UserProfile(UserManager<ApplicationUser> userManager)
+        {
+            _userManager = userManager;
+            //_roleManager = roleManager;
+        }
 
         public async Task<string> DisplayName(string username)
         {
@@ -22,6 +28,11 @@ namespace DLGP_SVDK.Repository.Common
         {
             ApplicationUser result = await _userManager.FindByIdAsync(id);
             return result.DisplayName;
+        }
+        public async Task<ApplicationUser> DisplayNameByEmail(string email)
+        {
+            ApplicationUser result = await _userManager.FindByEmailAsync(email);
+            return result;
         }
 
         public IQueryable<IdentityUser> GetUsersInRole(ApplicationDbContext db, string roleName)

@@ -6,8 +6,8 @@
      * Simple directive to check password equality
      *
      * usage:
-     * <input type="password" ng-model="password" password-match="password2">
-     * <input type="password" ng-model="password2">
+     * <input type="password" ng-model="password" password-match="confirmPassword">
+     * <input type="password" ng-model="confirmPassword">
      */
     .directive('passwordMatch', function () {
         return {

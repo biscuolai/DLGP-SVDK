@@ -13,6 +13,7 @@
 /// <reference path="js/controllers/datagridcontroller.js" />
 /// <reference path="js/controllers/homecontroller.js" />
 /// <reference path="js/controllers/logincontroller.js" />
+/// <reference path="js/controllers/logoffcontroller.js" />
 /// <reference path="js/controllers/mastercontroller.js" />
 /// <reference path="js/controllers/registercontroller.js" />
 /// <reference path="js/controllers/ticketController.js" />

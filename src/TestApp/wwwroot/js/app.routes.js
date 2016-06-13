@@ -48,6 +48,12 @@
                     controller: 'loginController',
                     hideMenus: true
                 })
+                //.state('logoff', {
+                //    url: '/logoff',
+                //    //templateUrl: '../templates/login.html',
+                //    controller: 'logoffController',
+                //    hideMenus: true
+                //})
                 .state('app.error', {
                     url: '/error/:error',
                     templateUrl: '../templates/error.html',

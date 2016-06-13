@@ -2,9 +2,9 @@
     'use strict';
 
     angular.module('app')
-    .controller('masterController', ['$scope', '$http', '$cookieStore', '$rootScope', '$state', 'AuthenticationService', masterController]);
+    .controller('masterController', ['$scope', '$http', '$cookieStore', masterController]);
 
-    function masterController($scope, $http, $cookieStore, $rootScope, AuthenticationService, $state) {
+    function masterController($scope, $http, $cookieStore) {
     /**
      * Sidebar Toggle & Cookie Control
      */
@@ -35,31 +35,5 @@
     window.onresize = function () {
         $scope.$apply();
     };
-
-    //$scope.reloadRoute = function () {
-    //    $state.reload();
-    //};
-
-    $scope.Logoff = function () {
-//        debugger;
-
-        //alert($('input[name=__RequestVerificationToken]').attr('value'));
-
-        //$http({
-        //    method: 'POST',
-        //    url: '/api/user/logoff',
-        //    headers: {
-        //        '__RequestVerificationToken': $('input[name=__RequestVerificationToken]').attr('value')
-        //    }
-        //});
-
-        // reset login status
-        AuthenticationService.ClearCredentials();
-
-        // goes back to login page once log off
-        $location.path("/");
-
-        //reloadRoute();
-    }
 }
 })();

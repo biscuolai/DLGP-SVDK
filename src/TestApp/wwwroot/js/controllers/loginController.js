@@ -20,7 +20,7 @@
 
                         debugger;
 
-                        AuthenticationService.SetCredentials($scope.username, $scope.password);
+                        AuthenticationService.SetCredentials($scope.username, $scope.password, response.data);
                         $location.path('/');
                     } else {
 

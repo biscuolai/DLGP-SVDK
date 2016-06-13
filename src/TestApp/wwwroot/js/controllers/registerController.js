@@ -51,7 +51,7 @@
                 debugger;
 
                 $scope.dataLoading = true;
-                AuthenticationService.Register($scope.username, $scope.password, $scope.password2, $scope.name, function (response) {
+                AuthenticationService.Register($scope.username, $scope.password, $scope.confirmPassword, $scope.displayName, function (response) {
 
                     if (response.success) {
 

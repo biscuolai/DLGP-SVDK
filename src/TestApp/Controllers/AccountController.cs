@@ -11,6 +11,8 @@ using DLGP_SVDK.ViewModels.Account;
 using DLGP_SVDK.Model.Domain.Entities.Identity;
 using System;
 using System.Net;
+using DLGP_SVDK.Repository.Common;
+using Microsoft.AspNet.Antiforgery;
 
 namespace DLGP_SVDK.Controllers
 {
@@ -74,18 +76,25 @@ namespace DLGP_SVDK.Controllers
                 //ViewData["ReturnUrl"] = returnUrl;
                 if (ModelState.IsValid)
                 {
+                    if (User.Identity.IsAuthenticated)
+                    {
+                        await _signInManager.SignOutAsync();
+                    }
+
                     // This doesn't count login failures towards account lockout
                     // To enable password failures to trigger account lockout, set lockoutOnFailure: true
                     var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
                     if (result.Succeeded)
                     {
                         _logger.LogInformation(1, "User logged in.");
-                        return new JsonResult(new { message = "User logged in.", success = true });
+                        var userprofile = new UserProfile(_userManager);
+                        var userData = await userprofile.DisplayNameByEmail(model.Email);
+                        return new JsonResult(new { data = userData, message = "User logged in.", success = true });
                     }
                     else
                     {
                         _logger.LogInformation(1, "Username or Password Incorrect.");
-                        return new JsonResult(new { message = "Username or password is incorrect", success = false });
+                        return new JsonResult(new { data = Json("null"), message = "Username or password is incorrect", success = false });
                     }
                     //if (result.RequiresTwoFactor)
                     //{
@@ -141,12 +150,12 @@ namespace DLGP_SVDK.Controllers
 
                 // If we got this far, something failed, redisplay form
                 Response.StatusCode = (int)HttpStatusCode.Unauthorized;
-                return new JsonResult(new { message = "Error trying to login user.", success = false });
+                return new JsonResult(new { data = Json("null"), message = "Error trying to login user.", success = false });
             }
             catch (Exception ex)
             {
                 Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                return new JsonResult(new { message = ex.Message, success = false });
+                return new JsonResult(new { data = Json("null"), message = ex.Message, success = false });
             }
         }
 
@@ -180,8 +189,15 @@ namespace DLGP_SVDK.Controllers
                     //    "Please confirm your account by clicking this link: <a href=\"" + callbackUrl + "\">link</a>");
                     //await _signInManager.SignInAsync(user, isPersistent: false);
                     _logger.LogInformation(3, "User created a new account with password.");
+                    if (User.Identity.IsAuthenticated)
+                    {
+                        await _signInManager.SignOutAsync();
+                    }
                     await _signInManager.SignInAsync(user, isPersistent: false);
-                    return new JsonResult(new { message = "User created successfully.", success = true });
+
+                    var userprofile = new UserProfile(_userManager);
+                    var userData = await userprofile.DisplayNameByEmail(model.Email);
+                    return new JsonResult(new { data = userData, message = "User created successfully.", success = true });
                     //return RedirectToAction(nameof(HomeController.Index), "Home");
                 }
                 //AddErrors(result);
@@ -190,7 +206,7 @@ namespace DLGP_SVDK.Controllers
             // If we got this far, something failed, redisplay form
             //return View(model);
             _logger.LogInformation(1, "Something went wrong when creating new user.");
-            return new JsonResult(new { message = "Something went wrong when creating new user.", success = false });
+            return new JsonResult(new { data = Json("null"), message = "Something went wrong when creating new user.", success = false });
         }
 
         //

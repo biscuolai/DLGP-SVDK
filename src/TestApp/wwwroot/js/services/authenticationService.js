@@ -38,7 +38,7 @@
                 });
             };
 
-            service.Register = function (username, password, confirmPassword, displayname, callback) {
+            service.Register = function (username, password, confirmPassword, displayName, callback) {
 
                 debugger;
 
@@ -46,7 +46,7 @@
                     method: 'POST',
                     url: '/api/user/register',
                     data: {
-                        email: username, password: password, confirmPassword: confirmPassword, displayname: displayname,
+                        email: username, password: password, confirmPassword: confirmPassword, displayName: displayName,
                     },
                     headers: {
                         '__RequestVerificationToken': $('input[name=__RequestVerificationToken]').attr('value')
@@ -57,17 +57,36 @@
                 });
             };
 
-            service.SetCredentials = function (username, password) {
+            service.Logoff = function (callback) {
+
+                debugger;
+
+                $http({
+                    method: 'POST',
+                    url: '/api/user/logoff',
+                    headers: {
+                        '__RequestVerificationToken': $('input[name=__RequestVerificationToken]').attr('value')
+                    }
+                }).success(function (response) {
+                    debugger;
+                    callback(response);
+                });
+            };
+
+            service.SetCredentials = function (username, password, userData) {
                 var authdata = Base64.encode(username + ':' + password);
+
+                debugger;
 
                 $rootScope.globals = {
                     currentUser: {
                         username: username,
-                        authdata: authdata
+                        userData: userData,
+                        authdata: $('input[name=__RequestVerificationToken]').attr('value') //authdata
                     }
                 };
 
-                $http.defaults.headers.common['Authorization'] = 'Basic ' + authdata; // jshint ignore:line
+                $http.defaults.headers.common['Authorization'] = 'Basic ' + $('input[name=__RequestVerificationToken]').attr('value'); //authdata; // jshint ignore:line
                 $cookieStore.put('globals', $rootScope.globals);
             };
 

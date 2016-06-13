@@ -1,5 +1,4 @@
-﻿@Html.AntiForgeryToken()
-<div id="page-wrapper" ng-class="{'open': toggle}" ng-cloak ng-show="globals.currentUser">
+﻿<div id="page-wrapper" ng-class="{'open': toggle}" ng-cloak ng-show="globals.currentUser">
     <!-- Sidebar -->
     <div id="sidebar-wrapper">
         <ul class="sidebar">
@@ -42,12 +41,15 @@
         <div class="page-content">
 
             @await Html.PartialAsync("_LoginPartial")
+            @await Html.PartialAsync("_AntiForgeryPartial")
 
             <!-- Main Content -->
-            <div ui-view></div>
+            <div ui-view>@Html.AntiForgeryToken()</div>
 
         </div><!-- End Page Content -->
     </div><!-- End Content Wrapper -->
 </div><!-- End Page Wrapper -->
 
-<div ui-view ng-hide="globals.currentUser"></div>
+<div ui-view ng-hide="globals.currentUser">
+    @await Html.PartialAsync("_AntiForgeryPartial")
+</div>

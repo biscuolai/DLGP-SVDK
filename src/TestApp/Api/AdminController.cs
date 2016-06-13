@@ -4,6 +4,8 @@ using Microsoft.AspNet.Authorization;
 using DLGP_SVDK.Repository.Common;
 using DLGP_SVDK.Repository;
 using System.Security.Claims;
+using DLGP_SVDK.Model.Domain.Entities.Identity;
+using Microsoft.AspNet.Identity;
 
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
@@ -14,11 +16,18 @@ namespace DLGP_SVDK.Web.Api
     [Route("api/admin")]
     public class AdminController : Controller
     {
+        private readonly UserManager<ApplicationUser> _userManager;
+
+        public AdminController(UserManager<ApplicationUser> userManager)
+        {
+            _userManager = userManager;
+        }
+
         // GET: api/admin/users
         [HttpGet("users")]
         public JsonResult Get()
         {
-            var users = new UserProfile();
+            var users = new UserProfile(_userManager);
             //var displayName = users.DisplayNameById("");
             var list = users.GetUsersInRole(new ApplicationDbContext(), "admin").ToList();
 
