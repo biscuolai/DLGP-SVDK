@@ -365,11 +365,11 @@ namespace DLGP_SVDK.Controllers
         }
 
         //
-        // POST: /Account/ForgotPassword
-        [HttpPost]
+        // POST: /api/user/forgotpassword
+        [HttpPost("forgotpassword")]
         [AllowAnonymous]
         //[ValidateAntiForgeryToken]
-        public async Task<IActionResult> ForgotPassword(ForgotPasswordViewModel model)
+        public async Task<JsonResult> ForgotPassword(ForgotPasswordViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -377,20 +377,24 @@ namespace DLGP_SVDK.Controllers
                 if (user == null || !(await _userManager.IsEmailConfirmedAsync(user)))
                 {
                     // Don't reveal that the user does not exist or is not confirmed
-                    return View("ForgotPasswordConfirmation");
+                    return new JsonResult(new { message = "User does not exist.", success = false });
+                    //return View("ForgotPasswordConfirmation");
                 }
 
                 // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=532713
                 // Send an email with this link
-                //var code = await _userManager.GeneratePasswordResetTokenAsync(user);
-                //var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: HttpContext.Request.Scheme);
-                //await _emailSender.SendEmailAsync(model.Email, "Reset Password",
-                //   "Please reset your password by clicking here: <a href=\"" + callbackUrl + "\">link</a>");
+                var code = await _userManager.GeneratePasswordResetTokenAsync(user);
+                var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: HttpContext.Request.Scheme);
+                await _emailSender.SendEmailAsync(model.Email, "Reset Password",
+                   "Please reset your password by clicking here: <a href=\"" + callbackUrl + "\">link</a>");
+
+                return new JsonResult(new { message = "Email has been sent to user.", success = true });
                 //return View("ForgotPasswordConfirmation");
             }
 
             // If we got this far, something failed, redisplay form
-            return View(model);
+            return new JsonResult(new { message = "Something went wrong.", success = false });
+            //return View(model);
         }
 
         //
@@ -412,29 +416,42 @@ namespace DLGP_SVDK.Controllers
         }
 
         //
-        // POST: /Account/ResetPassword
-        [HttpPost]
+        // POST: /api/user/resetpassword
+        [HttpPost("resetpassword")]
         [AllowAnonymous]
         //[ValidateAntiForgeryToken]
-        public async Task<IActionResult> ResetPassword(ResetPasswordViewModel model)
+        public async Task<JsonResult> ResetPassword(ResetPasswordViewModel model)
         {
+            var errorMessage = "Error creating a new user." + Environment.NewLine;
+
             if (!ModelState.IsValid)
             {
-                return View(model);
+                return new JsonResult(new { message = "Something went wrong.", success = false });
+                //return View(model);
             }
             var user = await _userManager.FindByNameAsync(model.Email);
             if (user == null)
             {
                 // Don't reveal that the user does not exist
-                return RedirectToAction(nameof(AccountController.ResetPasswordConfirmation), "Account");
+                return new JsonResult(new { message = "User does not exist.", success = false });
+                //return RedirectToAction(nameof(AccountController.ResetPasswordConfirmation), "Account");
             }
             var result = await _userManager.ResetPasswordAsync(user, model.Code, model.Password);
             if (result.Succeeded)
             {
-                return RedirectToAction(nameof(AccountController.ResetPasswordConfirmation), "Account");
+                return new JsonResult(new { message = "Password has been reset successfully.", success = true });
+                //return RedirectToAction(nameof(AccountController.ResetPasswordConfirmation), "Account");
             }
-            AddErrors(result);
-            return View();
+
+            // adding all error messages to error message string variable in order to return it to json
+            foreach (var error in result.Errors)
+            {
+                errorMessage += error.Code + ": " + error.Description + Environment.NewLine;
+            }
+
+            //AddErrors(result);
+            //return View();
+            return new JsonResult(new { message = errorMessage, success = false });
         }
 
         //

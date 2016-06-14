@@ -48,8 +48,8 @@
                     controller: 'loginController',
                     hideMenus: true
                 })
-                .state('forgotPassword', {
-                    url: '/forgotPassword',
+                .state('forgotpassword', {
+                    url: '/forgotpassword',
                     templateUrl: '../templates/forgotPassword.html',
                     controller: 'loginController',
                     hideMenus: true
