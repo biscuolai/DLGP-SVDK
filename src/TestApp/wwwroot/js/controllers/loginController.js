@@ -11,20 +11,14 @@
 
             $scope.login = function () {
 
-                debugger;
-
                 $scope.dataLoading = true;
                 AuthenticationService.Login($scope.username, $scope.password, function (response) {
 
                     if (response.success) {
 
-                        debugger;
-
                         AuthenticationService.SetCredentials($scope.username, $scope.password, response.data);
                         $location.path('/');
                     } else {
-
-                        debugger;
 
                         $scope.error = response.message;
                         $scope.dataLoading = false;

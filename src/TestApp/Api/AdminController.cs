@@ -6,35 +6,45 @@ using DLGP_SVDK.Repository;
 using System.Security.Claims;
 using DLGP_SVDK.Model.Domain.Entities.Identity;
 using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace DLGP_SVDK.Web.Api
 {
-    //[Authorize]
     [Route("api/admin")]
     public class AdminController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
-        public AdminController(UserManager<ApplicationUser> userManager)
+        public AdminController(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
         {
             _userManager = userManager;
+            _roleManager = roleManager;
         }
 
         // GET: api/admin/users
         [HttpGet("users")]
-        public JsonResult Get()
+        public JsonResult GetUsers()
         {
-            var users = new UserProfile(_userManager);
-            //var displayName = users.DisplayNameById("");
-            var list = users.GetUsersInRole(new ApplicationDbContext(), "admin").ToList();
+            var users = new UserProfile(_userManager, _roleManager);
+            var list = users.GetUsersInRole(new ApplicationDbContext(), "operator").ToList();
 
             return new JsonResult(new { data = list, success = true });
         }
 
-        [AllowAnonymous]
+        // GET: api/admin/roles
+        [HttpGet("roles")]
+        public JsonResult GetRoles()
+        {
+            var roles = new UserProfile(_userManager, _roleManager);
+            var list = roles.GeAllRoles();
+
+            return new JsonResult(new { data = list, success = true });
+        }
+
         [HttpGet("issignedin")]
         public JsonResult IsUserSignedIn()
         {

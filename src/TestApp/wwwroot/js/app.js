@@ -162,7 +162,10 @@
 
         $rootScope.$on('$locationChangeStart', function (event, next, current) {
             // redirect to login page if not logged in
-            if ($location.path() !== '/register' && $location.path() !== '/login' && !$rootScope.globals.currentUser) {
+            if ($location.path() !== '/register' &&
+                $location.path() !== '/forgotPasssword' &&
+                $location.path() !== '/login' &&
+                !$rootScope.globals.currentUser) {
                 $location.path('/login');
             }
         });

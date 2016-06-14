@@ -12,7 +12,7 @@ using DLGP_SVDK.Model.Domain.Entities.Identity;
 using System;
 using System.Net;
 using DLGP_SVDK.Repository.Common;
-using Microsoft.AspNet.Antiforgery;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace DLGP_SVDK.Controllers
 {
@@ -21,6 +21,7 @@ namespace DLGP_SVDK.Controllers
     public class AccountController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IEmailSender _emailSender;
         private readonly ISmsSender _smsSender;
@@ -28,12 +29,14 @@ namespace DLGP_SVDK.Controllers
 
         public AccountController(
             UserManager<ApplicationUser> userManager,
+            RoleManager<IdentityRole> roleManager,
             SignInManager<ApplicationUser> signInManager,
             IEmailSender emailSender,
             ISmsSender smsSender,
             ILoggerFactory loggerFactory)
         {
             _userManager = userManager;
+            _roleManager = roleManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
             _smsSender = smsSender;
@@ -87,7 +90,7 @@ namespace DLGP_SVDK.Controllers
                     if (result.Succeeded)
                     {
                         _logger.LogInformation(1, "User logged in.");
-                        var userprofile = new UserProfile(_userManager);
+                        var userprofile = new UserProfile(_userManager, _roleManager);
                         var userData = await userprofile.GetUserByUserName(model.UserName);
                         return new JsonResult(new { data = userData, message = "User logged in.", success = true });
                     }
@@ -148,7 +151,7 @@ namespace DLGP_SVDK.Controllers
 
                 }
 
-                // If we got this far, something failed, redisplay form
+                // If we got this far, something failed
                 Response.StatusCode = (int)HttpStatusCode.Unauthorized;
                 return new JsonResult(new { data = Json("null"), message = "Error trying to login user.", success = false });
             }
@@ -179,10 +182,16 @@ namespace DLGP_SVDK.Controllers
 
             if (ModelState.IsValid)
             {
+                // create new ApplicationUser object with all information from Angular Controller
                 var user = new ApplicationUser { UserName = model.UserName, Email = model.Email, DisplayName = model.UserName };
+                // Create user in Identity model
                 var result = await _userManager.CreateAsync(user, model.Password);
+
                 if (result.Succeeded)
                 {
+                    // Add user to a specific role
+                    await _userManager.AddToRoleAsync(user, model.Role);
+
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=532713
                     // Send an email with this link
                     //var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
@@ -190,17 +199,20 @@ namespace DLGP_SVDK.Controllers
                     //await _emailSender.SendEmailAsync(model.Email, "Confirm your account",
                     //    "Please confirm your account by clicking this link: <a href=\"" + callbackUrl + "\">link</a>");
                     //await _signInManager.SignInAsync(user, isPersistent: false);
+
                     _logger.LogInformation(3, "User created a new account with password.");
+
                     if (User.Identity.IsAuthenticated)
                     {
                         await _signInManager.SignOutAsync();
                     }
                     await _signInManager.SignInAsync(user, isPersistent: false);
 
-                    var userprofile = new UserProfile(_userManager);
+                    var userprofile = new UserProfile(_userManager, _roleManager);
                     var userData = await userprofile.GetUserByEmail(model.Email);
 
                     return new JsonResult(new { data = userData, message = "User created successfully.", success = true });
+
                     //return RedirectToAction(nameof(HomeController.Index), "Home");
                 }
 

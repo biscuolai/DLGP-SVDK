@@ -38,7 +38,7 @@
                 });
             };
 
-            service.Register = function (username, password, confirmPassword, email, callback) {
+            service.Register = function (username, password, confirmPassword, email, role, callback) {
 
                 debugger;
 
@@ -46,7 +46,7 @@
                     method: 'POST',
                     url: '/api/user/register',
                     data: {
-                        username: username, password: password, confirmPassword: confirmPassword, email: email,
+                        username: username, password: password, confirmPassword: confirmPassword, email: email, role: role,
                     },
                     headers: {
                         '__RequestVerificationToken': $('input[name=__RequestVerificationToken]').attr('value') // @html.AntiForgeryToken() generated in server side

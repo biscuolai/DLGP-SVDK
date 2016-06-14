@@ -18,11 +18,11 @@
                 // Load all dropdownlists and set all values according this specific record
                 LoadAllDropDownLists(true);
                 // Clear all alert messages 
-                $rootScope.clearAlert();
+                clearAlert();
             })
             .error(function () {
                 // show in alerts error message
-                $rootScope.clearAlert();
+                clearAlert();
                 $rootScope.addAlert('An error has occured while loading ticket id = ' + $location.search().id, 'danger'); 
             });
         }
@@ -35,7 +35,7 @@
                 // Load all dropdownlists setting to default value
                 LoadAllDropDownLists(false);
                 // Clear all alert messages 
-                $rootScope.clearAlert();
+                clearAlert();
             }
             // Request is coming from dashboard page. Load all ticket records
             else {
@@ -58,11 +58,12 @@
             })
             .error(function () {
                 // show in alerts error message
-                $rootScope.clearAlert();
+                clearAlert();
                 $rootScope.addAlert('An error has occured while loading list of all tickets!', 'danger');
             });
         }
 
+        // findItems (boolean) parameter is only when ticket already exists
         function LoadAllDropDownLists(findItems) {
             $http.get('/api/values/contacttype').success(function (ContactType) {
                 $rootScope.ContactType = {
@@ -76,7 +77,7 @@
             })
             .error(function () {
                 // show in alerts error message
-                $rootScope.clearAlert();
+                clearAlert();
                 $rootScope.addAlert('An error has occured while loading contact type drop down list!', 'danger');
             });
             $http.get('/api/values/category').success(function (Category) {
@@ -122,6 +123,7 @@
                 $rootScope.addAlert('An error has occured while loading ticket status drop down list!', 'danger');
             });
             $http.get('/api/values/priority').success(function (Priority) {
+
                 $rootScope.Priority = {
                     availableOptions: Priority.data,
                     selectedOption: Priority.data[0]
@@ -149,6 +151,7 @@
                 $rootScope.addAlert('An error has occured while loading project drop down list!', 'danger');
             });
             $http.get('/api/admin/users').success(function (User) {
+
                 $rootScope.Users = {
                     availableOptions: User.data,
                     selectedOption: User.data[0]
@@ -230,12 +233,12 @@
                 $location.path('/'); // Updated successfully and redirect to dashboard
 
                 // show in alerts that ticket has been updated successfully
-                $rootScope.clearAlert();
+                clearAlert();
                 $rootScope.addAlert('Ticket ID = ' + Ticket.ticketId + ' has been updated successfully!', 'success'); // And call the method on the newScope.
 
             }).error(function (data) {
                 // show in alerts error message
-                $rootScope.clearAlert();
+                clearAlert();
                 $rootScope.addAlert('An error has occured while updating ticket id = ' + Ticket.ticketId, 'danger');
             });
         };
@@ -265,12 +268,12 @@
                     $location.path('/'); // Added successfully and redirect to dashboard
 
                     // show in alerts that ticket has been added successfully
-                    $rootScope.clearAlert();
+                    clearAlert();
                     $rootScope.addAlert('A new ticket has been added successfully!', 'success'); // And call the method on the newScope.
 
                 }).error(function (data) {
                     // show in alerts error message
-                    $rootScope.clearAlert();
+                    clearAlert();
                     $rootScope.addAlert('An error has occured while adding a new ticket!', 'danger');
                 });
             }
@@ -301,7 +304,7 @@
             $rootScope.alerts.splice(index, 1);
         };
 
-        $rootScope.clearAlert = function () {
+        function clearAlert() {
             $rootScope.alerts = [];
         };
     }

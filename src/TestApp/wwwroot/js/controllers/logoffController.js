@@ -11,17 +11,11 @@
                 // if user is logged in
                 if ($rootScope.globals.currentUser) {
 
-                    debugger;
-
                     // log off current user
                     $scope.loggingOff = true;
                     AuthenticationService.Logoff(function (response) {
 
-                        debugger;
-
                         if (response.success) {
-
-                            debugger;
 
                             // reset user credentials
                             AuthenticationService.ClearCredentials();
@@ -29,8 +23,6 @@
                             $location.path('/login');
 
                         } else {
-
-                            debugger;
 
                             // error message
                             $scope.error = response.message;

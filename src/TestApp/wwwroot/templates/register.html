@@ -2,79 +2,109 @@
     <div class="row">
         <div class="Absolute-Center is-Responsive">
             <div class="col-sm-12 col-md-10 col-md-offset-1">
-                <div>
-                    <!-- ngView:  -->
-                    <div ng-show="error" class="alert alert-danger">{{error}}</div>
-                    <form ng-submit="register()" role="form" name="form" novalidate>
-                        <input id="antiForgeryToken" data-ng-model="antiForgeryToken" type="hidden" data-ng-init="antiForgeryToken='@GetAntiForgeryToken()'" />
-                        
-                        <div class="form-group input-group">
-                            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                            <input type="text" class="form-control" placeholder="User Name" name="username" ng-model="username" ng-minlength="6" ng-maxlength="32" required>
-                        </div>
-                        <div class="errors" ng-class="{ active: form.username.$invalid && form.username.$dirty && form.username.$error.required }">
-                            <div class="error ng-hide" ng-show="form.username.$error.minlength">
-                                <p>Provided user name is too short!</p>
-                            </div>
-                            <div class="error ng-hide" ng-show="form.username.$error.required">
-                                <p>User Name is required!</p>
-                            </div>
-                            <div class="error ng-hide" ng-show="form.username.$error.maxlength">
-                                <p>Max name length is 32, please shorten it.</p>
-                            </div>
-                        </div>
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Add a new user</h3>
+                    </div>
 
-                        <div class="form-group input-group">
-                            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                            <input type="email" name="Email" id="Email" class="form-control" placeholder="Email" ng-model="email" required />
-                        </div>
-                        <div class="errors" ng-show="{ active: form.email.$invalid && form.email.$dirty && form.email.$error.required }">
-                            <div class="error help-block ng-hide" ng-show="form.email.$error.email">
-                                <p>User email is not a valid email!</p>
+                    <div class="panel-body">
+                        <div>
+                            <!-- ngView:  -->
+                            <div ng-show="error" class="alert alert-danger" role="alert">
+                                <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                                <span class="sr-only">Error:</span>
+                                {{error}}
                             </div>
-                            <div class="error ng-hide" ng-show="form.email.$error.required">
-                                <p>User email is required!</p>
-                            </div>
-                        </div>
+                            <form ng-submit="register()" role="form" name="form" novalidate>
+                                <input id="antiForgeryToken" data-ng-model="antiForgeryToken" type="hidden" data-ng-init="antiForgeryToken='@GetAntiForgeryToken()'" />
 
-                        <div class="form-group input-group password">
-                            <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                            <input type="password" name="password" id="password" class="form-control password" placeholder="Password"
-                                   ng-model="password" ng-minlength="4" ng-maxlength="16" required password-match="confirmPassword" />
+                                <div class="form-group input-group">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                    <input type="text" class="form-control" placeholder="User Name" name="username" ng-model="username" ng-minlength="6" ng-maxlength="32" required>
+                                </div>
+                                <div class="errors" ng-class="{ active: form.username.$invalid && form.username.$dirty && form.username.$error.required }">
+                                    <div class="error ng-hide" ng-show="form.username.$error.minlength">
+                                        <p>Provided user name is too short!</p>
+                                    </div>
+                                    <div class="error ng-hide" ng-show="form.username.$error.required">
+                                        <p>User Name is required!</p>
+                                    </div>
+                                    <div class="error ng-hide" ng-show="form.username.$error.maxlength">
+                                        <p>Max name length is 32, please shorten it.</p>
+                                    </div>
+                                </div>
+
+                                <div class="form-group input-group">
+                                    <span class="input-group-addon" id="sizing-addon2">@</span>
+                                    <input type="email" name="Email" id="Email" class="form-control" placeholder="Email" ng-model="email" required />
+                                </div>
+                                <div class="errors" ng-show="{ active: form.email.$invalid && form.email.$dirty && form.email.$error.required }">
+                                    <div class="error help-block ng-hide" ng-show="form.email.$error.email">
+                                        <p>User email is not a valid email!</p>
+                                    </div>
+                                    <div class="error ng-hide" ng-show="form.email.$error.required">
+                                        <p>User email is required!</p>
+                                    </div>
+                                </div>
+
+                                <div class="form-group input-group password">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                                    <input type="password" name="password" id="password" class="form-control password" placeholder="Password"
+                                           ng-model="password" ng-minlength="4" ng-maxlength="16" required password-match="confirmPassword" />
+                                </div>
+                                <div class="form-group input-group password">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                                    <input type="password" name="confirmPassword" id="confirmPassword" class="form-control confirmPassword" placeholder="Repeat Password"
+                                           ng-model="confirmPassword" ng-minlength="4" ng-maxlength="16" required />
+                                </div>
+                                <div class="errors" ng-class="{ active: form.password.$invalid && form.password.$dirty && form.password.$error.required }">
+                                    <div class="error ng-hide" ng-show="form.password.$error.match">
+                                        <p>Passwords do not match.</p>
+                                    </div>
+                                    <div class="error ng-hide" ng-show="form.password.$error.minlength">
+                                        <p>For your own safety, use a password longer than 4 characters.</p>
+                                    </div>
+                                    <div class="error ng-hide" ng-show="form.password.$error.maxlength">
+                                        <p>For your own <b>SANITY</b>, use a password shorter than 16 characters.</p>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label for="role">Role:</label>
+                                    <select name="Role" id="Role" class="form-control" required
+                                            ng-options="option.name for option in roles.availableOptions track by option.id"
+                                            ng-model="roles.selectedOption"
+                                            ng-selected="form.roles" ng-change="form.roles = roles.selectedOption.id">
+                                        <option value="">-- Select a Role --</option>
+                                    </select>
+                                </div>
+                                <div class="errors" ng-class="{ active: form.roles.$error.required }">
+                                    <div class="error ng-hide" ng-show="form.roles.$error.required">
+                                        <p>Role is required!</p>
+                                    </div>
+                                </div>
+                                <br />
+
+                                <!--<div class="form-input role">
+                <select class="form-control" name="role" ng-model="role">
+                    <option value="user" selected>User</option>
+                    <option value="admin">Administrator</option>
+                </select>
+            </div>-->
+                                <div class="form-actions">
+                                    <button type="submit" ng-disabled="form.$invalid || dataLoading" class="btn btn-primary">Register</button>
+                                    <img ng-if="dataLoading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+                                    <button type="button" class="btn btn-primary pull-right" ng-click="login()">I'm an existing user</button>
+                                </div>
+                                <!--<button class="btn btn-lg btn-block" type="submit"
+                    ng-class="{ 'btn-primary': form.$valid && form.$dirty, 'btn-success': redirect }"
+                    ng-disabled="form.$invalid || form.$pristine || xhr || redirect">
+                <span ng-hide="redirect">Register <i class="fa fa-repeat fa-spin" ng-show="xhr"></i></span>
+                <span ng-show="redirect">Redirecting... <i class="fa fa-repeat fa-spin"></i></span>
+            </button>-->
+                            </form>
                         </div>
-                        <div class="form-group input-group password">
-                            <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                            <input type="password" name="confirmPassword" id="confirmPassword" class="form-control confirmPassword" placeholder="Repeat Password"
-                                   ng-model="confirmPassword" ng-minlength="4" ng-maxlength="16" required  />
-                        </div>
-                        <div class="errors" ng-class="{ active: form.password.$invalid && form.password.$dirty && form.password.$error.required }">
-                            <div class="error ng-hide" ng-show="form.password.$error.match">
-                                <p>Passwords do not match.</p>
-                            </div>
-                            <div class="error ng-hide" ng-show="form.password.$error.minlength">
-                                <p>For your own safety, use a password longer than 4 characters.</p>
-                            </div>
-                            <div class="error ng-hide" ng-show="form.password.$error.maxlength">
-                                <p>For your own <b>SANITY</b>, use a password shorter than 16 characters.</p>
-                            </div>
-                        </div>
-                        <!--<div class="form-input role">
-            <select class="form-control" name="role" ng-model="role">
-                <option value="user" selected>User</option>
-                <option value="admin">Administrator</option>
-            </select>
-        </div>-->
-                        <div class="form-actions">
-                            <button type="submit" ng-disabled="form.$invalid || dataLoading" class="btn btn-danger">Register</button>
-                            <img ng-if="dataLoading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
-                        </div>
-                        <!--<button class="btn btn-lg btn-block" type="submit"
-                ng-class="{ 'btn-primary': form.$valid && form.$dirty, 'btn-success': redirect }"
-                ng-disabled="form.$invalid || form.$pristine || xhr || redirect">
-            <span ng-hide="redirect">Register <i class="fa fa-repeat fa-spin" ng-show="xhr"></i></span>
-            <span ng-show="redirect">Redirecting... <i class="fa fa-repeat fa-spin"></i></span>
-        </button>-->
-                    </form>
+                    </div>
                 </div>
             </div>
         </div>
