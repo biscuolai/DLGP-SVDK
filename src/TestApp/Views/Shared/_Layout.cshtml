@@ -22,31 +22,7 @@
         @Html.ApplicationInsightsJavaScript(TelemetryConfiguration)
     </head>
     <body ng-app="app" ng-controller="masterController">
-        
-        @*<div class="navbar navbar-inverse navbar-fixed-top">
-            <div class="container">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a asp-controller="Home" asp-action="Index" class="navbar-brand">DLGP-SVDK</a>
-                </div>
-                <div class="navbar-collapse collapse">
-                    <ul class="nav navbar-nav">
-                        <li><a asp-controller="Home" asp-action="Index">Home</a></li>
-                        <li><a asp-controller="Home" asp-action="About">About</a></li>
-                        <li><a asp-controller="Home" asp-action="Contact">Contact</a></li>
-                    </ul>
-                    @await Html.PartialAsync("_LoginPartial")
-                </div>
-            </div>
-        </div>*@
-            
-        @*@await Html.PartialAsync("_LoginPartial")*@
-
+ 
         <environment names="Development">
 
             @*<script src="~/js/site.js" asp-append-version="true"></script>*@
@@ -111,15 +87,7 @@
             <script src="~/js/site.min.js" asp-append-version="true"></script>
         </environment>
 
-        <div ng-show="globals.currentUser">
-            @RenderBody()
-           @* <hr />
-            <footer>
-                <p>&copy; 2016 - DLGP-SVDK</p>
-            </footer>*@
-        </div>
-
-        <div ng-hide="globals.currentUser">
+        <div> 
             @RenderBody()
         </div>
 

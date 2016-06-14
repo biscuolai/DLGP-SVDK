@@ -68,7 +68,7 @@ namespace DLGP_SVDK.Controllers
         // POST: /api/user/login
         [HttpPost("login")]
         [AllowAnonymous]
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         public async Task<JsonResult> Login([FromBody] LoginViewModel model, string returnUrl = null)
         {
             try
@@ -83,12 +83,12 @@ namespace DLGP_SVDK.Controllers
 
                     // This doesn't count login failures towards account lockout
                     // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-                    var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
+                    var result = await _signInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, lockoutOnFailure: false);
                     if (result.Succeeded)
                     {
                         _logger.LogInformation(1, "User logged in.");
                         var userprofile = new UserProfile(_userManager);
-                        var userData = await userprofile.DisplayNameByEmail(model.Email);
+                        var userData = await userprofile.GetUserByUserName(model.UserName);
                         return new JsonResult(new { data = userData, message = "User logged in.", success = true });
                     }
                     else
@@ -172,12 +172,14 @@ namespace DLGP_SVDK.Controllers
         // POST: /api/user/register
         [HttpPost("register")]
         [AllowAnonymous]
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         public async Task<JsonResult> Register([FromBody] RegisterViewModel model)
         {
+            var errorMessage = "Error creating a new user." + Environment.NewLine;
+
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.DisplayName, Email = model.Email, DisplayName = model.DisplayName };
+                var user = new ApplicationUser { UserName = model.UserName, Email = model.Email, DisplayName = model.UserName };
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
@@ -196,23 +198,31 @@ namespace DLGP_SVDK.Controllers
                     await _signInManager.SignInAsync(user, isPersistent: false);
 
                     var userprofile = new UserProfile(_userManager);
-                    var userData = await userprofile.DisplayNameByEmail(model.Email);
+                    var userData = await userprofile.GetUserByEmail(model.Email);
+
                     return new JsonResult(new { data = userData, message = "User created successfully.", success = true });
                     //return RedirectToAction(nameof(HomeController.Index), "Home");
+                }
+
+                // adding all error messages to error message string variable in order to return it to json
+                foreach (var error in result.Errors)
+                {
+                    errorMessage += error.Code + ": " + error.Description + Environment.NewLine;
                 }
                 //AddErrors(result);
             }
 
             // If we got this far, something failed, redisplay form
             //return View(model);
-            _logger.LogInformation(1, "Something went wrong when creating new user.");
-            return new JsonResult(new { data = Json("null"), message = "Something went wrong when creating new user.", success = false });
+            _logger.LogInformation(1, errorMessage);
+
+            return new JsonResult(new { data = Json("null"), message = errorMessage, success = false });
         }
 
         //
         // POST: /api/user/logoff
         [HttpPost("logoff")]
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         public async Task<JsonResult> LogOff()
         {
             if (User.Identity.IsAuthenticated)
@@ -230,7 +240,7 @@ namespace DLGP_SVDK.Controllers
         // POST: /Account/ExternalLogin
         [HttpPost]
         [AllowAnonymous]
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         public IActionResult ExternalLogin(string provider, string returnUrl = null)
         {
             // Request a redirect to the external login provider.
@@ -280,7 +290,7 @@ namespace DLGP_SVDK.Controllers
         // POST: /Account/ExternalLoginConfirmation
         [HttpPost]
         [AllowAnonymous]
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         public async Task<IActionResult> ExternalLoginConfirmation(ExternalLoginConfirmationViewModel model, string returnUrl = null)
         {
             if (User.IsSignedIn())
@@ -346,7 +356,7 @@ namespace DLGP_SVDK.Controllers
         // POST: /Account/ForgotPassword
         [HttpPost]
         [AllowAnonymous]
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         public async Task<IActionResult> ForgotPassword(ForgotPasswordViewModel model)
         {
             if (ModelState.IsValid)
@@ -393,7 +403,7 @@ namespace DLGP_SVDK.Controllers
         // POST: /Account/ResetPassword
         [HttpPost]
         [AllowAnonymous]
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         public async Task<IActionResult> ResetPassword(ResetPasswordViewModel model)
         {
             if (!ModelState.IsValid)
@@ -444,7 +454,7 @@ namespace DLGP_SVDK.Controllers
         // POST: /Account/SendCode
         [HttpPost]
         [AllowAnonymous]
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         public async Task<IActionResult> SendCode(SendCodeViewModel model)
         {
             if (!ModelState.IsValid)
@@ -497,7 +507,7 @@ namespace DLGP_SVDK.Controllers
         // POST: /Account/VerifyCode
         [HttpPost]
         [AllowAnonymous]
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         public async Task<IActionResult> VerifyCode(VerifyCodeViewModel model)
         {
             if (!ModelState.IsValid)

@@ -27,10 +27,10 @@
                     method: 'POST',
                     url: '/api/user/login',
                     data: {
-                        email: username, password: password, rememberMe: false
+                        username: username, password: password, rememberMe: false
                     },
                     headers: {										
-                        '__RequestVerificationToken': $('input[name=__RequestVerificationToken]').attr('value')
+                        '__RequestVerificationToken': $('input[name=__RequestVerificationToken]').attr('value') // @html.AntiForgeryToken() generated in server side
                     }
                 }).success(function (response) {
                     debugger;
@@ -38,7 +38,7 @@
                 });
             };
 
-            service.Register = function (username, password, confirmPassword, displayName, callback) {
+            service.Register = function (username, password, confirmPassword, email, callback) {
 
                 debugger;
 
@@ -46,10 +46,10 @@
                     method: 'POST',
                     url: '/api/user/register',
                     data: {
-                        email: username, password: password, confirmPassword: confirmPassword, displayName: displayName,
+                        username: username, password: password, confirmPassword: confirmPassword, email: email,
                     },
                     headers: {
-                        '__RequestVerificationToken': $('input[name=__RequestVerificationToken]').attr('value')
+                        '__RequestVerificationToken': $('input[name=__RequestVerificationToken]').attr('value') // @html.AntiForgeryToken() generated in server side
                     }
                 }).success(function (response) {
                     debugger;
@@ -65,7 +65,7 @@
                     method: 'POST',
                     url: '/api/user/logoff',
                     headers: {
-                        '__RequestVerificationToken': $('input[name=__RequestVerificationToken]').attr('value')
+                        '__RequestVerificationToken': $('input[name=__RequestVerificationToken]').attr('value') // @html.AntiForgeryToken() generated in server side
                     }
                 }).success(function (response) {
                     debugger;
@@ -86,7 +86,7 @@
                     }
                 };
 
-                $http.defaults.headers.common['Authorization'] = 'Basic ' + $('input[name=__RequestVerificationToken]').attr('value'); //authdata; // jshint ignore:line
+                $http.defaults.headers.common['Authorization'] = 'Basic ' + $('input[name=__RequestVerificationToken]').attr('value') //authdata; // jshint ignore:line
                 $cookieStore.put('globals', $rootScope.globals);
             };
 

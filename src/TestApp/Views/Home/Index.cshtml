@@ -40,16 +40,16 @@
     <div id="content-wrapper">
         <div class="page-content">
 
+            @Html.AntiForgeryToken()
             @await Html.PartialAsync("_LoginPartial")
-            @await Html.PartialAsync("_AntiForgeryPartial")
 
             <!-- Main Content -->
-            <div ui-view>@Html.AntiForgeryToken()</div>
+            <div ui-view></div>
 
         </div><!-- End Page Content -->
     </div><!-- End Content Wrapper -->
 </div><!-- End Page Wrapper -->
 
 <div ui-view ng-hide="globals.currentUser">
-    @await Html.PartialAsync("_AntiForgeryPartial")
+
 </div>

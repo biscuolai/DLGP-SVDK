@@ -78,12 +78,12 @@ namespace DLGP_SVDK
             {
                 config.User.RequireUniqueEmail = true;
                 config.Password.RequiredLength = 8;
-                config.Cookies.ApplicationCookie.LoginPath = new PathString("/Account/Login");
+                //config.Cookies.ApplicationCookie.LoginPath = new PathString("/Account/Login");
                 //config.Cookies.ApplicationCookie.LoginPath = "/Account/Login";
                 //config.Cookies.ApplicationCookie.CookieHttpOnly = true;
                 //config.Cookies.ApplicationCookie.CookieSecure = CookieSecureOption.SameAsRequest;
                 config.User.AllowedUserNameCharacters =
-                "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+ ";
+                "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
                 config.Cookies.ApplicationCookie.Events = new CookieAuthenticationEvents()
                 {
                     OnRedirectToLogin = ctx =>
@@ -120,21 +120,21 @@ namespace DLGP_SVDK
                 });
 
             // Configure Identity Options
-            var antiforgeryOptionsConfig = Configuration.GetSection("AntiforgeryOptions");
-            services.Configure<AntiforgeryOptions>(antiforgeryOptionsConfig);
+            //var antiforgeryOptionsConfig = Configuration.GetSection("AntiforgeryOptions");
+            //services.Configure<AntiforgeryOptions>(antiforgeryOptionsConfig);
 
             // Add Antiforgery services to the service container
-            services.AddAntiforgery();
+            //services.AddAntiforgery();
 
             // HACK: Header based Antiforgery Token won't be supported until RC2 
-            var serviceDescriptor = ServiceDescriptor.Singleton(typeof(IAntiforgeryTokenStore), typeof(CustomAntiforgeryTokenStore));
-            services.Replace(serviceDescriptor);
+            //var serviceDescriptor = ServiceDescriptor.Singleton(typeof(IAntiforgeryTokenStore), typeof(CustomAntiforgeryTokenStore));
+            //services.Replace(serviceDescriptor);
 
-            services.ConfigureAntiforgery(config =>
-            {
-                config.SuppressXFrameOptionsHeader = true;
-            });
-            
+            //services.ConfigureAntiforgery(config =>
+            //{
+            //    config.SuppressXFrameOptionsHeader = true;
+            //});
+
             // Add application services.
             services.AddTransient<AppContextSeedData>();
             services.AddTransient<IEmailSender, AuthMessageSender>();

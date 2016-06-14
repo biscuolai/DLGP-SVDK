@@ -18,18 +18,18 @@ namespace DLGP_SVDK.Repository.Common
             //_roleManager = roleManager;
         }
 
-        public async Task<string> DisplayName(string username)
+        public async Task<ApplicationUser> GetUserByUserName(string username)
         {
             ApplicationUser result = await _userManager.FindByNameAsync(username);
-            return result.DisplayName;
+            return result;
         }
 
-        public async Task<string> DisplayNameById(string id)
+        public async Task<ApplicationUser> GetUserById(string id)
         {
             ApplicationUser result = await _userManager.FindByIdAsync(id);
-            return result.DisplayName;
+            return result;
         }
-        public async Task<ApplicationUser> DisplayNameByEmail(string email)
+        public async Task<ApplicationUser> GetUserByEmail(string email)
         {
             ApplicationUser result = await _userManager.FindByEmailAsync(email);
             return result;

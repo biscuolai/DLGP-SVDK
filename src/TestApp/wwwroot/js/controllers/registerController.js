@@ -51,13 +51,13 @@
                 debugger;
 
                 $scope.dataLoading = true;
-                AuthenticationService.Register($scope.username, $scope.password, $scope.confirmPassword, $scope.displayName, function (response) {
+                AuthenticationService.Register($scope.username, $scope.password, $scope.confirmPassword, $scope.email, function (response) {
 
                     if (response.success) {
 
                         debugger;
 
-                        AuthenticationService.SetCredentials($scope.username, $scope.password);
+                        AuthenticationService.SetCredentials($scope.username, $scope.password, response.data);
                         $location.path('/');
                     } else {
 
