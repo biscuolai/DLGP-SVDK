@@ -11,7 +11,8 @@
                         <li ng-repeat="item in vm.StatusViews"
                             value="item.name"
                             ng-click="vm.showTicketList(item.id)"
-                            ng-selected="item.name"><a href="#/requests">{{ item.name }}</a>
+                            ng-selected="item.name">
+                            <a href="#/requests">{{ item.name }}</a>
                         </li>
                     </ul>
                 </div>
@@ -28,22 +29,22 @@
                                 <th style="width: 10%" st-sort="project.projectName">Project</th>
                                 <th style="width: 10%" st-sort="createdDate">Created</th>
                                 <th style="width: 10%" st-sort="lastUpdateDate">Updated</th>
-                                
+
                             </tr>
                             <tr>
-                                <th><input st-search="ticketId" placeholder="search..." class="input-sm form-control" type="search" /></th>                                
+                                <th><input st-search="ticketId" placeholder="search..." class="input-sm form-control" type="search" /></th>
                                 <th><input st-search="title" placeholder="search..." class="input-sm form-control" type="search" /></th>
                                 <th><input st-search="status.name" placeholder="search..." class="input-sm form-control" type="search" /></th>
                                 <th><input st-search="priority.name" placeholder="search..." class="input-sm form-control" type="search" /></th>
                                 <th><input st-search="project.projectName" placeholder="search..." class="input-sm form-control" type="search" /></th>
                                 <th>&nbsp;</th>
                                 <th>&nbsp;</th>
-                                
+
                             </tr>
                         </thead>
                         <tbody ng-show="!vm.isLoading">
-                            <tr ng-repeat="row in vm.displayed | filter: { status : { name: vm.queryResponse.status}, assignedTo : vm.queryResponse.assignedTo } ">
-                                <td>{{row.ticketId}}</td>                                
+                            <tr ng-repeat="row in vm.displayed | filter: { status : { name: vm.queryResponse.status }, assignedTo : vm.queryResponse.assignedTo } ">
+                                <td>{{row.ticketId}}</td>
                                 <td><a style="font-weight:bold;" href="#/editTicket?action=edit&amp;id={{row.ticketId}}">{{ row.title }}</a></td>
                                 <td>{{row.status.name}}</td>
                                 <td>{{row.priority.name}}</td>

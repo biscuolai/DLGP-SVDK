@@ -5,7 +5,6 @@
         .module('app')
         .controller('dashboardController', ['$http', '$scope', '$location', dashboardController]);
 
-    //AngularJS controller method
     function dashboardController($http, $scope, $location) {
 
         GetDashboardData();

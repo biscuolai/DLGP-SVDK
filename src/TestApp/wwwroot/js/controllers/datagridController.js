@@ -3,11 +3,9 @@
 
     angular
         .module('app')
-        .controller('datagridController', ['Resource', function (service) {
+        .controller('datagridController', ['Resource', '$location', function (Resource, $location) {
 
             var ctrl = this;
-
-            ctrl.selectedItem = 'My Tickets';
 
             ctrl.StatusViews = [
                 { id: 0, name: 'All Tickets' },
@@ -31,25 +29,25 @@
                 var start = pagination.start || 0;      // This is NOT the page number, but the index of item in the list that you want to use to display the table.
                 var number = pagination.number || 5;    // Number of entries showed per page.
 
-                service.getPage(start, number, tableState).then(function (result) {
+                Resource.getPage(start, number, tableState).then(function (result) {
                     ctrl.displayed = result.data;
                     tableState.pagination.numberOfPages = result.numberOfPages; //set the number of pages so the pagination can update
                     ctrl.isLoading = false;
                 });
             };
 
-            this.queryResponse =
-                {
-                    status: '',
-                    assignedTo: ''
-                };
-
             this.submitSearch = function (query) {
                 // place ajax http code here
                 this.queryResponse = query;
             };
 
-            this.showTicketList = function showTicketList(id) {
+            this.showTicketList = function (id) {
+
+                ctrl.queryResponse =
+                    {
+                        status: '',
+                        assignedTo: ''
+                    };
 
                 ctrl.selectedItem = ctrl.StatusViews[id].name;
                 ctrl.queryResponse.assignedTo = '';
@@ -83,6 +81,15 @@
                         //
                         break;
                 }
+            }
+
+            // get the id of the view if it exists
+            if ($location.search().id !== undefined) {
+                ctrl.id = parseInt($location.search().id);
+                this.showTicketList(ctrl.id);
+            }
+            else {
+                ctrl.selectedItem = 'My Tickets';
             }
 
         }])
