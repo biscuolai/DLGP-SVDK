@@ -10,36 +10,72 @@
                 .state('dashboard', {
                     url: '/',
                     templateUrl: '../templates/dashboard.html',
-                    requireLogin: true
+                    requireLogin: true,
+                    params: {
+                        breadcrumb: 'Dashboard'
+                    },
+                    controller: function ($rootScope, $stateParams) {
+                        $rootScope.breadcrumb = $stateParams.breadcrumb;
+                    }
                 })
                 // Needs authentication
                 .state('requests', {
                     url: '/requests',
                     templateUrl: '../templates/requests.html',
-                    requireLogin: true
+                    requireLogin: true,
+                    params: {
+                        breadcrumb: 'Requests'
+                    },
+                    controller: function ($rootScope, $stateParams) {
+                        $rootScope.breadcrumb = $stateParams.breadcrumb;
+                    }
                 })
                 // Needs authentication
                 .state('newTicket', {
                     url: '/newTicket',
                     templateUrl: '../templates/newTicket.html',
-                    requireLogin: true
+                    requireLogin: true,
+                    params: {
+                        breadcrumb: 'New Ticket'
+                    },
+                    controller: function ($rootScope, $stateParams) {
+                        $rootScope.breadcrumb = $stateParams.breadcrumb;
+                    }
                 })
                 // Needs authentication
                 .state('editTicket', {
                     url: '/editTicket',
                     templateUrl: '../templates/editTicket.html',
-                    requireLogin: true
+                    requireLogin: true,
+                    params: {
+                        breadcrumb: 'Edit Ticket'
+                    },
+                    controller: function ($rootScope, $stateParams) {
+                        $rootScope.breadcrumb = $stateParams.breadcrumb;
+                    }
                 })
                 // Needs authentication
                 .state('about', {
                     url: '/about',
                     templateUrl: '../templates/about.html',
-                    requireLogin: true
+                    requireLogin: true,
+                    params: {
+                        breadcrumb: 'About'
+                    },
+                    controller: function ($rootScope, $stateParams) {
+                        $rootScope.breadcrumb = $stateParams.breadcrumb;
+                    }
                 })
                 // available for anybody
                 .state('contact', {
                     url: '/contact',
-                    templateUrl: '../templates/contact.html'
+                    templateUrl: '../templates/contact.html',
+                    params: {
+                        breadcrumb: 'Contact'
+                    },
+                    controller: function ($rootScope, $stateParams) {
+                        $rootScope.breadcrumb = $stateParams.breadcrumb;
+                    }
                 })
                 // the login screen
                 .state('login', {

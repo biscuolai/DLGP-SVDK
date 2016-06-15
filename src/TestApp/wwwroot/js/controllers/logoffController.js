@@ -3,7 +3,7 @@
 
     angular.module('Authentication')
     .controller('logoffController',
-        ['$scope', '$rootScope', '$location', 'AuthenticationService',   
+        ['$scope', '$rootScope', '$location', 'AuthenticationService',
         function ($scope, $rootScope, $location, AuthenticationService) {
 
             $scope.logoff = function () {
