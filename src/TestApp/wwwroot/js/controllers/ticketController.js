@@ -18,11 +18,11 @@
                 // Load all dropdownlists and set all values according this specific record
                 LoadAllDropDownLists(true);
                 // Clear all alert messages 
-                clearAlert();
+                $rootScope.clearAlert();
             })
             .error(function () {
                 // show in alerts error message
-                clearAlert();
+                $rootScope.clearAlert();
                 $rootScope.addAlert('An error has occured while loading ticket id = ' + $location.search().id, 'danger'); 
             });
         }
@@ -35,7 +35,7 @@
                 // Load all dropdownlists setting to default value
                 LoadAllDropDownLists(false);
                 // Clear all alert messages 
-                clearAlert();
+                $rootScope.clearAlert();
             }
             // Request is coming from dashboard page. Load all ticket records
             else {
@@ -58,7 +58,7 @@
             })
             .error(function () {
                 // show in alerts error message
-                clearAlert();
+                $rootScope.clearAlert();
                 $rootScope.addAlert('An error has occured while loading list of all tickets!', 'danger');
             });
         }
@@ -77,7 +77,7 @@
             })
             .error(function () {
                 // show in alerts error message
-                clearAlert();
+                $rootScope.clearAlert();
                 $rootScope.addAlert('An error has occured while loading contact type drop down list!', 'danger');
             });
             $http.get('/api/values/category').success(function (Category) {
@@ -233,12 +233,12 @@
                 $location.path('/'); // Updated successfully and redirect to dashboard
 
                 // show in alerts that ticket has been updated successfully
-                clearAlert();
+                $rootScope.clearAlert();
                 $rootScope.addAlert('Ticket ID = ' + Ticket.ticketId + ' has been updated successfully!', 'success'); // And call the method on the newScope.
 
             }).error(function (data) {
                 // show in alerts error message
-                clearAlert();
+                $rootScope.clearAlert();
                 $rootScope.addAlert('An error has occured while updating ticket id = ' + Ticket.ticketId, 'danger');
             });
         };
@@ -268,12 +268,12 @@
                     $location.path('/'); // Added successfully and redirect to dashboard
 
                     // show in alerts that ticket has been added successfully
-                    clearAlert();
+                    $rootScope.clearAlert();
                     $rootScope.addAlert('A new ticket has been added successfully!', 'success'); // And call the method on the newScope.
 
                 }).error(function (data) {
                     // show in alerts error message
-                    clearAlert();
+                    $rootScope.clearAlert();
                     $rootScope.addAlert('An error has occured while adding a new ticket!', 'danger');
                 });
             }
@@ -304,7 +304,7 @@
             $rootScope.alerts.splice(index, 1);
         };
 
-        function clearAlert() {
+        $rootScope.clearAlert = function() {
             $rootScope.alerts = [];
         };
     }

@@ -7,7 +7,7 @@
 
     //AngularJS controller method
     function dashboardController($http, $scope, $location) {
-       
+
         GetDashboardData();
 
         $scope.newTickets = 0;
@@ -61,6 +61,7 @@
               pointHighlightStroke: 'rgba(77,83,96,1)'
           }
         ];
+
         $scope.randomize = function () {
             $scope.data = $scope.data.map(function (data) {
                 return data.map(function (y) {

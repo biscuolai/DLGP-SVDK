@@ -369,22 +369,23 @@ namespace DLGP_SVDK.Controllers
         [HttpPost("forgotpassword")]
         [AllowAnonymous]
         //[ValidateAntiForgeryToken]
-        public async Task<JsonResult> ForgotPassword(ForgotPasswordViewModel model)
+        public async Task<JsonResult> ForgotPassword([FromBody] ForgotPasswordViewModel model)
         {
             if (ModelState.IsValid)
             {
-                var user = await _userManager.FindByNameAsync(model.Email);
+                var user = await _userManager.FindByEmailAsync(model.Email);
                 if (user == null || !(await _userManager.IsEmailConfirmedAsync(user)))
                 {
                     // Don't reveal that the user does not exist or is not confirmed
-                    return new JsonResult(new { message = "User does not exist.", success = false });
+                    return new JsonResult(new { message = "User does not exist or email hasn't been confirmed.", success = true });
                     //return View("ForgotPasswordConfirmation");
                 }
 
                 // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=532713
                 // Send an email with this link
                 var code = await _userManager.GeneratePasswordResetTokenAsync(user);
-                var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: HttpContext.Request.Scheme);
+                //var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: HttpContext.Request.Scheme);
+                var callbackUrl = "http://localhost:5000/#/resetpassword?userId=" + user.Id + "&code=" + code;
                 await _emailSender.SendEmailAsync(model.Email, "Reset Password",
                    "Please reset your password by clicking here: <a href=\"" + callbackUrl + "\">link</a>");
 
@@ -420,7 +421,7 @@ namespace DLGP_SVDK.Controllers
         [HttpPost("resetpassword")]
         [AllowAnonymous]
         //[ValidateAntiForgeryToken]
-        public async Task<JsonResult> ResetPassword(ResetPasswordViewModel model)
+        public async Task<JsonResult> ResetPassword([FromBody] ResetPasswordViewModel model)
         {
             var errorMessage = "Error creating a new user." + Environment.NewLine;
 
@@ -429,17 +430,26 @@ namespace DLGP_SVDK.Controllers
                 return new JsonResult(new { message = "Something went wrong.", success = false });
                 //return View(model);
             }
-            var user = await _userManager.FindByNameAsync(model.Email);
+            var user = await _userManager.FindByNameAsync(model.UserName);
             if (user == null)
             {
                 // Don't reveal that the user does not exist
-                return new JsonResult(new { message = "User does not exist.", success = false });
+                return new JsonResult(new { data = Json("null"), message = "User does not exist.", success = false });
                 //return RedirectToAction(nameof(AccountController.ResetPasswordConfirmation), "Account");
             }
             var result = await _userManager.ResetPasswordAsync(user, model.Code, model.Password);
             if (result.Succeeded)
             {
-                return new JsonResult(new { message = "Password has been reset successfully.", success = true });
+                if (User.Identity.IsAuthenticated)
+                {
+                    await _signInManager.SignOutAsync();
+                }
+                await _signInManager.SignInAsync(user, isPersistent: false);
+
+                var userprofile = new UserProfile(_userManager, _roleManager);
+                var userData = await userprofile.GetUserByUserName(model.UserName);
+
+                return new JsonResult(new { data = userData, message = "Password has been reset successfully.", success = true });
                 //return RedirectToAction(nameof(AccountController.ResetPasswordConfirmation), "Account");
             }
 
@@ -451,7 +461,7 @@ namespace DLGP_SVDK.Controllers
 
             //AddErrors(result);
             //return View();
-            return new JsonResult(new { message = errorMessage, success = false });
+            return new JsonResult(new { data = Json("null"), message = errorMessage, success = false });
         }
 
         //

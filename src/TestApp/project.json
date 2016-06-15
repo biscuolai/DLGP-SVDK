@@ -1,5 +1,15 @@
-﻿{
-  "userSecretsId": "DLGPSVDKDB",
+{
+  "tools": {
+    "Microsoft.AspNetCore.Razor.Tools": {
+      "version": "1.0.0-preview1-final",
+      "imports": "portable-net45+win8+dnxcore50"
+    },
+    "Microsoft.Extensions.SecretManager.Tools": {
+      "version": "1.0.0-preview1-final",
+      "imports": "portable-net45+win8+dnxcore50"
+    }
+  },
+  "userSecretsId": "aspnet-DLGPSVDK-c23d27a4-eb88-4b18-9b77-2a93f3b15119",
   "version": "1.0.0-*",
   "repository": {
     "type": "git",
@@ -11,7 +21,6 @@
   "compilationOptions": {
     "emitEntryPoint": true
   },
-
   "dependencies": {
     "AutoMapper": "4.2.1",
     "EntityFramework.Commands": "7.0.0-rc1-final",
@@ -49,7 +58,11 @@
   },
 
   "frameworks": {
-    "dnx451": { },
+    "dnx451": {
+      "dependencies": {
+        "SendGrid.SmtpApi": "1.3.1"
+      }
+    },
     "dnxcore50": { }
   },
 

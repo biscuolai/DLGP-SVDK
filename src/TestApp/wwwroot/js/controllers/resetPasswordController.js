@@ -2,24 +2,12 @@
     'use strict';
 
     angular.module('Authentication')
-    .controller('registerController',
-        ['$scope', '$location', 'AuthenticationService', '$http', 
+    .controller('resetPasswordController',
+        ['$scope', '$location', 'AuthenticationService', '$http',
         function ($scope, $location, AuthenticationService, $http) {
-
+                
             // reset login status
             AuthenticationService.ClearCredentials();
-
-            $http.get('/api/admin/roles').success(function (Role) {
-
-                $scope.roles = {
-                    availableOptions: Role.data,
-                    selectedOption: Role.data[0]
-                };
-            })
-            .error(function () {
-                // show in alerts error message
-                $scope.message = 'An error has occured while loading role drop down list!', 'danger';
-            });
 
             $scope.login = function () {
 
@@ -30,10 +18,15 @@
 
             }
 
-            $scope.register = function () {
+            $scope.resetPassword = function () {
+
+                // get the generated token by the server when user clicked on forgot password.
+                if ($location.search().code !== undefined) {
+                    $scope.code = encodeURIComponent($location.search().code);
+                }
 
                 $scope.dataLoading = true;
-                AuthenticationService.Register($scope.username, $scope.password, $scope.confirmPassword, $scope.email, $scope.roles.selectedOption.name, function (response) {
+                AuthenticationService.ResetPassword($scope.username, $scope.password, $scope.confirmPassword, $scope.code, function (response) {
 
                     if (response.success) {
 
@@ -45,9 +38,10 @@
 
                     } else {
 
-                        // alert message on the top of register screen
+                        // alert message on the top of the panel - reset password
                         $scope.error = response.message;
                         $scope.dataLoading = false;
+
                     }
                 });
             };

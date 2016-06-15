@@ -8,9 +8,6 @@
             var service = {};
 
             service.Login = function (username, password, callback) {
-
-                //debugger;
-
                 /* Dummy authentication for testing, uses $timeout to simulate api call
                  ----------------------------------------------*/
                 //$timeout(function () {
@@ -33,34 +30,26 @@
                         '__RequestVerificationToken': $('input[name=__RequestVerificationToken]').attr('value') // @html.AntiForgeryToken() generated in server side
                     }
                 }).success(function (response) {
-                    debugger;
                     callback(response);
                 });
             };
 
             service.Register = function (username, password, confirmPassword, email, role, callback) {
-
-                debugger;
-
                 $http({
                     method: 'POST',
                     url: '/api/user/register',
                     data: {
-                        username: username, password: password, confirmPassword: confirmPassword, email: email, role: role,
+                        username: username, password: password, confirmPassword: confirmPassword, email: email, role: role
                     },
                     headers: {
                         '__RequestVerificationToken': $('input[name=__RequestVerificationToken]').attr('value') // @html.AntiForgeryToken() generated in server side
                     }
                 }).success(function (response) {
-                    debugger;
                     callback(response);
                 });
             };
 
             service.Logoff = function (callback) {
-
-                debugger;
-
                 $http({
                     method: 'POST',
                     url: '/api/user/logoff',
@@ -68,15 +57,45 @@
                         '__RequestVerificationToken': $('input[name=__RequestVerificationToken]').attr('value') // @html.AntiForgeryToken() generated in server side
                     }
                 }).success(function (response) {
-                    debugger;
+                    callback(response);
+                });
+            };
+
+            service.ForgotPassword = function (email, callback) {
+                $http({
+                    method: 'POST',
+                    url: '/api/user/forgotpassword',
+                    data: {
+                        email: email
+                    },
+                    headers: {
+                        '__RequestVerificationToken': $('input[name=__RequestVerificationToken]').attr('value') // @html.AntiForgeryToken() generated in server side
+                    }
+                }).success(function (response) {
+                    callback(response);
+                });
+            };
+
+            service.ResetPassword = function (username, password, confirmPassword, code, callback) {
+
+                debugger;
+
+                $http({
+                    method: 'POST',
+                    url: '/api/user/resetpassword',
+                    data: {
+                        username: username, password: password, confirmPassword: confirmPassword, code: decodeURIComponent(code.replace(/\%20/g, "+"))
+                    },
+                    headers: {
+                        '__RequestVerificationToken': $('input[name=__RequestVerificationToken]').attr('value') // @html.AntiForgeryToken() generated in server side
+                    }
+                }).success(function (response) {
                     callback(response);
                 });
             };
 
             service.SetCredentials = function (username, password, userData) {
                 var authdata = Base64.encode(username + ':' + password);
-
-                debugger;
 
                 $rootScope.globals = {
                     currentUser: {

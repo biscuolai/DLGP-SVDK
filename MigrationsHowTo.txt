@@ -3,3 +3,12 @@ dnx ef migrations list -- listing all migrations
 dnx ef migrations add InitialDatabase -- add first migration
 dnx ef migrations remove -- remove migration
 dnx ef database update
+
+configuring user-secrets
+
+--isntall user secrets 
+
+dnu commands install Microsoft.Extensions.SecretManager
+
+--set user secrets
+user-secret set appSecret aspnet-DLGPSVDK-c23d27a4-eb88-4b18-9b77-2a93f3b15119

@@ -23,6 +23,7 @@ using Microsoft.AspNet.Http;
 using Microsoft.AspNet.Antiforgery;
 using DLGP_SVDK.Web.Extensions;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using DLGP_SVDK.Web.Services;
 
 namespace DLGP_SVDK
 {
@@ -31,7 +32,6 @@ namespace DLGP_SVDK
         public Startup(IHostingEnvironment env)
         {
             // Set up configuration sources.
-
             var builder = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json")
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
@@ -139,6 +139,7 @@ namespace DLGP_SVDK
             services.AddTransient<AppContextSeedData>();
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
+            services.Configure<AuthMessageSenderOptions>(Configuration);
 
             services.AddScoped<ITicketRepository, TicketRepository>();
         }

@@ -169,6 +169,7 @@
                 (
                  $location.path() !== '/register' &&
                  $location.path() !== '/forgotpassword' &&
+                 $location.path() !== '/resetpassword' &&
                  $location.path() !== '/login'
                 ) &&
                 !$rootScope.globals.currentUser) {

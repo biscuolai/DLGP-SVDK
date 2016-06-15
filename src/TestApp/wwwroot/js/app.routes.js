@@ -51,7 +51,13 @@
                 .state('forgotpassword', {
                     url: '/forgotpassword',
                     templateUrl: '../templates/forgotPassword.html',
-                    controller: 'loginController',
+                    controller: 'forgotPasswordController',
+                    hideMenus: true
+                })
+                .state('resetpassword', {
+                    url: '/resetpassword',
+                    templateUrl: '../templates/resetPassword.html',
+                    controller: 'resetPasswordController',
                     hideMenus: true
                 })
                 .state('app.error', {
