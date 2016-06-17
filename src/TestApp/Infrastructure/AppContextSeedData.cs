@@ -47,8 +47,8 @@ namespace DLGP_SVDK.Infrastructure
                     var newUser = new ApplicationUser()
                     {
                         UserName = "biscuolai",
-                        Email = "ilson_biscuola@dialog.com.au",
-                        DisplayName = "Ilson Biscuola"
+                        Email = "ilson_biscuola@dialog.com.au"
+                        //DisplayName = "Ilson Biscuola"
                     };
 
                     await _userManager.CreateAsync(newUser, "Password0!");
@@ -62,7 +62,7 @@ namespace DLGP_SVDK.Infrastructure
                     {
                         UserName = "admin",
                         Email = "admin@dialog.com.au",
-                        DisplayName = "Admin User"
+                        //DisplayName = "Admin User"
                     };
 
                     await _userManager.CreateAsync(newAdmin, "Password0!");
@@ -76,7 +76,7 @@ namespace DLGP_SVDK.Infrastructure
                     {
                         UserName = "Operator",
                         Email = "helpdesk@dialog.com.au",
-                        DisplayName = "Operator"
+                        //DisplayName = "Operator"
                     };
 
                     await _userManager.CreateAsync(newOperator, "Password0!");

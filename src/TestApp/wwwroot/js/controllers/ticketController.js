@@ -3,10 +3,10 @@
 
     angular
         .module('app')
-        .controller('ticketController', ['$http', '$controller', '$location', '$rootScope', 'Constants', '$filter', ticketController]);
+        .controller('ticketController', ['$http', '$controller', '$location', '$rootScope', 'Constants', '$filter', 'MessageService', ticketController]);
 
     //AngularJS controller method
-    function ticketController($http, $controller, $location, $rootScope, Constants, $filter) {
+    function ticketController($http, $controller, $location, $rootScope, Constants, $filter, MessageService) {
 
         if ((($location.search().action !== undefined) && ($location.search().action === 'edit')) &&
             (($location.search().id !== undefined) && ($location.search().id > 0))) {
@@ -15,15 +15,17 @@
                 // success
                 $rootScope.Ticket = data.data;
 
+                debugger;
+
                 // Load all dropdownlists and set all values according this specific record
                 LoadAllDropDownLists(true);
-                // Clear all alert messages 
-                $rootScope.clearAlert();
+                // Clear all MessageService.addAlert messages 
+                MessageService.clearAlert();
             })
             .error(function () {
                 // show in alerts error message
-                $rootScope.clearAlert();
-                $rootScope.addAlert('An error has occured while loading ticket id = ' + $location.search().id, 'danger'); 
+                MessageService.clearAlert();
+                MessageService.addAlert('An error has occured while loading ticket id = ' + $location.search().id, 'danger');
             });
         }
         // no parameter has been passed, it can be a new ticket or dashboard page
@@ -34,15 +36,15 @@
                 ClearFields();
                 // Load all dropdownlists setting to default value
                 LoadAllDropDownLists(false);
-                // Clear all alert messages 
-                $rootScope.clearAlert();
+                // Clear all MessageService.addAlert messages 
+                MessageService.clearAlert();
             }
             // Request is coming from dashboard page. Load all ticket records
             else {
-                // define the variable alerts if it does not exists
-                if ($rootScope.alerts === undefined) {
-                    $rootScope.alerts = [];
-                }
+                //// define the variable alerts if it does not exists
+                //if ($rootScope.alerts === undefined) {
+                //    $rootScope.alerts = [];
+                //}
 
                 // get the list of all tickets 
                 GetAllTickets();
@@ -58,8 +60,8 @@
             })
             .error(function () {
                 // show in alerts error message
-                $rootScope.clearAlert();
-                $rootScope.addAlert('An error has occured while loading list of all tickets!', 'danger');
+                MessageService.clearAlert();
+                MessageService.addAlert('An error has occured while loading list of all tickets!', 'danger');
             });
         }
 
@@ -77,8 +79,8 @@
             })
             .error(function () {
                 // show in alerts error message
-                $rootScope.clearAlert();
-                $rootScope.addAlert('An error has occured while loading contact type drop down list!', 'danger');
+                MessageService.clearAlert();
+                MessageService.addAlert('An error has occured while loading contact type drop down list!', 'danger');
             });
             $http.get('/api/values/category').success(function (Category) {
                 $rootScope.Category = {
@@ -92,7 +94,7 @@
             })
             .error(function () {
                 // show in alerts error message
-                $rootScope.addAlert('An error has occured while loading category drop down list!', 'danger');
+                MessageService.addAlert('An error has occured while loading category drop down list!', 'danger');
             });
             $http.get('/api/values/configurationitem').success(function (ConfigurationItem) {
                 $rootScope.ConfigurationItem = {
@@ -106,7 +108,7 @@
             })
             .error(function () {
                 // show in alerts error message
-                $rootScope.addAlert('An error has occured while loading configuration item drop down list!', 'danger');
+                MessageService.addAlert('An error has occured while loading configuration item drop down list!', 'danger');
             });
             $http.get('/api/values/ticketstatus').success(function (TicketStatus) {
                 $rootScope.TicketStatus = {
@@ -120,7 +122,7 @@
             })
             .error(function () {
                 // show in alerts error message
-                $rootScope.addAlert('An error has occured while loading ticket status drop down list!', 'danger');
+                MessageService.addAlert('An error has occured while loading ticket status drop down list!', 'danger');
             });
             $http.get('/api/values/priority').success(function (Priority) {
 
@@ -135,7 +137,7 @@
             })
             .error(function () {
                 // show in alerts error message
-                $rootScope.addAlert('An error has occured while loading priority drop down list!', 'danger');
+                MessageService.addAlert('An error has occured while loading priority drop down list!', 'danger');
             });
             $http.get('/api/projects').success(function (Project) {
                 $rootScope.Projects = {
@@ -148,7 +150,7 @@
             })
             .error(function () {
                 // show in alerts error message
-                $rootScope.addAlert('An error has occured while loading project drop down list!', 'danger');
+                MessageService.addAlert('An error has occured while loading project drop down list!', 'danger');
             });
             $http.get('/api/admin/users').success(function (User) {
 
@@ -162,7 +164,7 @@
             })
             .error(function () {
                 // show in alerts error message
-                $rootScope.addAlert('An error has occured while loading assigned to drop down list!', 'danger');
+                MessageService.addAlert('An error has occured while loading assigned to drop down list!', 'danger');
             });
         }
 
@@ -178,17 +180,17 @@
             })
             .error(function () {
                 // show in alerts error message
-                $rootScope.addAlert('An error has occured while loading ticket id = ' + Ticket.ticketId, 'danger');
+                MessageService.addAlert('An error has occured while loading ticket id = ' + Ticket.ticketId, 'danger');
             });
         }
 
         $rootScope.deleteTicket = function (Ticket) {
             var getTicketData = DeleteTicket(Ticket.Id);
             getTicketData.then(function (msg) {
-                alert(msg.data);
+                MessageService.addAlert(msg.data);
                 GetAllTickets();
             }, function () {
-                alert('Error in deleting Ticket record');
+                MessageService.addAlert('Error in deleting Ticket record', 'success');
             });
         }
 
@@ -204,7 +206,6 @@
                 $rootScope.Ticket.assignedTo = "";
                 $rootScope.Ticket.ticketStatusId = "";
                 $rootScope.Ticket.priorityId = "";
-                $rootScope.Ticket.assignedTo = "";
             }
         }
 
@@ -233,18 +234,21 @@
                 $location.path('/'); // Updated successfully and redirect to dashboard
 
                 // show in alerts that ticket has been updated successfully
-                $rootScope.clearAlert();
-                $rootScope.addAlert('Ticket ID = ' + Ticket.ticketId + ' has been updated successfully!', 'success'); // And call the method on the newScope.
+                MessageService.clearAlert();
+                MessageService.addAlert('Ticket ID = ' + Ticket.ticketId + ' has been updated successfully!', 'success'); // And call the method on the newScope.
 
             }).error(function (data) {
                 // show in alerts error message
-                $rootScope.clearAlert();
-                $rootScope.addAlert('An error has occured while updating ticket id = ' + Ticket.ticketId, 'danger');
+                MessageService.clearAlert();
+                MessageService.addAlert('An error has occured while updating ticket id = ' + Ticket.ticketId, 'danger');
             });
         };
 
         // Insert operation / add ticket
         $rootScope.AddTicket = function (Ticket) {
+
+            debugger;
+
             if (Ticket !== undefined) {
                 // read fresh data from all dropdownlists
                 Ticket.projectId = $rootScope.Projects.selectedOption.projectId;
@@ -268,13 +272,13 @@
                     $location.path('/'); // Added successfully and redirect to dashboard
 
                     // show in alerts that ticket has been added successfully
-                    $rootScope.clearAlert();
-                    $rootScope.addAlert('A new ticket has been added successfully!', 'success'); // And call the method on the newScope.
+                    MessageService.clearAlert();
+                    MessageService.addAlert('A new ticket has been added successfully!', 'success'); // And call the method on the newScope.
 
                 }).error(function (data) {
                     // show in alerts error message
-                    $rootScope.clearAlert();
-                    $rootScope.addAlert('An error has occured while adding a new ticket!', 'danger');
+                    MessageService.clearAlert();
+                    MessageService.addAlert('An error has occured while adding a new ticket!', 'danger');
                 });
             }
         };
@@ -282,7 +286,7 @@
         //Delete Ticket
         $rootScope.DeleteTicket = function (Ticket) {     
             $http.delete('/api/tickets/' + Ticket.TicketID).success(function (data) {
-                alert("Deleted successfully!");
+                MessageService.addAlert("Deleted successfully!");
                 $http.get('/api/tickets').success(function (data) {
                     $rootScope.Tickets = data;                    
                 })
@@ -291,21 +295,21 @@
             });
         };
 
-        $rootScope.addAlert = function (message, alertType) {
-            $rootScope.alerts.push({
-                type: alertType,
-                msg: message
-            });
+        //MessageService.addAlert = function (message, alertType) {
+        //    $rootScope.alerts.push({
+        //        type: alertType,
+        //        msg: message
+        //    });
 
-            return $rootScope.alerts;
-        };
+        //    return $rootScope.alerts;
+        //};
 
-        $rootScope.closeAlert = function (index) {
-            $rootScope.alerts.splice(index, 1);
-        };
+        //$rootScope.closeAlert = function (index) {
+        //    $rootScope.alerts.splice(index, 1);
+        //};
 
-        $rootScope.clearAlert = function() {
-            $rootScope.alerts = [];
-        };
+        //MessageService.clearAlert = function() {
+        //    $rootScope.alerts = [];
+        //};
     }
 })();

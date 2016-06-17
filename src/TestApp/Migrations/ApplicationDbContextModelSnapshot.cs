@@ -25,10 +25,6 @@ namespace TestApp.Migrations
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
 
-                    b.Property<string>("DisplayName")
-                        .IsRequired()
-                        .HasAnnotation("MaxLength", 100);
-
                     b.Property<string>("Email")
                         .HasAnnotation("MaxLength", 256);
 

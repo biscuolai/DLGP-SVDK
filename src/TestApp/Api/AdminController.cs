@@ -7,6 +7,7 @@ using System.Security.Claims;
 using DLGP_SVDK.Model.Domain.Entities.Identity;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using System.Collections.Generic;
 
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
@@ -30,9 +31,18 @@ namespace DLGP_SVDK.Web.Api
         public JsonResult GetUsers()
         {
             var users = new UserProfile(_userManager, _roleManager);
-            var list = users.GetUsersInRole(new ApplicationDbContext(), "operator").ToList();
+            var roles = users.GeAllRoles();
 
-            return new JsonResult(new { data = list, success = true });
+            List<IdentityUser> allUsers = new List<IdentityUser>(); 
+
+            foreach (var role in roles)
+            {
+                allUsers.AddRange(users.GetUsersInRole(new ApplicationDbContext(), role.Name).ToList());
+            }
+
+            //var list = users.GetUsersInRole(new ApplicationDbContext(), "operator").ToList();
+
+            return new JsonResult(new { data = allUsers, success = true });
         }
 
         // GET: api/admin/roles

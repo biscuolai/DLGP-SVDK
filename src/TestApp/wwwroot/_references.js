@@ -27,6 +27,7 @@
 /// <reference path="js/directives/widget-header.js" />
 /// <reference path="js/services/authenticationservice.js" />
 /// <reference path="js/services/loginservice.js" />
+/// <reference path="js/services/messageservice.js" />
 /// <reference path="js/services/ticketservice.js" />
 /// <reference path="lib/angular/angular.js" />
 /// <reference path="lib/angular-animate/angular-animate.js" />

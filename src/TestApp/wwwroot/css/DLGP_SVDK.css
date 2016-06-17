@@ -68,7 +68,7 @@
     }
 
     .row.header .meta .breadcrumb-links {
-        font-size: 10px;
+        font-size: 12px;
     }
 
     .row.header .meta div {
@@ -792,4 +792,14 @@ table tr:hover td {
   min-width: 200px;
   max-width: 500px;
   padding: 40px;
+}
+
+.body-dialog {
+	background: url('/images/Dialog-Backgroung-opacity.jpg') no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+  	font-family: 'Open Sans',Arial,Helvetica,Sans-Serif;
+    opacity: 0.9;
 }

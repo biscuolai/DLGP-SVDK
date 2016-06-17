@@ -10,7 +10,7 @@ using Microsoft.AspNet.Identity;
 namespace DLGP_SVDK.Model.Domain.Entities
 {
     [Table("Ticket")]
-    public class Ticket 
+    public class Ticket
     {
         public Ticket()
         {
@@ -21,7 +21,7 @@ namespace DLGP_SVDK.Model.Domain.Entities
             // ReSharper restore DoNotCallOverridableMethodsInConstructor
         }
         [Key]
-        [Display(ResourceType = typeof(String), Name = "TicketTicketId", ShortName = "TicketTicketIdShort")]
+        [Display(ResourceType = typeof(String), Name = "TicketId", ShortName = "TicketIdShort")]
         public int TicketId { get; set; }
 
         [Required(ErrorMessageResourceName = "FieldRequired")]
@@ -47,7 +47,7 @@ namespace DLGP_SVDK.Model.Domain.Entities
         public int PriorityId { get; set; }
 
         [Required(ErrorMessageResourceName = "FieldRequired")]
-        [Display(ResourceType = typeof(String), Name = "TicketTicketStatus", ShortName = "TicketTicketStatusShort")]
+        [Display(ResourceType = typeof(String), Name = "TicketStatus", ShortName = "TicketStatusShort")]
         public int TicketStatusId { get; set; }
 
         [Required(ErrorMessageResourceName = "FieldRequired")]

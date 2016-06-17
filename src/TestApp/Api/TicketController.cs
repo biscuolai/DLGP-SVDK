@@ -46,7 +46,7 @@ namespace DLGP_SVDK.Web.Api
             using (var unitOfWork = new UnitOfWork(new ApplicationDbContext()))
             {
                 // Get a particular ticket
-                var ticket = unitOfWork.Tickets.Get(id);
+                var ticket = unitOfWork.Tickets.GetTicket(id);
 
                 return new JsonResult(new { data = ticket, success = true });
             }

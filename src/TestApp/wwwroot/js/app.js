@@ -3,6 +3,8 @@
 
     angular.module('Authentication', []);
 
+    angular.module('ShowMessage', []);
+
     //angular.module('angular-login.grandfather', ['ui.router'])
     //.config(function ($stateProvider) {
     //    $stateProvider
@@ -111,6 +113,7 @@
 
     angular.module('app', ['ui.bootstrap',
                            'Authentication',
+                           'ShowMessage',
                            //'angular-login.grandfather',
                            //'angular-login',
                            'ngRoute',

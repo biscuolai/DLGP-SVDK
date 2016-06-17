@@ -50,7 +50,22 @@ namespace DLGP_SVDK.Repository.Repositories
                 .Include(c => c.ContactType)
                 .Include(c => c.Priority)
                 .Include(c => c.Category)
-                .OrderByDescending(c => c.Priority)
+                .Include(c => c.Events)
+                //.OrderByDescending(c => c.Priority)
+                .ToList();
+        }
+
+        public IEnumerable<Ticket> GetTicket(int id)
+        {
+            return ApplicationContext.Tickets.Include(c => c.Project)
+                .Include(c => c.ConfigurationItem)
+                .Include(c => c.Status)
+                .Include(c => c.ContactType)
+                .Include(c => c.Priority)
+                .Include(c => c.Category)
+                .Include(c => c.Events)
+                //.OrderByDescending(c => c.Priority)
+                .Where(c => c.TicketId == id)
                 .ToList();
         }
 

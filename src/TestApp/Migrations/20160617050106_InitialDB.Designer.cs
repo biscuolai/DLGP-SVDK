@@ -8,7 +8,7 @@ using DLGP_SVDK.Models;
 namespace TestApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20160607022603_InitialDB")]
+    [Migration("20160617050106_InitialDB")]
     partial class InitialDB
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,10 +25,6 @@ namespace TestApp.Migrations
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
-
-                    b.Property<string>("DisplayName")
-                        .IsRequired()
-                        .HasAnnotation("MaxLength", 100);
 
                     b.Property<string>("Email")
                         .HasAnnotation("MaxLength", 256);

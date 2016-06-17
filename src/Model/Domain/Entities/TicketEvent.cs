@@ -36,8 +36,6 @@ namespace DLGP_SVDK.Model.Domain.Entities
         [Timestamp]
         public byte[] Version { get; set; }
 
-        public virtual Ticket Ticket { get; set; }
-
         public virtual ICollection<TicketEventNotification> TicketEventNotifications { get; set; }
 
 
@@ -71,21 +69,21 @@ namespace DLGP_SVDK.Model.Domain.Entities
         /// <summary>
         /// Creates the event notifications for each ticket subscriber and adds them to the TicketEventNotifications collection.
         /// </summary>
-        public void CreateSubscriberEventNotifications()
-        {
-            foreach (var subscriber in Ticket.Subscribers)
-            {
-                var isSubscriberEvent = EventBy == subscriber.SubscriberId;
+        //public void CreateSubscriberEventNotifications()
+        //{
+        //    foreach (var subscriber in Ticket.Subscribers)
+        //    {
+        //        var isSubscriberEvent = EventBy == subscriber.SubscriberId;
 
-                TicketEventNotifications.Add(
-                    new TicketEventNotification
-                    {
-                        IsNew = !isSubscriberEvent,
-                        IsRead = isSubscriberEvent,
-                        SubscriberId = subscriber.SubscriberId,
-                    });
+        //        TicketEventNotifications.Add(
+        //            new TicketEventNotification
+        //            {
+        //                IsNew = !isSubscriberEvent,
+        //                IsRead = isSubscriberEvent,
+        //                SubscriberId = subscriber.SubscriberId,
+        //            });
 
-            }
-        }
+        //    }
+        //}
     }
 }

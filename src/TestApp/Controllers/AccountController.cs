@@ -183,7 +183,7 @@ namespace DLGP_SVDK.Controllers
             if (ModelState.IsValid)
             {
                 // create new ApplicationUser object with all information from Angular Controller
-                var user = new ApplicationUser { UserName = model.UserName, Email = model.Email, DisplayName = model.UserName };
+                var user = new ApplicationUser { UserName = model.UserName, Email = model.Email, EmailConfirmed = true };
                 // Create user in Identity model
                 var result = await _userManager.CreateAsync(user, model.Password);
 

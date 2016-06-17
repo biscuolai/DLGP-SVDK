@@ -8,6 +8,7 @@ namespace DLGP_SVDK.Repository
     {
         IEnumerable<Ticket> GetTopUrgentTickets(int count);
         IEnumerable<Ticket> GetAllTickets();
+        IEnumerable<Ticket> GetTicket(int id);
         IEnumerable<Ticket> GetAllTicketsLimitedByPage(int pageIndex, int pageSize = 10);
         int GetId(Ticket ticket);
         Ticket Reload(int id);

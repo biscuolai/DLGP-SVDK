@@ -3,8 +3,8 @@
 
     angular.module('Authentication')
     .controller('loginController',
-        ['$scope', '$rootScope', '$location', 'AuthenticationService', 
-        function ($scope, $rootScope, $location, AuthenticationService) {
+        ['$scope', '$rootScope', '$location', 'AuthenticationService', 'MessageService',
+            function ($scope, $rootScope, $location, AuthenticationService, MessageService) {
 
             // reset login status
             AuthenticationService.ClearCredentials();
@@ -20,7 +20,7 @@
                         $location.path('/');
 
                         // alert message on the top of the main screen
-                        $rootScope.addAlert(response.message, 'success');
+                        MessageService.addAlert(response.message, 'success');
                     } else {
 
                         // alert message on the top of login screen

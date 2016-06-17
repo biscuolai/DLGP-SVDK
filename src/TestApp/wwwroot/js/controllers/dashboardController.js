@@ -3,9 +3,9 @@
 
     angular
         .module('app')
-        .controller('dashboardController', ['$http', '$scope', '$location', dashboardController]);
+        .controller('dashboardController', ['$http', '$scope', '$location', 'MessageService', dashboardController]);
 
-    function dashboardController($http, $scope, $location) {
+    function dashboardController($http, $scope, $location, MessageService) {
 
         GetDashboardData();
 
@@ -32,8 +32,8 @@
             })
             .error(function () {
                 // show in alerts error message
-                $scope.clearAlert();
-                $scope.addAlert('An error has occured while loading dashboard data!', 'danger');
+                MessageService.clearAlert();
+                MessageService.addAlert('An error has occured while loading dashboard data!', 'danger');
             });
         }
 
