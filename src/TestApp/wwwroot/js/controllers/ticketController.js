@@ -3,19 +3,17 @@
 
     angular
         .module('app')
-        .controller('ticketController', ['$http', '$controller', '$location', '$rootScope', 'Constants', '$filter', 'MessageService', ticketController]);
+        .controller('ticketController', ['$http', '$controller', '$location', '$rootScope', '$filter', 'MessageService', ticketController]);
 
     //AngularJS controller method
-    function ticketController($http, $controller, $location, $rootScope, Constants, $filter, MessageService) {
+    function ticketController($http, $controller, $location, $rootScope, $filter, MessageService) {
 
         if ((($location.search().action !== undefined) && ($location.search().action === 'edit')) &&
             (($location.search().id !== undefined) && ($location.search().id > 0))) {
             // query parameter existing and get Ticket by TicketId
             $http.get('/api/tickets/' + $location.search().id).success(function (data) {
                 // success
-                $rootScope.Ticket = data.data;
-
-                debugger;
+                $rootScope.Ticket = data.data[0];
 
                 // Load all dropdownlists and set all values according this specific record
                 LoadAllDropDownLists(true);
@@ -188,6 +186,8 @@
                 // success
                 $rootScope.Ticket = data.data;
 
+                debugger;
+
                 LoadAllDropDownLists(true);
 
                 $location.path('/editTicket'); //redirect to edit Ticket template
@@ -209,6 +209,10 @@
         }
 
         function ClearFields() {
+
+            debugger;
+
+
             if ($rootScope.Ticket !== undefined) {
                 $rootScope.Ticket.projectId = "";
                 $rootScope.Ticket.contactTypeId = "";

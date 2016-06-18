@@ -14,7 +14,7 @@
                     <div class="form-group col-md-12">
                         <label for="title">Title</label>
                         <input class="form-control" type="text" name="title" id="title" placeholder="Please enter title here" ng-model="Ticket.title" required />
-                        <span ng-show="form.title.$dirty && form.title.$error.required" class="help-block">Title is required</span>
+                        <span class="label label-danger" ng-show="form.title.$dirty && form.title.$error.required" class="help-block">Title is required !</span>
                     </div>
                 </div>
             </div>
@@ -29,18 +29,18 @@
                                 ng-selected="Ticket.priorityId" ng-change="Ticket.priority = Priority.selectedOption.priorityId">
                             <option value="">-- Select a Priority --</option>
                         </select>
-                        <span ng-show="form.priority.$dirty && form.priority.$error.required" class="help-block">Priority is required</span>
+                        <span class="label label-danger" ng-show="form.priority.$dirty && form.priority.$error.required" class="help-block">Priority is required !</span>
                     </div>
 
                     <div class="col-md-3">
                         <label for="category">Category:</label>
-                        <select name="Category" id="category" class="form-control"
+                        <select name="category" id="category" class="form-control" required
                                 ng-options="option.name for option in Category.availableOptions track by option.categoryId"
                                 ng-model="Category.selectedOption"
                                 ng-selected="Ticket.categoryId" ng-change="Ticket.categoryId = Category.selectedOption.categoryId">
                             <option value="">-- Select a Category --</option>
                         </select>
-                        <span ng-show="form.category.$dirty && form.category.$error.required" class="help-block">Category is required</span>
+                        <span class="label label-danger" ng-show="form.category.$dirty && form.category.$error.required" class="help-block">Category is required !</span>
                     </div>
 
                     <div class="col-md-3">
@@ -51,7 +51,7 @@
                                 ng-selected="Ticket.ticketStatusId" ng-change="Ticket.ticketStatus = TicketStatus.selectedOption.ticketStatusId">
                             <option value="">-- Select a Ticket Status --</option>
                         </select>
-                        <span ng-show="form.TicketStatus.$dirty && form.TicketStatus.$error.required" class="help-block">Ticket Status is required</span>
+                        <span class="label label-danger" ng-show="form.TicketStatus.$dirty && form.TicketStatus.$error.required" class="help-block">Ticket Status is required !</span>
                     </div>
 
                     <div class="col-md-3">
@@ -62,7 +62,7 @@
                                 ng-selected="Ticket.assignedTo" ng-change="Ticket.assignedTo = Users.selectedOption.id">
                             <option value="">-- Select a Assigned To --</option>
                         </select>
-                        <span ng-show="form.AssignedTo.$dirty && form.AssignedTo.$error.required" class="help-block">Assigned To is required</span>
+                        <span class="label label-danger" ng-show="form.AssignedTo.$dirty && form.AssignedTo.$error.required" class="help-block">Assigned To is required !</span>
                     </div>
                 </div>
             </div>
@@ -70,13 +70,13 @@
                 <div class="col-md-12">
                     <div class="col-md-3">
                         <label for="project">Project:</label>
-                        <select name="project" id="project" class="form-control"
+                        <select name="project" id="project" class="form-control" required
                                 ng-options="option.projectName for option in Projects.availableOptions track by option.projectId"
                                 ng-model="Projects.selectedOption"
                                 ng-selected="Ticket.projectId" ng-change="Ticket.projectId = Projects.selectedOption.projectId">
                             <option value="">-- Select a Project --</option>
                         </select>
-                        <span ng-show="form.project.$dirty && form.project.$error.required" class="help-block">Project is required</span>
+                        <span class="label label-danger" ng-show="form.project.$dirty && form.project.$error.required" class="help-block">Project is required !</span>
                     </div>
 
 
@@ -88,7 +88,7 @@
                                 ng-selected="Ticket.contactTypeId" ng-change="Ticket.contactTypeId = ContactType.selectedOption.contactTypeId">
                             <option value="">-- Select a Contact Type --</option>
                         </select>
-                        <span ng-show="form.ContactType.$dirty && form.ContactType.$error.required" class="help-block">Contact Type is required</span>
+                        <span class="label label-danger" ng-show="form.ContactType.$dirty && form.ContactType.$error.required" class="help-block">Contact Type is required !</span>
                     </div>
 
                     <div class="col-md-3">
@@ -99,7 +99,7 @@
                                 ng-selected="Ticket.configurationItemId" ng-change="Ticket.configurationItemId = ConfigurationItem.selectedOption.configurationItemId">
                             <option value="">-- Select a Configuration Item --</option>
                         </select>
-                        <span ng-show="form.ConfigurationItem.$dirty && form.ConfigurationItem.$error.required" class="help-block">Configuration Item is required</span>
+                        <span class="label label-danger" ng-show="form.ConfigurationItem.$dirty && form.ConfigurationItem.$error.required" class="help-block">Configuration Item is required !</span>
                     </div>
 
                     <div class="col-md-3">
@@ -112,8 +112,9 @@
                 <div class="col-md-12">
                     <div class="col-md-12">
                         <label for="details">Details</label>
-                        <textarea ng-model="Ticket.details" class="form-control" id="details" cols="10" rows="5" required placeholder="Please enter details here"></textarea>
-                        <span ng-show="form.details.$dirty && form.details.$error.required" class="help-block">Details is required</span>
+                        <textarea ng-model="Ticket.details" class="form-control" id="details" name="details" cols="10" rows="5" required 
+                                  placeholder="Please enter details here"></textarea>
+                        <span class="label label-danger" ng-show="form.details.$dirty && form.details.$error.required" class="help-block">Details is required !</span>
                     </div>
                 </div>
             </div>

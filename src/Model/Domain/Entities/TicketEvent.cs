@@ -38,53 +38,26 @@ namespace DLGP_SVDK.Model.Domain.Entities
 
         public virtual ICollection<TicketEventNotification> TicketEventNotifications { get; set; }
 
-        //public virtual Ticket Ticket { get; set; }
-
-        /// <summary>
-        /// Creates the activity event.
-        /// </summary>
-        /// <param name="eventByUserId">The event by user identifier.</param>
-        /// <param name="activity">The activity.</param>
-        /// <param name="comment">The comment.</param>
-        /// <param name="newPriority">The new priority.</param>
-        /// <param name="userName">Name of the user.</param>
-        /// <returns>TicketEvent.</returns>
-        public static TicketEvent CreateActivityEvent(
-            string eventByUserId,
-            TicketActivity activity,
-            string comment,
-            string newPriority,
-            string userName
-            )
-        {
-            var tc = new TicketEvent
-            {
-                Comment = comment,
-                EventBy = eventByUserId,
-                EventDate = DateTime.Now,
-                EventDescription = TicketTextUtility.GetTicketEventDescription(activity, newPriority, userName)
-            };
-            return tc;
-        }
+        public virtual Ticket Ticket { get; set; }
 
         /// <summary>
         /// Creates the event notifications for each ticket subscriber and adds them to the TicketEventNotifications collection.
         /// </summary>
-        //public void CreateSubscriberEventNotifications()
-        //{
-        //    foreach (var subscriber in Ticket.Subscribers)
-        //    {
-        //        var isSubscriberEvent = EventBy == subscriber.SubscriberId;
+        public void CreateSubscriberEventNotifications()
+        {
+            foreach (var subscriber in Ticket.Subscribers)
+            {
+                var isSubscriberEvent = EventBy == subscriber.SubscriberId;
 
-        //        TicketEventNotifications.Add(
-        //            new TicketEventNotification
-        //            {
-        //                IsNew = !isSubscriberEvent,
-        //                IsRead = isSubscriberEvent,
-        //                SubscriberId = subscriber.SubscriberId,
-        //            });
+                TicketEventNotifications.Add(
+                    new TicketEventNotification
+                    {
+                        IsNew = !isSubscriberEvent,
+                        IsRead = isSubscriberEvent,
+                        SubscriberId = subscriber.SubscriberId,
+                    });
 
-        //    }
-        //}
+            }
+        }
     }
 }
