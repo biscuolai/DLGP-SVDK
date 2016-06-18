@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using DLGP_SVDK.Repository.Common;
+using Microsoft.Data.Entity;
 
 namespace DLGP_SVDK.Repository.Repositories
 {
@@ -14,20 +15,11 @@ namespace DLGP_SVDK.Repository.Repositories
         {
         }
 
-        public string GetUserInfo(TicketEvent ticketEvent)
+        public IEnumerable<TicketEvent> GetAllEventsByTicketId(int id)
         {
-            //var userManager = DependencyResolver.Current.GetService<TicketDeskUserManager>();
-            //return userManager.GetUserInfo(ticketEvent.EventBy);
-            //var userManager = DependencyResolver.Current.GetService<TicketDeskUserManager>();
-            //var user = new UserProfile();
-            //return await user.DisplayNameById(ticketEvent.EventBy);
-            //return await DisplayNameById(ticketEvent.EventBy);
-            return null;
-        }
-
-        public IEnumerable<TicketEvent> GetTicketEventList()
-        {
-            return ApplicationContext.TicketEvents.OrderBy(c => c.EventDate).ToList();
+            return ApplicationContext.TicketEvents
+                .Where(c => c.TicketId == id)
+                .ToList();
         }
 
         /// <summary>

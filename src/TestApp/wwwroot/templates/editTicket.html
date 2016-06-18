@@ -137,7 +137,10 @@
             </uib-tab>
             <uib-tab index="1" heading="History" title="Historical information of the ticket">
                 History of ticket
-                <div class="row" id="userList">
+                <ul>
+                    <li ng-repeat="event in Events">eventDescription: {{event.eventDescription}}</li>
+                </ul>
+                <!--<div class="row" id="userList">
                     <div ng-repeat="event in Ticket.events" class="col-sm-12">
                         test
                         <div class="row">
@@ -151,12 +154,10 @@
                                         <span class="label label-info">{{ event.eventDate | date:'h:mma' }}</span>
                                     </div>
                                 </div>
-                            </div><!--/col-->
-                        </div><!--/row-->
-
-                    </div><!--/col-->
-
-                </div><!--/row-->
+                            </div>
+                        </div>
+                    </div>
+                </div>-->
             </uib-tab>
             <uib-tab index="2" heading="Resolution" title="Resolution information of the ticket">
                 Resolution

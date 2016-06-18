@@ -19,6 +19,8 @@
 
                 // Load all dropdownlists and set all values according this specific record
                 LoadAllDropDownLists(true);
+                // Load all events from ticket 
+                GetAllEventsByTicketId($location.search().id);
                 // Clear all MessageService.addAlert messages 
                 MessageService.clearAlert();
             })
@@ -62,6 +64,18 @@
                 // show in alerts error message
                 MessageService.clearAlert();
                 MessageService.addAlert('An error has occured while loading list of all tickets!', 'danger');
+            });
+        }
+
+        //To Get all Ticket events records for an existing ticket  
+        function GetAllEventsByTicketId(id) {
+            $http.get('/api/tickets/events/' + id).success(function (Events) {
+                $rootScope.Events = Events.data;
+            })
+            .error(function () {
+                // show in alerts error message
+                MessageService.clearAlert();
+                MessageService.addAlert('An error has occured while loading list of all ticket events!', 'danger');
             });
         }
 

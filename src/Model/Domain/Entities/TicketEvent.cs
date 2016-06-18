@@ -38,6 +38,7 @@ namespace DLGP_SVDK.Model.Domain.Entities
 
         public virtual ICollection<TicketEventNotification> TicketEventNotifications { get; set; }
 
+        //public virtual Ticket Ticket { get; set; }
 
         /// <summary>
         /// Creates the activity event.

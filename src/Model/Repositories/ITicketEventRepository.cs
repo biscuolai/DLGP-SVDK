@@ -6,7 +6,7 @@ namespace DLGP_SVDK.Repository
 {
     public interface ITicketEventRepository : IRepository<TicketEvent>
     {
-        IEnumerable<TicketEvent> GetTicketEventList();
+        IEnumerable<TicketEvent> GetAllEventsByTicketId(int id);
         TicketEvent CreateActivityEvent(int ticketId, string eventByUserId, TicketActivity activity, string comment, string newPriority, string userName);
     }
 }

@@ -50,7 +50,6 @@ namespace DLGP_SVDK.Repository.Repositories
                 .Include(c => c.ContactType)
                 .Include(c => c.Priority)
                 .Include(c => c.Category)
-                .Include(c => c.Events)
                 //.OrderByDescending(c => c.Priority)
                 .ToList();
         }
@@ -63,7 +62,6 @@ namespace DLGP_SVDK.Repository.Repositories
                 .Include(c => c.ContactType)
                 .Include(c => c.Priority)
                 .Include(c => c.Category)
-                .Include(c => c.Events)
                 //.OrderByDescending(c => c.Priority)
                 .Where(c => c.TicketId == id)
                 .ToList();

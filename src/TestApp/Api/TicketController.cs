@@ -9,6 +9,8 @@ using Microsoft.AspNet.Identity;
 using System.Threading.Tasks;
 using DLGP_SVDK.Model.Domain.Entities.Identity;
 using Microsoft.AspNet.Authorization;
+using DLGP_SVDK.Repository.Common;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace DLGP_SVDK.Web.Api
 {
@@ -16,9 +18,17 @@ namespace DLGP_SVDK.Web.Api
     [Route("api/tickets")]
     public class TicketController: Controller
     {
-        //private ITicketRepository _repository;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
-        private UserManager<ApplicationUser> userManager;
+        public TicketController(
+            UserManager<ApplicationUser> userManager,
+            RoleManager< IdentityRole > roleManager
+        )
+        {
+            _userManager = userManager;
+            _roleManager = roleManager;
+        }
 
         [HttpGet("")]
         public JsonResult GetAll()
@@ -53,7 +63,7 @@ namespace DLGP_SVDK.Web.Api
         }
 
         [HttpPost("")]
-        public JsonResult Post([FromBody] TicketViewModel value)
+        public async Task<JsonResult> Post([FromBody] TicketViewModel value)
         {
             try
             {
@@ -68,9 +78,15 @@ namespace DLGP_SVDK.Web.Api
 
                         unitOfWork.Commit();
 
+                        // Reload ticket record in order to load all dependencies
                         var ticketReload = unitOfWork.Tickets.Reload(unitOfWork.Tickets.GetId(newTicket));
 
-                        unitOfWork.TicketEvents.Add(unitOfWork.TicketEvents.CreateActivityEvent(ticketReload.TicketId, ticketReload.AssignedTo, TicketActivity.Create, ticketReload.Details, ticketReload.Priority.Name, ticketReload.AssignedTo));
+                        // get the username from IdentityUser table by Id
+                        var userprofile = new UserProfile(_userManager, _roleManager);
+                        var userData = await userprofile.GetUserById(ticketReload.AssignedTo);
+
+                        // creates a new event in TicketEvent table
+                        unitOfWork.TicketEvents.Add(unitOfWork.TicketEvents.CreateActivityEvent(ticketReload.TicketId, ticketReload.AssignedTo, TicketActivity.Create, ticketReload.Details, ticketReload.Priority.Name, userData.UserName));
 
                         unitOfWork.Commit();
 
@@ -90,7 +106,7 @@ namespace DLGP_SVDK.Web.Api
         }
 
         [HttpPut("{id}")]
-        public JsonResult Put(int id, [FromBody] TicketViewModel value)
+        public async Task<JsonResult> Put(int id, [FromBody] TicketViewModel value)
         {
             try
             {
@@ -122,7 +138,11 @@ namespace DLGP_SVDK.Web.Api
 
                         var ticketReload = unitOfWork.Tickets.Reload(id);
 
-                        unitOfWork.TicketEvents.Add(unitOfWork.TicketEvents.CreateActivityEvent(ticketReload.TicketId, ticketReload.AssignedTo, TicketActivity.EditTicketInfo, ticketReload.Details, ticketReload.Priority.Name, ticketReload.AssignedTo));
+                        // get the username from IdentityUser table by Id
+                        var userprofile = new UserProfile(_userManager, _roleManager);
+                        var userData = await userprofile.GetUserById(ticketReload.AssignedTo);
+
+                        unitOfWork.TicketEvents.Add(unitOfWork.TicketEvents.CreateActivityEvent(ticketReload.TicketId, ticketReload.AssignedTo, TicketActivity.EditTicketInfo, ticketReload.Details, ticketReload.Priority.Name, userData.UserName));
 
                         unitOfWork.Commit();
 
@@ -139,6 +159,26 @@ namespace DLGP_SVDK.Web.Api
 
             Response.StatusCode = (int)HttpStatusCode.BadRequest;
             return Json(new { Message = "Failed to edit ticket", ModelState = ModelState });
+        }
+
+        [HttpGet("events/{id}")]
+        public JsonResult GetEvents(int id)
+        {
+            try
+            {
+                using (var unitOfWork = new UnitOfWork(new ApplicationDbContext()))
+                {
+                    // Get the list of all tickets and limit by page in the UI layer
+                    var events = unitOfWork.TicketEvents.GetAllEventsByTicketId(id);
+
+                    return new JsonResult(new { data = events, success = true });
+                }
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return Json(new { Message = ex.Message });
+            }
         }
     }
 }
