@@ -11,18 +11,6 @@ namespace DLGP_SVDK.Web.Api
     [Route("api/values")]
     public class ValuesController : Controller
     {
-        //// GET: api/values
-        //[HttpGet("{id}")]
-        //public JsonResult Get(int id)
-        //{
-        //    using (var unitOfWork = new UnitOfWork(new ApplicationDbContext()))
-        //    {
-        //        // Get all options for Priority field
-        //        var priorityList = unitOfWork.LookupValues.GetLookupValueList((LookupValueType)id);
-        //        return new JsonResult(new { data = priorityList, success = true });
-        //    }
-        //}
-
         // GET: api/values
         [HttpGet("category")]
         public JsonResult GetCategory()
@@ -79,7 +67,7 @@ namespace DLGP_SVDK.Web.Api
                     {
                         for (int i = 0; i < count; i++)
                         {
-                            statuses.Remove(statuses.Find(c => c.Name != "New" && c.Name != "Open"));
+                            statuses.Remove(statuses.Find(c => c.Name != "New"));
                         }
                     }
 
@@ -88,25 +76,16 @@ namespace DLGP_SVDK.Web.Api
                     {
                         for (int i = 0; i < count; i++)
                         {
-                            statuses.Remove(statuses.Find(c => !c.Name.Contains("Pending") && c.Name != "Closed"));
+                            statuses.Remove(statuses.Find(c => !c.Name.Contains("Pending") && c.Name != "Closed" && c.Name != "Open"));
                         }
                     }
 
-                    // Pending - Request For Information
-                    if (ticket.Status.Name == "Pending - Request For Information")
+                    // Pending - Request For Information / On Hold
+                    if (ticket.Status.Name.Contains("Pending"))
                     {
                         for (int i = 0; i < count; i++)
                         {
-                            statuses.Remove(statuses.Find(c => !c.Name.Contains("Pending - On Hold") && c.Name != "Open"));
-                        }
-                    }
-
-                    // Pending - On Hold
-                    if (ticket.Status.Name == "Pending - On Hold")
-                    {
-                        for (int i = 0; i < count; i++)
-                        {
-                            statuses.Remove(statuses.Find(c => !c.Name.Contains("Pending - Request For Information") && c.Name != "Open"));
+                            statuses.Remove(statuses.Find(c => !c.Name.Contains("Pending") && c.Name != "Open"));
                         }
                     }
 
@@ -115,7 +94,7 @@ namespace DLGP_SVDK.Web.Api
                     {
                         for (int i = 0; i < count; i++)
                         {
-                            statuses.Remove(statuses.Find(c => !c.Name.Contains("Closed")));
+                            statuses.Remove(statuses.Find(c => c.Name != "Closed" && c.Name != "Resolved"));
                         }
                     }
 
@@ -124,7 +103,7 @@ namespace DLGP_SVDK.Web.Api
                     {
                         for (int i = 0; i < count; i++)
                         {
-                            statuses.Remove(statuses.Find(c => !c.Name.Contains("Open")));
+                            statuses.Remove(statuses.Find(c => c.Name != "Open" && c.Name != "Closed"));
                         }
                     }
 
@@ -133,7 +112,7 @@ namespace DLGP_SVDK.Web.Api
                     {
                         for (int i = 0; i < count; i++)
                         {
-                            statuses.Remove(statuses.Find(c => !c.Name.Contains("None")));
+                            statuses.Remove(statuses.Find(c => c.Name != "Cancelled"));
                         }
                     }
                 }
@@ -142,7 +121,7 @@ namespace DLGP_SVDK.Web.Api
                     // New Ticket
                     for (int i = 0; i < count; i++)
                     {
-                        statuses.Remove(statuses.Find(c => c.Name != "New" && c.Name != "Open"));
+                        statuses.Remove(statuses.Find(c => c.Name != "New"));
                     }
                 }
 

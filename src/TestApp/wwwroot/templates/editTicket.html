@@ -12,36 +12,51 @@
                     <div class="col-md-12">
                         <div class="row">
                             <div class="col-md-12">
+                                <button class="btn btn-primary" ng-click="edit()">Edit Ticket</button>
                                 <button class="btn btn-primary" ng-click="assign()">Assign</button>
                                 <button class="btn btn-primary" ng-click="takeOver()">Take Over</button>
                                 <button class="btn btn-primary" ng-click="pass()">Pass</button>
                                 <button class="btn btn-primary" ng-click="giveUp()">Give Up</button>
+                                <button class="btn btn-primary" ng-click="supplyInfo()">Supply More Information</button>
+                                <button class="btn btn-primary" ng-click="requestInfo()">Request More Information</button>
+                                <button class="btn btn-primary" ng-click="cancelInfo()">Cancel More Information</button>
                                 <button class="btn btn-primary" ng-click="editAttachments()">Edit Attachments</button>
-                                <button class="btn btn-primary" ng-click="edit()">Edit Ticket</button>
                             </div>
                         </div>
                     </div>
                 </div>
-
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="col-md-3" ng-show="isPassing || isAssigning">
-                            <label for="PassTo">Assigned To:</label>
-                            <select name="PassTo" id="PassTo" class="form-control" required
-                                    ng-options="option.userName for option in Users.availableOptions track by option.id"
-                                    ng-model="Users.selectedOption"
-                                    ng-selected="Ticket.assignedTo" ng-change="Ticket.assignedTo = Users.selectedOption.id"></select>
-                            <span class="label label-danger" ng-show="form.PassTo.$dirty && form.PassTo.$error.required" class="help-block">Assigned To is required !</span>
+                <form name="form" ng-submit="UpdateTicket(Ticket)" role="form" novalidate>
+                    <div class="row" ng-show="isPassing || isAssigning">
+                        <div class="col-md-12">
+                            <div class="col-md-3">
+                                <label for="PassTo">Assigned To:</label>
+                                <select name="PassTo" id="PassTo" class="form-control" required
+                                        ng-options="option.userName for option in Users.availableOptions track by option.id"
+                                        ng-model="Users.selectedOption"
+                                        ng-selected="Ticket.assignedTo" ng-change="Ticket.assignedTo = Users.selectedOption.id"></select>
+                                <span class="label label-danger" ng-show="form.PassTo.$dirty && form.PassTo.$error.required" class="help-block">Assigned To is required !</span>
+                            </div>
+                            <div class="col-md-3" ng-show="isPassing || isAssigning">
+                                <label for="newpriority">Priority:</label>
+                                <select name="newpriority" id="newpriority" class="form-control" required
+                                        ng-options="option.name for option in Priority.availableOptions track by option.priorityId"
+                                        ng-model="Priority.selectedOption"
+                                        ng-selected="Ticket.priorityId" ng-change="Ticket.priority = Priority.selectedOption.priorityId"></select>
+                                <span class="label label-danger" ng-show="form.newpriority.$dirty && form.newpriority.$error.required" class="help-block">Priority is required !</span>
+                            </div>
+                            <div class="col-md-3" ng-show="isPassing || isAssigning">
+                                <label for="newStatus">Ticket Status:</label>
+                                <select name="newStatus" id="newStatus" class="form-control" required 
+                                        ng-options="option.name for option in TicketStatus.availableOptions track by option.ticketStatusId"
+                                        ng-model="TicketStatus.selectedOption"
+                                        ng-selected="Ticket.ticketStatusId" ng-change="Ticket.ticketStatus = TicketStatus.selectedOption.ticketStatusId">
+                                </select>
+                                <span class="label label-danger" ng-show="form.newStatus.$dirty && form.newStatus.$error.required" class="help-block">Ticket Status is required !</span>
+                            </div>
                         </div>
-                        <div class="col-md-3" ng-show="isPassing || isAssigning">
-                            <label for="newpriority">Priority:</label>
-                            <select name="newpriority" id="newpriority" class="form-control" required
-                                    ng-options="option.name for option in Priority.availableOptions track by option.priorityId"
-                                    ng-model="Priority.selectedOption"
-                                    ng-selected="Ticket.priorityId" ng-change="Ticket.priority = Priority.selectedOption.priorityId"></select>
-                            <span class="label label-danger" ng-show="form.priority.$dirty && form.priority.$error.required" class="help-block">Priority is required !</span>
-                        </div>
-                        <div ng-show="isEditing || isPassing || isTakingOver || isAssigning || isGivingUp">
+                    </div>
+                    <div class="row" ng-show="isEditing || isPassing || isTakingOver || isAssigning || isGivingUp">
+                        <div class="col-md-12">
                             <div class="row">
                                 <div class="col-md-12">
                                     <label for="details">Comment</label>
@@ -60,10 +75,8 @@
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="row">
-                    <form name="form" ng-submit="UpdateTicket(Ticket)" role="form" novalidate>
+                    <div class="row">
                         <div class="form-group">
                             <div class="row">
                                 <div class="col-md-12">
@@ -106,7 +119,7 @@
 
                                     <div class="col-md-3">
                                         <label for="TicketStatus">Ticket Status:</label>
-                                        <select name="TicketStatus" id="TicketStatus" class="form-control" required ng-readonly="!isEditing"
+                                        <select name="TicketStatus" id="TicketStatus" class="form-control" disabled
                                                 ng-options="option.name for option in TicketStatus.availableOptions track by option.ticketStatusId"
                                                 ng-model="TicketStatus.selectedOption"
                                                 ng-selected="Ticket.ticketStatusId" ng-change="Ticket.ticketStatus = TicketStatus.selectedOption.ticketStatusId">
@@ -179,10 +192,9 @@
                                     </div>
                                 </div>
                             </div>
-
                         </div>
-                    </form>
-                </div>
+                    </div>
+                </form>
             </uib-tab>
             <uib-tab index="1" heading="History" title="Historical information of the ticket">
                 <div class="panel panel-default">

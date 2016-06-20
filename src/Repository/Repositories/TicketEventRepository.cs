@@ -35,7 +35,8 @@ namespace DLGP_SVDK.Repository.Repositories
             TicketActivity activity,
             string comment,
             string newPriority,
-            string userName
+            string userName,
+            string newStatus
             )
         {
             var tc = new TicketEvent
@@ -44,7 +45,7 @@ namespace DLGP_SVDK.Repository.Repositories
                 Comment = comment,
                 EventBy = eventByUserId,
                 EventDate = DateTime.Now,
-                EventDescription = GetTicketEventDescription(activity, newPriority, userName)
+                EventDescription = GetTicketEventDescription(activity, newPriority, userName, newStatus)
             };
             return tc;
         }
@@ -57,7 +58,7 @@ namespace DLGP_SVDK.Repository.Repositories
         /// <param name="userName">Name of the user, leave null if a user name isn't applicable for the activity</param>
         /// <returns>System.String.</returns>
         /// <exception cref="System.NullReferenceException"></exception>
-        public static string GetTicketEventDescription(TicketActivity ticketEvent, string newPriority, string userName)
+        public static string GetTicketEventDescription(TicketActivity ticketEvent, string newPriority, string userName, string newStatus)
         {
             var val = "";
 
@@ -113,10 +114,12 @@ namespace DLGP_SVDK.Repository.Repositories
                     break;
             }
 
-            // TicketActivityPriority
+            // Ticket Activity Priority
             var pval = " at a priority of {0}";
+            // Ticket Activity Status
+            var sval = ", and at a status of {0}";
 
-            if (string.IsNullOrEmpty(val) || string.IsNullOrEmpty(pval))
+            if (string.IsNullOrEmpty(val) || string.IsNullOrEmpty(pval) || string.IsNullOrEmpty(sval))
             {
                 throw new NullReferenceException();
             }
@@ -127,6 +130,10 @@ namespace DLGP_SVDK.Repository.Repositories
             if (!string.IsNullOrEmpty(newPriority))
             {
                 val += string.Format(pval, newPriority);
+            }
+            if (!string.IsNullOrEmpty(newStatus))
+            {
+                val += string.Format(sval, newStatus);
             }
             return val;
         }

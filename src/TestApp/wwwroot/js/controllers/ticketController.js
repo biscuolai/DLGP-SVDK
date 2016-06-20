@@ -219,8 +219,15 @@
         }
 
         $rootScope.cancel = function () {
-            ClearFields();
-            $location.path('/'); // cancel and redirect to dashboard
+
+            if ($rootScope.isEditing) {
+                $rootScope.isEditing = false;
+            }
+            else {
+                ClearFields();
+                $location.path('/'); // cancel and redirect to dashboard
+            }
+
         };
 
         $rootScope.searchTicket = ""; // set the default search / filter term to empty string

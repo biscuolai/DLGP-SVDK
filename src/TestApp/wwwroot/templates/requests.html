@@ -44,7 +44,7 @@
                         </thead>
                         <tbody ng-show="!vm.isLoading">
                             <tr ng-repeat="row in vm.displayed | filter: { status : { name: vm.queryResponse.status }, assignedTo : vm.queryResponse.assignedTo } ">
-                                <td>{{row.ticketId}}</td>
+                                <td><strong>{{row.ticketId}}</strong></td>
                                 <td><a style="font-weight:bold;" href="#/editTicket?action=edit&amp;id={{row.ticketId}}">{{ row.title }}</a></td>
                                 <td>{{row.status.name}}</td>
                                 <td>{{row.priority.name}}</td>
@@ -61,7 +61,7 @@
                         </tbody>
                         <tfoot>
                             <tr>
-                                <td class="text-center" st-pagination="" st-items-by-page="5" colspan="7"></td>
+                                <td class="text-center" st-pagination="" st-items-by-page="10" colspan="7"></td>
                             </tr>
                         </tfoot>
                     </table>
