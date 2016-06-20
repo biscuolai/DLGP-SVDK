@@ -10,7 +10,7 @@ namespace DLGP_SVDK.Repository.Repositories
         public TicketStatusRepository(ApplicationDbContext context) : base(context)
         {
         }
-        public IEnumerable<TicketStatus> GetTicketStatusList()
+        public List<TicketStatus> GetTicketStatusList()
         {
             return ApplicationContext.TicketStatuses.OrderBy(c => c.Order).ToList();
         }

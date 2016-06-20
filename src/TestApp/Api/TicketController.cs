@@ -83,10 +83,10 @@ namespace DLGP_SVDK.Web.Api
 
                         // get the username from IdentityUser table by Id
                         var userprofile = new UserProfile(_userManager, _roleManager);
-                        var userData = await userprofile.GetUserById(ticketReload.AssignedTo);
+                        var userData = await userprofile.GetUserByUserName(User.Identity.Name);
 
                         // creates a new event in TicketEvent table
-                        unitOfWork.TicketEvents.Add(unitOfWork.TicketEvents.CreateActivityEvent(ticketReload.TicketId, ticketReload.AssignedTo, TicketActivity.Create, ticketReload.Details, ticketReload.Priority.Name, userData.UserName));
+                        unitOfWork.TicketEvents.Add(unitOfWork.TicketEvents.CreateActivityEvent(ticketReload.TicketId, userData.UserName, TicketActivity.Create, null, null, null));
 
                         unitOfWork.Commit();
 
@@ -140,9 +140,16 @@ namespace DLGP_SVDK.Web.Api
 
                         // get the username from IdentityUser table by Id
                         var userprofile = new UserProfile(_userManager, _roleManager);
-                        var userData = await userprofile.GetUserById(ticketReload.AssignedTo);
 
-                        unitOfWork.TicketEvents.Add(unitOfWork.TicketEvents.CreateActivityEvent(ticketReload.TicketId, ticketReload.AssignedTo, TicketActivity.EditTicketInfo, ticketReload.Details, ticketReload.Priority.Name, userData.UserName));
+                        if (value.isEditing)
+                        {
+                            unitOfWork.TicketEvents.Add(unitOfWork.TicketEvents.CreateActivityEvent(ticketReload.TicketId, User.Identity.Name, TicketActivity.EditTicketInfo, value.Comments, null, User.Identity.Name));
+                        }
+                        else if (value.isPassing)
+                        {
+                            var userData = await userprofile.GetUserById(ticketReload.AssignedTo);
+                            unitOfWork.TicketEvents.Add(unitOfWork.TicketEvents.CreateActivityEvent(ticketReload.TicketId, User.Identity.Name, TicketActivity.Pass, value.Comments, ticketReload.Priority.Name, userData.UserName));
+                        }
 
                         unitOfWork.Commit();
 

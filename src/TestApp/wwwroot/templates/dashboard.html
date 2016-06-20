@@ -1,6 +1,5 @@
 ﻿<div class="row alerts-container" data-ng-show="alerts.length">
     <div class="col-xs-12">
-        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
         <uib-alert data-ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</uib-alert>
     </div>
 </div>

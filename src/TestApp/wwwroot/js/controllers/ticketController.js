@@ -16,11 +16,13 @@
                 $rootScope.Ticket = data.data[0];
 
                 // Load all dropdownlists and set all values according this specific record
-                LoadAllDropDownLists(true);
+                LoadAllDropDownLists(true, $location.search().id);
                 // Load all events from ticket 
                 GetAllEventsByTicketId($location.search().id);
                 // Clear all MessageService.addAlert messages 
                 MessageService.clearAlert();
+
+                $rootScope.isEditing = false;
             })
             .error(function () {
                 // show in alerts error message
@@ -35,17 +37,12 @@
                 // clear all fields 
                 ClearFields();
                 // Load all dropdownlists setting to default value
-                LoadAllDropDownLists(false);
+                LoadAllDropDownLists(false, null);
                 // Clear all MessageService.addAlert messages 
                 MessageService.clearAlert();
             }
             // Request is coming from dashboard page. Load all ticket records
             else {
-                //// define the variable alerts if it does not exists
-                //if ($rootScope.alerts === undefined) {
-                //    $rootScope.alerts = [];
-                //}
-
                 // get the list of all tickets 
                 GetAllTickets();
                 // clear all parameters from URL
@@ -78,7 +75,7 @@
         }
 
         // findItems (boolean) parameter is only when ticket already exists
-        function LoadAllDropDownLists(findItems) {
+        function LoadAllDropDownLists(findItems, id) {
             $http.get('/api/values/contacttype').success(function (ContactType) {
                 $rootScope.ContactType = {
                     availableOptions: ContactType.data,
@@ -122,7 +119,7 @@
                 // show in alerts error message
                 MessageService.addAlert('An error has occured while loading configuration item drop down list!', 'danger');
             });
-            $http.get('/api/values/ticketstatus').success(function (TicketStatus) {
+            $http.get('/api/values/ticketstatus/' + id).success(function (TicketStatus) {
                 $rootScope.TicketStatus = {
                     availableOptions: TicketStatus.data,
                     selectedOption: TicketStatus.data[0]
@@ -186,9 +183,7 @@
                 // success
                 $rootScope.Ticket = data.data;
 
-                debugger;
-
-                LoadAllDropDownLists(true);
+                LoadAllDropDownLists(true, Ticket.ticketId);
 
                 $location.path('/editTicket'); //redirect to edit Ticket template
             })
@@ -209,10 +204,6 @@
         }
 
         function ClearFields() {
-
-            debugger;
-
-
             if ($rootScope.Ticket !== undefined) {
                 $rootScope.Ticket.projectId = "";
                 $rootScope.Ticket.contactTypeId = "";
@@ -237,6 +228,8 @@
         //Edit/Update operation
         $rootScope.UpdateTicket = function (Ticket) {
 
+            debugger;
+
             // read fresh data from all dropdownlists
             Ticket.projectId = $rootScope.Projects.selectedOption.projectId;
             Ticket.contactTypeId = $rootScope.ContactType.selectedOption.contactTypeId;
@@ -245,6 +238,10 @@
             Ticket.ticketStatusId = $rootScope.TicketStatus.selectedOption.ticketStatusId;
             Ticket.priorityId = $rootScope.Priority.selectedOption.priorityId;
             Ticket.assignedTo = $rootScope.Users.selectedOption.id;
+            Ticket.isEditing = $rootScope.isEditing;
+            Ticket.isPassing = $rootScope.isPassing;
+            Ticket.isTakingOver = $rootScope.isTakingOver;
+            Ticket.isAssigning = $rootScope.isAssigning;
 
             $http.put('/api/tickets/' + Ticket.ticketId, Ticket).success(function (data) {
                 GetAllTickets();
@@ -265,8 +262,6 @@
         // Insert operation / add ticket
         $rootScope.AddTicket = function (Ticket) {
 
-            debugger;
-
             if (Ticket !== undefined) {
                 // read fresh data from all dropdownlists
                 Ticket.projectId = $rootScope.Projects.selectedOption.projectId;
@@ -276,13 +271,15 @@
                 Ticket.ticketStatusId = $rootScope.TicketStatus.selectedOption.ticketStatusId;
                 Ticket.priorityId = $rootScope.Priority.selectedOption.priorityId;
                 Ticket.assignedTo = $rootScope.Users.selectedOption.id;
-                Ticket.createdBy = "System";
+                Ticket.createdBy = "Portal";
                 Ticket.createdDate = new Date();
                 Ticket.currentStatusDate = new Date();
-                Ticket.currentStatusSetBy = "biscuolai";
-                Ticket.lastUpdateBy = "biscuolai";
+                Ticket.currentStatusSetBy = $rootScope.globals.currentUser.userData.userName;
+                Ticket.lastUpdateBy = $rootScope.globals.currentUser.userData.userName;
                 Ticket.lastUpdateDate = new Date();
-                Ticket.owner = "ilson_biscuola@dialog.com.au";
+                Ticket.owner = $rootScope.globals.currentUser.userData.userName;
+
+                debugger;
 
                 $http.post('/api/tickets', Ticket).success(function (data) {
                     //$rootScope.Tickets.push(data);
@@ -313,21 +310,50 @@
             });
         };
 
-        //MessageService.addAlert = function (message, alertType) {
-        //    $rootScope.alerts.push({
-        //        type: alertType,
-        //        msg: message
-        //    });
-
-        //    return $rootScope.alerts;
-        //};
-
-        //$rootScope.closeAlert = function (index) {
-        //    $rootScope.alerts.splice(index, 1);
-        //};
-
-        //MessageService.clearAlert = function() {
-        //    $rootScope.alerts = [];
-        //};
+        $rootScope.edit = function () {
+            // set the variable isEditing to true and enable fields for editing 
+            // Also the comments textarea field is set to visible
+            $rootScope.isEditing = true;
+            $rootScope.isPassing = false;
+            $rootScope.isTakingOver = false;
+            $rootScope.isAssigning = false;
+            $rootScope.isGivingUp = false;
+        };
+        $rootScope.pass = function () {
+            // set the variable editTicket to true and enable all fields for editing 
+            // Also the comments textarea field is set to visible
+            $rootScope.isEditing = false;
+            $rootScope.isPassing = true;
+            $rootScope.isTakingOver = false;
+            $rootScope.isAssigning = false;
+            $rootScope.isGivingUp = false;
+        };
+        $rootScope.takeOver = function () {
+            // set the variable editTicket to true and enable all fields for editing 
+            // Also the comments textarea field is set to visible
+            $rootScope.isEditing = false;
+            $rootScope.isPassing = false;
+            $rootScope.isTakingOver = true;
+            $rootScope.isAssigning = false;
+            $rootScope.isGivingUp = false;
+        };
+        $rootScope.assign = function () {
+            // set the variable editTicket to true and enable all fields for editing 
+            // Also the comments textarea field is set to visible
+            $rootScope.isEditing = false;
+            $rootScope.isPassing = false;
+            $rootScope.isTakingOver = false;
+            $rootScope.isAssigning = true;
+            $rootScope.isGivingUp = false;
+        };
+        $rootScope.giveUp = function () {
+            // set the variable editTicket to true and enable all fields for editing 
+            // Also the comments textarea field is set to visible
+            $rootScope.isEditing = false;
+            $rootScope.isPassing = false;
+            $rootScope.isTakingOver = false;
+            $rootScope.isAssigning = false;
+            $rootScope.isGivingUp = true;
+        };
     }
 })();

@@ -21,5 +21,13 @@ namespace DLGP_SVDK.Api.ViewModels
         public string LastUpdateBy { get; set; }
         public DateTimeOffset LastUpdateDate { get; set; }
         public int PriorityId { get; set; }
+        public string Comments { get; set; }
+        public bool isEditing { get; set; }
+        public bool isPassing { get; set; }
+        public bool isGivingUp { get; set; }
+        public bool isEditingAttachments { get; set; }
+        public bool isTakingOver { get; set; }
+        public bool isAssigning { get; set; }
+
     }
 }

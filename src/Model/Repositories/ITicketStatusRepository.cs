@@ -6,6 +6,6 @@ namespace DLGP_SVDK.Repository
 {
     public interface ITicketStatusRepository : IRepository<TicketStatus>
     {
-        IEnumerable<TicketStatus> GetTicketStatusList();
+        List<TicketStatus> GetTicketStatusList();
     }
 }

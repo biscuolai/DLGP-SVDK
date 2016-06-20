@@ -71,7 +71,7 @@
                         break;
                         // all pending tickets
                     case 4:
-                        ctrl.queryResponse.status = 'pending';
+                        ctrl.queryResponse.status = 'Pending - Request for Information';
                         break;
                         // all closed tickets
                     case 5:

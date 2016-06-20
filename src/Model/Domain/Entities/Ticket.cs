@@ -248,11 +248,6 @@ namespace DLGP_SVDK.Model.Domain.Entities
                     validActivities |= TicketActivity.Assign;
                 }
 
-                if ((isAssignedToMe || isOwnedByMe) && !(isResolved && isOwnedByMe))
-                {
-                    validActivities |= TicketActivity.ForceClose;
-                }
-
                 if (isAssignedToMe)
                 {
                     validActivities |= TicketActivity.Pass | TicketActivity.GiveUp;

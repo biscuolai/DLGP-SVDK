@@ -4,125 +4,50 @@
     </div>
 </div>
 
-<div class="col-md-12">
+<div class="col-md-12" ng-controller="ticketController">
     <div class="row">
         <uib-tabset active="activeForm">
             <uib-tab index="0" heading="Ticket Information" title="Detailed information of the ticket">
-                <div class="row" style="margin-top:10px;">
-                    <ng-form name="form"  ng-controller="ticketController" ng-submit="UpdateTicket(Ticket)" role="form" novalidate>
-                        <div class="form-group">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group col-md-2">
-                                        <label for="ticketId">Ticket ID</label>
-                                        <input type="text" class="form-control" name="ticketId" ng-model="Ticket.ticketId" readonly />
-                                    </div>
-                                    <div class="form-group col-md-10">
-                                        <label for="title">Title</label>
-                                        <input class="form-control" type="text" name="title" id="title" placeholder="Please enter title here" 
-                                               ng-model="Ticket.title" required />
-                                        <span class="label label-danger" ng-show="form.title.$dirty && form.title.$error.required" class="help-block">Title is required !</span>
-                                    </div>
-                                </div>
+                <div class="row" style="margin-top:20px;">
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <button class="btn btn-primary" ng-click="assign()">Assign</button>
+                                <button class="btn btn-primary" ng-click="takeOver()">Take Over</button>
+                                <button class="btn btn-primary" ng-click="pass()">Pass</button>
+                                <button class="btn btn-primary" ng-click="giveUp()">Give Up</button>
+                                <button class="btn btn-primary" ng-click="editAttachments()">Edit Attachments</button>
+                                <button class="btn btn-primary" ng-click="edit()">Edit Ticket</button>
                             </div>
+                        </div>
+                    </div>
+                </div>
 
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="col-md-3" ng-show="isPassing || isAssigning">
+                            <label for="PassTo">Assigned To:</label>
+                            <select name="PassTo" id="PassTo" class="form-control" required
+                                    ng-options="option.userName for option in Users.availableOptions track by option.id"
+                                    ng-model="Users.selectedOption"
+                                    ng-selected="Ticket.assignedTo" ng-change="Ticket.assignedTo = Users.selectedOption.id"></select>
+                            <span class="label label-danger" ng-show="form.PassTo.$dirty && form.PassTo.$error.required" class="help-block">Assigned To is required !</span>
+                        </div>
+                        <div class="col-md-3" ng-show="isPassing || isAssigning">
+                            <label for="newpriority">Priority:</label>
+                            <select name="newpriority" id="newpriority" class="form-control" required
+                                    ng-options="option.name for option in Priority.availableOptions track by option.priorityId"
+                                    ng-model="Priority.selectedOption"
+                                    ng-selected="Ticket.priorityId" ng-change="Ticket.priority = Priority.selectedOption.priorityId"></select>
+                            <span class="label label-danger" ng-show="form.priority.$dirty && form.priority.$error.required" class="help-block">Priority is required !</span>
+                        </div>
+                        <div ng-show="isEditing || isPassing || isTakingOver || isAssigning || isGivingUp">
                             <div class="row">
                                 <div class="col-md-12">
-                                    <div class="col-md-3">
-                                        <label for="priority">Priority:</label>
-                                        <select name="priority" id="priority" class="form-control" required
-                                                ng-options="option.name for option in Priority.availableOptions track by option.priorityId"
-                                                ng-model="Priority.selectedOption"
-                                                ng-selected="Ticket.priorityId" ng-change="Ticket.priority = Priority.selectedOption.priorityId">
-                                            <option value="">-- Select a Priority --</option>
-                                        </select>
-                                        <span class="label label-danger" ng-show="form.priority.$dirty && form.priority.$error.required" class="help-block">Priority is required !</span>
-                                    </div>
-
-                                    <div class="col-md-3">
-                                        <label for="category">Category:</label>
-                                        <select name="category" id="category" class="form-control" required
-                                                ng-options="option.name for option in Category.availableOptions track by option.categoryId"
-                                                ng-model="Category.selectedOption"
-                                                ng-selected="Ticket.categoryId" ng-change="Ticket.categoryId = Category.selectedOption.categoryId">
-                                            <option value="">-- Select a Category --</option>
-                                        </select>
-                                        <span class="label label-danger" ng-show="form.category.$dirty && form.category.$error.required" class="help-block">Category is required !</span>
-                                    </div>
-
-                                    <div class="col-md-3">
-                                        <label for="TicketStatus">Ticket Status:</label>
-                                        <select name="TicketStatus" id="TicketStatus" class="form-control" required
-                                                ng-options="option.name for option in TicketStatus.availableOptions track by option.ticketStatusId"
-                                                ng-model="TicketStatus.selectedOption"
-                                                ng-selected="Ticket.ticketStatusId" ng-change="Ticket.ticketStatus = TicketStatus.selectedOption.ticketStatusId">
-                                            <option value="">-- Select a Ticket Status --</option>
-                                        </select>
-                                        <span class="label label-danger" ng-show="form.TicketStatus.$dirty && form.TicketStatus.$error.required" class="help-block">Ticket Status is required !</span>
-                                    </div>
-
-                                    <div class="col-md-3">
-                                        <label for="AssignedTo">Assigned To:</label>
-                                        <select name="AssignedTo" id="AssignedTo" class="form-control" required
-                                                ng-options="option.userName for option in Users.availableOptions track by option.id"
-                                                ng-model="Users.selectedOption"
-                                                ng-selected="Ticket.assignedTo" ng-change="Ticket.assignedTo = Users.selectedOption.id">
-                                            <option value="">-- Select a Assigned To --</option>
-                                        </select>
-                                        <span class="label label-danger" ng-show="form.AssignedTo.$dirty && form.AssignedTo.$error.required" class="help-block">Assigned To is required !</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="col-md-3">
-                                        <label for="project">Project:</label>
-                                        <select name="project" id="project" class="form-control" required
-                                                ng-options="option.projectName for option in Projects.availableOptions track by option.projectId"
-                                                ng-model="Projects.selectedOption"
-                                                ng-selected="Ticket.projectId" ng-change="Ticket.projectId = Projects.selectedOption.projectId">
-                                            <option value="">-- Select a Project --</option>
-                                        </select>
-                                        <span class="label label-danger" ng-show="form.project.$dirty && form.project.$error.required" class="help-block">Project is required</span>
-                                    </div>
-
-
-                                    <div class="col-md-3">
-                                        <label for="ContactType">Contact Type:</label>
-                                        <select name="ContactType" id="ContactType" class="form-control" required
-                                                ng-options="option.name for option in ContactType.availableOptions track by option.contactTypeId"
-                                                ng-model="ContactType.selectedOption"
-                                                ng-selected="Ticket.contactTypeId" ng-change="Ticket.contactTypeId = ContactType.selectedOption.contactTypeId">
-                                            <option value="">-- Select a Contact Type --</option>
-                                        </select>
-                                        <span class="label label-danger" ng-show="form.ContactType.$dirty && form.ContactType.$error.required" class="help-block">Contact Type is required !</span>
-                                    </div>
-
-                                    <div class="col-md-3">
-                                        <label for="ConfigurationItem">Configuration Item:</label>
-                                        <select name="ConfigurationItem" id="ConfigurationItem" class="form-control" required
-                                                ng-options="option.name for option in ConfigurationItem.availableOptions track by option.configurationItemId"
-                                                ng-model="ConfigurationItem.selectedOption"
-                                                ng-selected="Ticket.configurationItemId" ng-change="Ticket.configurationItemId = ConfigurationItem.selectedOption.configurationItemId">
-                                            <option value="">-- Select a Configuration Item --</option>
-                                        </select>
-                                        <span class="label label-danger" ng-show="form.ConfigurationItem.$dirty && form.ConfigurationItem.$error.required" class="help-block">Configuration Item is required !</span>
-                                    </div>
-
-                                    <div class="col-md-3">
-                                        <label for="ticketTagList">Tag List</label>
-                                        <input type="text" class="form-control" name="ticketTagList" ng-model="Ticket.tagList" placeholder="Please enter tags here" />
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="col-md-12">
-                                        <label for="details">Details</label>
-                                        <textarea ng-model="Ticket.details" class="form-control" id="details" name="details" cols="10" rows="5" required 
-                                                  placeholder="Please enter details here"></textarea>
-                                        <span class="label label-danger" ng-show="form.details.$dirty && form.details.$error.required" class="help-block">Details is required !</span>
-                                    </div>
+                                    <label for="details">Comment</label>
+                                    <textarea ng-model="Ticket.comments" class="form-control" id="comments" name="comments" cols="10" rows="5" required
+                                              placeholder="Please enter comments here"></textarea>
+                                    <span class="label label-danger" ng-show="form.comments.$dirty && form.comments.$error.required" class="help-block">Comment is required !</span>
                                 </div>
                             </div>
                             <div class="row">
@@ -134,7 +59,129 @@
                                 </div>
                             </div>
                         </div>
-                    </ng-form>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <form name="form" ng-submit="UpdateTicket(Ticket)" role="form" novalidate>
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group col-md-2">
+                                        <label for="ticketId">Ticket ID</label>
+                                        <input type="text" class="form-control" name="ticketId" ng-model="Ticket.ticketId" readonly />
+                                    </div>
+                                    <div class="form-group col-md-10">
+                                        <label for="title">Title</label>
+                                        <input class="form-control" type="text" name="title" id="title" placeholder="Please enter title here" ng-readonly="!isEditing"
+                                               ng-model="Ticket.title" required />
+                                        <span class="label label-danger" ng-show="form.title.$dirty && form.title.$error.required" class="help-block">Title is required !</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="col-md-3">
+                                        <label for="priority">Priority:</label>
+                                        <select name="priority" id="priority" class="form-control" required ng-readonly="!isEditing"
+                                                ng-options="option.name for option in Priority.availableOptions track by option.priorityId"
+                                                ng-model="Priority.selectedOption"
+                                                ng-selected="Ticket.priorityId" ng-change="Ticket.priority = Priority.selectedOption.priorityId">
+                                            <option value="">-- Select a Priority --</option>
+                                        </select>
+                                        <span class="label label-danger" ng-show="form.priority.$dirty && form.priority.$error.required" class="help-block">Priority is required !</span>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <label for="category">Category:</label>
+                                        <select name="category" id="category" class="form-control" required ng-readonly="!isEditing"
+                                                ng-options="option.name for option in Category.availableOptions track by option.categoryId"
+                                                ng-model="Category.selectedOption"
+                                                ng-selected="Ticket.categoryId" ng-change="Ticket.categoryId = Category.selectedOption.categoryId">
+                                            <option value="">-- Select a Category --</option>
+                                        </select>
+                                        <span class="label label-danger" ng-show="form.category.$dirty && form.category.$error.required" class="help-block">Category is required !</span>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <label for="TicketStatus">Ticket Status:</label>
+                                        <select name="TicketStatus" id="TicketStatus" class="form-control" required ng-readonly="!isEditing"
+                                                ng-options="option.name for option in TicketStatus.availableOptions track by option.ticketStatusId"
+                                                ng-model="TicketStatus.selectedOption"
+                                                ng-selected="Ticket.ticketStatusId" ng-change="Ticket.ticketStatus = TicketStatus.selectedOption.ticketStatusId">
+                                            <option value="">-- Select a Ticket Status --</option>
+                                        </select>
+                                        <span class="label label-danger" ng-show="form.TicketStatus.$dirty && form.TicketStatus.$error.required" class="help-block">Ticket Status is required !</span>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <label for="AssignedTo">Assigned To:</label>
+                                        <select name="AssignedTo" id="AssignedTo" class="form-control" disabled
+                                                ng-options="option.userName for option in Users.availableOptions track by option.id"
+                                                ng-model="Users.selectedOption"
+                                                ng-selected="Ticket.assignedTo" ng-change="Ticket.assignedTo = Users.selectedOption.id">
+                                            <option value="">-- Select a Assigned To --</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="col-md-3">
+                                        <label for="project">Project:</label>
+                                        <select name="project" id="project" class="form-control" required ng-readonly="!isEditing"
+                                                ng-options="option.projectName for option in Projects.availableOptions track by option.projectId"
+                                                ng-model="Projects.selectedOption"
+                                                ng-selected="Ticket.projectId" ng-change="Ticket.projectId = Projects.selectedOption.projectId">
+                                            <option value="">-- Select a Project --</option>
+                                        </select>
+                                        <span class="label label-danger" ng-show="form.project.$dirty && form.project.$error.required" class="help-block">Project is required</span>
+                                    </div>
+
+
+                                    <div class="col-md-3">
+                                        <label for="ContactType">Contact Type:</label>
+                                        <select name="ContactType" id="ContactType" class="form-control" required ng-readonly="!isEditing"
+                                                ng-options="option.name for option in ContactType.availableOptions track by option.contactTypeId"
+                                                ng-model="ContactType.selectedOption"
+                                                ng-selected="Ticket.contactTypeId" ng-change="Ticket.contactTypeId = ContactType.selectedOption.contactTypeId">
+                                            <option value="">-- Select a Contact Type --</option>
+                                        </select>
+                                        <span class="label label-danger" ng-show="form.ContactType.$dirty && form.ContactType.$error.required" class="help-block">Contact Type is required !</span>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <label for="ConfigurationItem">Configuration Item:</label>
+                                        <select name="ConfigurationItem" id="ConfigurationItem" class="form-control" required ng-readonly="!isEditing"
+                                                ng-options="option.name for option in ConfigurationItem.availableOptions track by option.configurationItemId"
+                                                ng-model="ConfigurationItem.selectedOption"
+                                                ng-selected="Ticket.configurationItemId" ng-change="Ticket.configurationItemId = ConfigurationItem.selectedOption.configurationItemId">
+                                            <option value="">-- Select a Configuration Item --</option>
+                                        </select>
+                                        <span class="label label-danger" ng-show="form.ConfigurationItem.$dirty && form.ConfigurationItem.$error.required" class="help-block">Configuration Item is required !</span>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <label for="ticketTagList">Tag List</label>
+                                        <input type="text" class="form-control" name="ticketTagList" ng-model="Ticket.tagList" ng-readonly="!isEditing"
+                                               placeholder="Please enter tags here" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="col-md-12">
+                                        <label for="details">Details</label>
+                                        <textarea ng-model="Ticket.details" class="form-control" id="details" name="details" cols="10" rows="5" required ng-readonly="!isEditing"
+                                                  placeholder="Please enter details here"></textarea>
+                                        <span class="label label-danger" ng-show="form.details.$dirty && form.details.$error.required" class="help-block">Details is required !</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </form>
                 </div>
             </uib-tab>
             <uib-tab index="1" heading="History" title="Historical information of the ticket">
@@ -143,13 +190,14 @@
                     <div class="panel-body">
                         <div class="panel panel-info" ng-repeat="event in Events">
                             <div class="panel-heading panel-title" style="padding: 3px 5px;">
-                                {{event.eventDescription}}
+                                <strong>{{event.eventBy}}</strong> {{event.eventDescription}} <br />
+                                <span class="text-muted small">{{event.eventDate | date:'dd/MM/yyyy HH:mm:ss'}}</span>
                             </div>
-                            <div id="eventPanel" class="panel-body">
-                                {{event.comment}}
+                            <div id="eventPanel" class="panel-body" ng-hide="{{!event.comment}}">
+                                <strong>Comments:</strong> {{event.comment}}
                             </div>
                         </div>
-                    </div>                        
+                    </div>
                 </div>
             </uib-tab>
             <uib-tab index="2" heading="Resolution" title="Resolution information of the ticket">

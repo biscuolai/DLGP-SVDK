@@ -1,11 +1,8 @@
-﻿using DLGP_SVDK.Model.Domain.Common;
-using DLGP_SVDK.Model.Domain.Entities;
+﻿using DLGP_SVDK.Model.Domain.Entities;
 using DLGP_SVDK.Repository.Persistence;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using DLGP_SVDK.Repository.Common;
-using Microsoft.Data.Entity;
 
 namespace DLGP_SVDK.Repository.Repositories
 {
@@ -19,6 +16,7 @@ namespace DLGP_SVDK.Repository.Repositories
         {
             return ApplicationContext.TicketEvents
                 .Where(c => c.TicketId == id)
+                .OrderByDescending(c => c.EventDate)
                 .ToList();
         }
 
@@ -46,11 +44,93 @@ namespace DLGP_SVDK.Repository.Repositories
                 Comment = comment,
                 EventBy = eventByUserId,
                 EventDate = DateTime.Now,
-                EventDescription = TicketTextUtility.GetTicketEventDescription(activity, newPriority, userName)
+                EventDescription = GetTicketEventDescription(activity, newPriority, userName)
             };
             return tc;
         }
-        
+
+        /// <summary>
+        /// Gets the comment event text.
+        /// </summary>
+        /// <param name="ticketEvent">The ticket event of which to fetch the comment event.</param>
+        /// <param name="newPriority">The new priority, leave null if priority change isn't applicable for the activity.</param>
+        /// <param name="userName">Name of the user, leave null if a user name isn't applicable for the activity</param>
+        /// <returns>System.String.</returns>
+        /// <exception cref="System.NullReferenceException"></exception>
+        public static string GetTicketEventDescription(TicketActivity ticketEvent, string newPriority, string userName)
+        {
+            var val = "";
+
+            // TicketActivity enum
+            switch (ticketEvent)
+            {
+                case TicketActivity.SupplyMoreInfo:
+                    val = "has provided more information";
+                    break;
+                case TicketActivity.CancelMoreInfo:
+                    val = "has cancelled the request for more information";
+                    break;
+                case TicketActivity.RequestMoreInfo:
+                    val = "has requested more information";
+                    break;
+                case TicketActivity.TakeOver:
+                    val = "has taken over the ticket";
+                    break;
+                case TicketActivity.Resolve:
+                    val = "resolved the ticket";
+                    break;
+                case TicketActivity.Assign:
+                    val = "assigned the ticket to {0}";
+                    break;
+                case TicketActivity.ReAssign:
+                    val = "reassigned the ticket to {0}";
+                    break;
+                case TicketActivity.Pass:
+                    val = "passed the ticket to {0}";
+                    break;
+                case TicketActivity.Close:
+                    val = "closed the ticket";
+                    break;
+                case TicketActivity.ReOpen:
+                    val = "re-opened the ticket";
+                    break;
+                case TicketActivity.GiveUp:
+                    val = "has given up on the ticket";
+                    break;
+                case TicketActivity.ModifyAttachments:
+                    val = "modified ticket attachments";
+                    break;
+                case TicketActivity.EditTicketInfo:
+                    val = "modified ticket";
+                    break;
+                case TicketActivity.Create:
+                    val = "created the ticket";
+                    break;
+                case TicketActivity.CreateOnBehalfOf:
+                    val = "created the ticket on behalf of {0}";
+                    break;
+                default:
+                    break;
+            }
+
+            // TicketActivityPriority
+            var pval = " at a priority of {0}";
+
+            if (string.IsNullOrEmpty(val) || string.IsNullOrEmpty(pval))
+            {
+                throw new NullReferenceException();
+            }
+            if (!string.IsNullOrEmpty(userName))
+            {
+                val = string.Format(val, userName);
+            }
+            if (!string.IsNullOrEmpty(newPriority))
+            {
+                val += string.Format(pval, newPriority);
+            }
+            return val;
+        }
+
         public ApplicationDbContext ApplicationContext
         {
             get { return Context as ApplicationDbContext; }

@@ -1,4 +1,3 @@
-using DLGP_SVDK.Model.Domain.Common;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
