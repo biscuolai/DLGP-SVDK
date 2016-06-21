@@ -65,6 +65,9 @@ namespace DLGP_SVDK.Repository.Repositories
             // TicketActivity enum
             switch (ticketEvent)
             {
+                case TicketActivity.AddComment:
+                    val = "has added a new comment";
+                    break;
                 case TicketActivity.SupplyMoreInfo:
                     val = "has provided more information";
                     break;
@@ -117,7 +120,7 @@ namespace DLGP_SVDK.Repository.Repositories
             // Ticket Activity Priority
             var pval = " at a priority of {0}";
             // Ticket Activity Status
-            var sval = ", and at a status of {0}";
+            var sval = " and at a status of {0}";
 
             if (string.IsNullOrEmpty(val) || string.IsNullOrEmpty(pval) || string.IsNullOrEmpty(sval))
             {

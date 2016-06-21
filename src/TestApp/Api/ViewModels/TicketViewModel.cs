@@ -23,11 +23,12 @@ namespace DLGP_SVDK.Api.ViewModels
         public int PriorityId { get; set; }
         public string Comments { get; set; }
         public bool isEditing { get; set; }
-        public bool isPassing { get; set; }
-        public bool isGivingUp { get; set; }
+        public bool isRequestInfo { get; set; }
+        public bool isSupplyInfo { get; set; }
         public bool isEditingAttachments { get; set; }
-        public bool isTakingOver { get; set; }
+        public bool isCancelInfo { get; set; }
         public bool isAssigning { get; set; }
+        public bool isAddingComment { get; set; }
 
     }
 }

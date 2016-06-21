@@ -15,6 +15,11 @@ namespace DLGP_SVDK.Repository.Repositories
             return ApplicationContext.TicketStatuses.OrderBy(c => c.Order).ToList();
         }
 
+        public TicketStatus GetStatusByName(string name)
+        {
+            return ApplicationContext.TicketStatuses.Where(c => c.Name.ToUpper() == name.ToUpper()).First();
+        }
+
         public ApplicationDbContext ApplicationContext
         {
             get { return Context as ApplicationDbContext; }

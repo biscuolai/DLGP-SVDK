@@ -7,5 +7,6 @@ namespace DLGP_SVDK.Repository
     public interface ITicketStatusRepository : IRepository<TicketStatus>
     {
         List<TicketStatus> GetTicketStatusList();
+        TicketStatus GetStatusByName(string name);
     }
 }

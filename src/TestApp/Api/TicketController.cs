@@ -117,6 +117,30 @@ namespace DLGP_SVDK.Web.Api
                     {
                         // updating values from existing ticket
                         var existingTicket = unitOfWork.Tickets.Get(id);
+
+                        // if it is a "New" ticket and isAssigning = true, TicketStatus must be changed to "Open" once it is assigned to somebody.
+                        // otherwise it is still a new ticket because is "unassigned"
+                        if ((value.isAssigning) && (unitOfWork.TicketStatuses.Get(existingTicket.TicketStatusId).Name == "New"))
+                        {
+                            // Change ticket status to "open"
+                            existingTicket.TicketStatusId = unitOfWork.TicketStatuses.GetStatusByName("Open").TicketStatusId;
+                        }
+                        // if user requested more information then change ticket status to request for more information
+                        else if (value.isRequestInfo)
+                        {
+                            existingTicket.TicketStatusId = unitOfWork.TicketStatuses.GetStatusByName("Pending - Request for Information").TicketStatusId;
+                        }
+                        // if user cancelled the request for more information then change ticket status back to open
+                        else if (value.isCancelInfo)
+                        {
+                            existingTicket.TicketStatusId = unitOfWork.TicketStatuses.GetStatusByName("Open").TicketStatusId;
+                        }
+                        // user is just editing ticket
+                        else
+                        {
+                            existingTicket.TicketStatusId = value.TicketStatusId;
+                        }
+                        
                         existingTicket.Title = value.Title;
                         existingTicket.ContactTypeId = value.ContactTypeId;
                         existingTicket.CategoryId = value.CategoryId;
@@ -124,7 +148,6 @@ namespace DLGP_SVDK.Web.Api
                         existingTicket.Details = value.Details;
                         existingTicket.TagList = value.TagList;
                         existingTicket.AssignedTo = value.AssignedTo;
-                        existingTicket.TicketStatusId = value.TicketStatusId;
                         existingTicket.CurrentStatusDate = value.CurrentStatusDate;
                         existingTicket.CurrentStatusSetBy = value.CurrentStatusSetBy;
                         existingTicket.LastUpdateBy = value.LastUpdateBy;
@@ -146,13 +169,25 @@ namespace DLGP_SVDK.Web.Api
                         {
                             unitOfWork.TicketEvents.Add(unitOfWork.TicketEvents.CreateActivityEvent(ticketReload.TicketId, User.Identity.Name, TicketActivity.EditTicketInfo, value.Comments, null, User.Identity.Name, ticketReload.Status.Name));
                         }
-                        else if (value.isPassing)
+                        else if (value.isRequestInfo)
                         {
-                            unitOfWork.TicketEvents.Add(unitOfWork.TicketEvents.CreateActivityEvent(ticketReload.TicketId, User.Identity.Name, TicketActivity.Pass, value.Comments, ticketReload.Priority.Name, userData.UserName, ticketReload.Status.Name));
+                            unitOfWork.TicketEvents.Add(unitOfWork.TicketEvents.CreateActivityEvent(ticketReload.TicketId, User.Identity.Name, TicketActivity.RequestMoreInfo, value.Comments, null, User.Identity.Name, ticketReload.Status.Name));
+                        }
+                        else if (value.isSupplyInfo)
+                        {
+                            unitOfWork.TicketEvents.Add(unitOfWork.TicketEvents.CreateActivityEvent(ticketReload.TicketId, User.Identity.Name, TicketActivity.SupplyMoreInfo, value.Comments, null, User.Identity.Name, null));
+                        }
+                        else if (value.isCancelInfo)
+                        {
+                            unitOfWork.TicketEvents.Add(unitOfWork.TicketEvents.CreateActivityEvent(ticketReload.TicketId, User.Identity.Name, TicketActivity.CancelMoreInfo, value.Comments, null, User.Identity.Name, null));
                         }
                         else if (value.isAssigning)
                         {
                             unitOfWork.TicketEvents.Add(unitOfWork.TicketEvents.CreateActivityEvent(ticketReload.TicketId, User.Identity.Name, TicketActivity.Assign, value.Comments, ticketReload.Priority.Name, userData.UserName, ticketReload.Status.Name));
+                        }
+                        else if (value.isAddingComment)
+                        {
+                            unitOfWork.TicketEvents.Add(unitOfWork.TicketEvents.CreateActivityEvent(ticketReload.TicketId, User.Identity.Name, TicketActivity.AddComment, value.Comments, null, User.Identity.Name, null));
                         }
 
                         unitOfWork.Commit();

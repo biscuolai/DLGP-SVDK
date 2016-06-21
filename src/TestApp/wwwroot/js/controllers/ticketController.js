@@ -22,7 +22,10 @@
                 // Clear all MessageService.addAlert messages 
                 MessageService.clearAlert();
 
-                $rootScope.isEditing = false;
+                // reset all flags
+                $rootScope.cancel();
+
+                $rootScope.isMoreInfo = ($rootScope.Ticket.status.name.toUpperCase() === "PENDING - REQUEST FOR INFORMATION");
             })
             .error(function () {
                 // show in alerts error message
@@ -219,23 +222,26 @@
         }
 
         $rootScope.cancel = function () {
+            $rootScope.isEditing = false;
+            $rootScope.isAssigning = false;
+            $rootScope.isRequestInfo = false;
+            $rootScope.isSupplyInfo = false;
+            $rootScope.isCancelInfo = false;
+            $rootScope.isAddingComment = false;
+        };
 
-            if ($rootScope.isEditing) {
-                $rootScope.isEditing = false;
-            }
-            else {
-                ClearFields();
-                $location.path('/'); // cancel and redirect to dashboard
-            }
-
+        $rootScope.back = function () {
+            $rootScope.isEditing = false;
+            $rootScope.isAssigning = false;
+            ClearFields();
+            //$location.path('/'); // cancel and redirect to dashboard
+            window.history.back();
         };
 
         $rootScope.searchTicket = ""; // set the default search / filter term to empty string
 
         //Edit/Update operation
         $rootScope.UpdateTicket = function (Ticket) {
-
-            debugger;
 
             // read fresh data from all dropdownlists
             Ticket.projectId = $rootScope.Projects.selectedOption.projectId;
@@ -246,14 +252,21 @@
             Ticket.priorityId = $rootScope.Priority.selectedOption.priorityId;
             Ticket.assignedTo = $rootScope.Users.selectedOption.id;
             Ticket.isEditing = $rootScope.isEditing;
-            Ticket.isPassing = $rootScope.isPassing;
-            Ticket.isTakingOver = $rootScope.isTakingOver;
+            Ticket.isRequestInfo = $rootScope.isRequestInfo;
+            Ticket.isSupplyInfo = $rootScope.isSupplyInfo;
+            Ticket.isCancelInfo = $rootScope.isCancelInfo;
             Ticket.isAssigning = $rootScope.isAssigning;
+            Ticket.isAddingComment = $rootScope.isAddingComment;
+            Ticket.currentStatusDate = new Date();
+            Ticket.currentStatusSetBy = $rootScope.globals.currentUser.userData.userName;
+            Ticket.lastUpdateBy = $rootScope.globals.currentUser.userData.userName;
+            Ticket.lastUpdateDate = new Date();
 
             $http.put('/api/tickets/' + Ticket.ticketId, Ticket).success(function (data) {
                 GetAllTickets();
                 ClearFields();
-                $location.path('/'); // Updated successfully and redirect to dashboard
+                $rootScope.cancel();
+                //$location.path('/'); // Updated successfully and redirect to dashboard
 
                 // show in alerts that ticket has been updated successfully
                 MessageService.clearAlert();
@@ -278,7 +291,7 @@
                 Ticket.ticketStatusId = $rootScope.TicketStatus.selectedOption.ticketStatusId;
                 Ticket.priorityId = $rootScope.Priority.selectedOption.priorityId;
                 Ticket.assignedTo = $rootScope.Users.selectedOption.id;
-                Ticket.createdBy = "Portal";
+                Ticket.createdBy = $rootScope.globals.currentUser.userData.userName;
                 Ticket.createdDate = new Date();
                 Ticket.currentStatusDate = new Date();
                 Ticket.currentStatusSetBy = $rootScope.globals.currentUser.userData.userName;
@@ -321,46 +334,48 @@
             // set the variable isEditing to true and enable fields for editing 
             // Also the comments textarea field is set to visible
             $rootScope.isEditing = true;
-            $rootScope.isPassing = false;
-            $rootScope.isTakingOver = false;
             $rootScope.isAssigning = false;
-            $rootScope.isGivingUp = false;
+            $rootScope.isRequestInfo = false;
+            $rootScope.isSupplyInfo = false;
+            $rootScope.isCancelInfo = false;
+            $rootScope.isAddingComment = false;
+            $rootScope.commentLabel = "Edit Ticket";
         };
-        $rootScope.pass = function () {
-            // set the variable editTicket to true and enable all fields for editing 
+        $rootScope.moreInfo = function (flag) {
+            // set the variable isRequestInfo to true and enable fields for editing 
             // Also the comments textarea field is set to visible
+            debugger;
             $rootScope.isEditing = false;
-            $rootScope.isPassing = true;
-            $rootScope.isTakingOver = false;
             $rootScope.isAssigning = false;
-            $rootScope.isGivingUp = false;
-        };
-        $rootScope.takeOver = function () {
-            // set the variable editTicket to true and enable all fields for editing 
-            // Also the comments textarea field is set to visible
-            $rootScope.isEditing = false;
-            $rootScope.isPassing = false;
-            $rootScope.isTakingOver = true;
-            $rootScope.isAssigning = false;
-            $rootScope.isGivingUp = false;
+            $rootScope.isRequestInfo = (flag === 'R');
+            $rootScope.isSupplyInfo = (flag === 'S');
+            $rootScope.isCancelInfo = (flag === 'C');
+            $rootScope.isAddingComment = false;
+            if (flag === 'R') $rootScope.commentLabel = "Request For Information";
+            else if (flag === 'S') $rootScope.commentLabel = "Supply More Information";
+            else if (flag === 'C') $rootScope.commentLabel = "Cancel More Information";
         };
         $rootScope.assign = function () {
-            // set the variable editTicket to true and enable all fields for editing 
+            // set the variable isAssigning to true and enable all fields for editing 
             // Also the comments textarea field is set to visible
             $rootScope.isEditing = false;
-            $rootScope.isPassing = false;
-            $rootScope.isTakingOver = false;
             $rootScope.isAssigning = true;
-            $rootScope.isGivingUp = false;
+            $rootScope.isRequestInfo = false;
+            $rootScope.isSupplyInfo = false;
+            $rootScope.isCancelInfo = false;
+            $rootScope.isAddingComment = false;
+            $rootScope.commentLabel = "Assign Ticket";
         };
-        $rootScope.giveUp = function () {
-            // set the variable editTicket to true and enable all fields for editing 
+        $rootScope.addComment = function () {
+            // set the variable isAddingComment to true and enable all fields for editing 
             // Also the comments textarea field is set to visible
             $rootScope.isEditing = false;
-            $rootScope.isPassing = false;
-            $rootScope.isTakingOver = false;
             $rootScope.isAssigning = false;
-            $rootScope.isGivingUp = true;
+            $rootScope.isRequestInfo = false;
+            $rootScope.isSupplyInfo = false;
+            $rootScope.isCancelInfo = false;
+            $rootScope.isAddingComment = true;
+            $rootScope.commentLabel = "Add New";
         };
     }
 })();
