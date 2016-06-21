@@ -139,17 +139,16 @@ namespace DLGP_SVDK.Web.Api
                         {
                             existingTicket.TicketStatusId = unitOfWork.TicketStatuses.GetStatusByName("Open").TicketStatusId;
                         }
-
-                        // to do / fix 
-
+                        // if user edited the ticket, the existing and the new objects will be compared in order to show all changes
                         else if (value.isEditing)
                         {
                             Ticket t1 = existingTicket;
                             Ticket t2 = Mapper.Map<Ticket>(value);
 
+                            // store all changes in a stringbuilder
                             StringBuilder sb = new StringBuilder();
-                            int propertyCount = typeof(Ticket).GetProperties().Length;
 
+                            // compare all properties from two objects and work out the diffs
                             foreach (PropertyInfo property in t1.GetType().GetProperties())
                             {
                                 object value1 = property.GetValue(t1, null);
@@ -164,50 +163,57 @@ namespace DLGP_SVDK.Web.Api
                                         case "PriorityId":
                                             from = unitOfWork.Priorities.GetNameById(t1.PriorityId);
                                             to = unitOfWork.Priorities.GetNameById(t2.PriorityId);
-                                            sb.AppendLine(property.Name + " changed from " + from + " to " + to + Environment.NewLine);
+                                            sb.AppendLine(property.Name + " changed from " + from + " to " + to);
                                             break;
                                         case "CategoryId":
                                             from = unitOfWork.Categories.GetNameById(t1.CategoryId);
                                             to = unitOfWork.Categories.GetNameById(t2.CategoryId);
-                                            sb.AppendLine(property.Name + " changed from " + from + " to " + to + Environment.NewLine);
+                                            sb.AppendLine(property.Name + " changed from " + from + " to " + to);
                                             break;
                                         case "TicketStatusId":
                                             from = unitOfWork.TicketStatuses.GetNameById(t1.TicketStatusId);
                                             to = unitOfWork.TicketStatuses.GetNameById(t2.TicketStatusId);
-                                            sb.AppendLine(property.Name + " changed from " + from + " to " + to + Environment.NewLine);
+                                            sb.AppendLine(property.Name + " changed from " + from + " to " + to);
                                             break;
                                         case "ProjectId":
                                             from = unitOfWork.Projects.GetNameById(t1.ProjectId);
                                             to = unitOfWork.Projects.GetNameById(t2.ProjectId);
-                                            sb.AppendLine(property.Name + " changed from " + from + " to " + to + Environment.NewLine);
+                                            sb.AppendLine(property.Name + " changed from " + from + " to " + to);
                                             break;
                                         case "ContactTypeId":
                                             from = unitOfWork.ContactTypes.GetNameById(t1.ContactTypeId);
                                             to = unitOfWork.ContactTypes.GetNameById(t2.ContactTypeId);
-                                            sb.AppendLine(property.Name + " changed from " + from + " to " + to + Environment.NewLine);
+                                            sb.AppendLine(property.Name + " changed from " + from + " to " + to);
                                             break;
                                         case "ConfigurationItemId":
                                             from = unitOfWork.ConfigurationItems.GetNameById(t1.ConfigurationItemId);
                                             to = unitOfWork.ConfigurationItems.GetNameById(t2.ConfigurationItemId);
-                                            sb.AppendLine(property.Name + " changed from " + from + " to " + to + Environment.NewLine);
+                                            sb.AppendLine(property.Name + " changed from " + from + " to " + to);
                                             break;
 
                                         default:
                                             // Do not consider Ticket Id, version nor date fields as changes
-                                            if (property.Name != "TicketId" && property.Name != "Version" && !property.Name.ToUpper().Contains("DATE"))
+                                            if (property.Name != "TicketId" && property.Name != "Version" && !property.Name.ToUpper().Contains("DATE") && !property.PropertyType.Name.ToUpper().Contains("ICOLLECTION"))
                                             {
-                                                sb.AppendLine(property.Name + " changed from " + value1 + " to " + value2 + Environment.NewLine);
+                                                sb.AppendLine(property.Name + " changed from " + value1 + " to " + value2);
                                             }
                                             break;
                                     }
                                 }
                             }
 
-                            value.Comments += sb.ToString();
+                            // if there is changes, add label "changes:" to the comment and newline 
+                            if (sb.Length > 0)
+                            {
+                                value.Comments += Environment.NewLine + Environment.NewLine + "Changes:" + Environment.NewLine;
+                            }
+
+                            // add all comment lines to the existing comment
+                            for (int i = 0; i < sb.Length; i++)
+                            {
+                                value.Comments += sb[i];
+                            }
                         }
-
-
-
                         // user is just editing ticket
                         else
                         {
