@@ -142,75 +142,69 @@ namespace DLGP_SVDK.Web.Api
 
                         // to do / fix 
 
-                        //else if (value.isEditing)
-                        //{
-                        //    Ticket t1 = existingTicket;
-                        //    Ticket t2 = Mapper.Map<Ticket>(value);
+                        else if (value.isEditing)
+                        {
+                            Ticket t1 = existingTicket;
+                            Ticket t2 = Mapper.Map<Ticket>(value);
 
-                        //    StringBuilder sb = new StringBuilder();
-                        //    int propertyCount = typeof(Ticket).GetProperties().Length;
+                            StringBuilder sb = new StringBuilder();
+                            int propertyCount = typeof(Ticket).GetProperties().Length;
 
-                        //    foreach (PropertyInfo property in t1.GetType().GetProperties())
-                        //    {
-                        //        object value1 = property.GetValue(t1, null);
-                        //        object value2 = property.GetValue(t2, null);
-                        //        if ((value2 != null) && (!value1.Equals(value2)))
-                        //        {
-                        //            string from = "";
-                        //            string to = "";
+                            foreach (PropertyInfo property in t1.GetType().GetProperties())
+                            {
+                                object value1 = property.GetValue(t1, null);
+                                object value2 = property.GetValue(t2, null);
+                                if ((value2 != null) && (!value1.Equals(value2)))
+                                {
+                                    string from = "";
+                                    string to = "";
 
-                        //            switch (property.Name)
-                        //            {
-                        //                case "PriorityId":
-                        //                    from = unitOfWork.Priorities.Get(t1.PriorityId).Name;
-                        //                    unitOfWork.Commit();
-                        //                    to = unitOfWork.Priorities.Get(t2.PriorityId).Name;
-                        //                    sb.AppendLine(property.Name + " changed from " + from + " to " + to + Environment.NewLine);
-                        //                    break;
-                        //                case "CategoryId":
-                        //                    from = unitOfWork.Categories.Get(t1.CategoryId).Name;
-                        //                    unitOfWork.Commit();
-                        //                    to = unitOfWork.Categories.Get(t2.CategoryId).Name;
-                        //                    sb.AppendLine(property.Name + " changed from " + from + " to " + to + Environment.NewLine);
-                        //                    break;
-                        //                case "TicketStatusId":
-                        //                    from = unitOfWork.TicketStatuses.Get(t1.TicketStatusId).Name;
-                        //                    unitOfWork.Commit();
-                        //                    to = unitOfWork.TicketStatuses.Get(t2.TicketStatusId).Name;
-                        //                    sb.AppendLine(property.Name + " changed from " + from + " to " + to + Environment.NewLine);
-                        //                    break;
-                        //                case "ProjectId":
-                        //                    from = unitOfWork.Projects.Get(t1.ProjectId).ProjectName;
-                        //                    unitOfWork.Commit();
-                        //                    to = unitOfWork.Projects.Get(t2.ProjectId).ProjectName;
-                        //                    sb.AppendLine(property.Name + " changed from " + from + " to " + to + Environment.NewLine);
-                        //                    break;
-                        //                case "ContactTypeId":
-                        //                    from = unitOfWork.ContactTypes.Get(t1.ContactTypeId).Name;
-                        //                    unitOfWork.Commit();
-                        //                    to = unitOfWork.ContactTypes.Get(t2.ContactTypeId).Name;
-                        //                    sb.AppendLine(property.Name + " changed from " + from + " to " + to + Environment.NewLine);
-                        //                    break;
-                        //                case "ConfigurationItemId":
-                        //                    from = unitOfWork.ConfigurationItems.Get(t1.ConfigurationItemId).Name;
-                        //                    unitOfWork.Commit();
-                        //                    to = unitOfWork.ConfigurationItems.Get(t2.ConfigurationItemId).Name;
-                        //                    sb.AppendLine(property.Name + " changed from " + from + " to " + to + Environment.NewLine);
-                        //                    break;
+                                    switch (property.Name)
+                                    {
+                                        case "PriorityId":
+                                            from = unitOfWork.Priorities.GetNameById(t1.PriorityId);
+                                            to = unitOfWork.Priorities.GetNameById(t2.PriorityId);
+                                            sb.AppendLine(property.Name + " changed from " + from + " to " + to + Environment.NewLine);
+                                            break;
+                                        case "CategoryId":
+                                            from = unitOfWork.Categories.GetNameById(t1.CategoryId);
+                                            to = unitOfWork.Categories.GetNameById(t2.CategoryId);
+                                            sb.AppendLine(property.Name + " changed from " + from + " to " + to + Environment.NewLine);
+                                            break;
+                                        case "TicketStatusId":
+                                            from = unitOfWork.TicketStatuses.GetNameById(t1.TicketStatusId);
+                                            to = unitOfWork.TicketStatuses.GetNameById(t2.TicketStatusId);
+                                            sb.AppendLine(property.Name + " changed from " + from + " to " + to + Environment.NewLine);
+                                            break;
+                                        case "ProjectId":
+                                            from = unitOfWork.Projects.GetNameById(t1.ProjectId);
+                                            to = unitOfWork.Projects.GetNameById(t2.ProjectId);
+                                            sb.AppendLine(property.Name + " changed from " + from + " to " + to + Environment.NewLine);
+                                            break;
+                                        case "ContactTypeId":
+                                            from = unitOfWork.ContactTypes.GetNameById(t1.ContactTypeId);
+                                            to = unitOfWork.ContactTypes.GetNameById(t2.ContactTypeId);
+                                            sb.AppendLine(property.Name + " changed from " + from + " to " + to + Environment.NewLine);
+                                            break;
+                                        case "ConfigurationItemId":
+                                            from = unitOfWork.ConfigurationItems.GetNameById(t1.ConfigurationItemId);
+                                            to = unitOfWork.ConfigurationItems.GetNameById(t2.ConfigurationItemId);
+                                            sb.AppendLine(property.Name + " changed from " + from + " to " + to + Environment.NewLine);
+                                            break;
 
-                        //                default:
-                        //                    // Do not consider Ticket Id, version nor date fields as changes
-                        //                    if (property.Name != "TicketId" && property.Name != "Version" && !property.Name.ToUpper().Contains("DATE"))
-                        //                    {
-                        //                        sb.AppendLine(property.Name + " changed from " + value1 + " to " + value2 + Environment.NewLine);
-                        //                    }
-                        //                    break;
-                        //            }
-                        //        }
-                        //    }
+                                        default:
+                                            // Do not consider Ticket Id, version nor date fields as changes
+                                            if (property.Name != "TicketId" && property.Name != "Version" && !property.Name.ToUpper().Contains("DATE"))
+                                            {
+                                                sb.AppendLine(property.Name + " changed from " + value1 + " to " + value2 + Environment.NewLine);
+                                            }
+                                            break;
+                                    }
+                                }
+                            }
 
-                        //    value.Comments += sb.ToString();
-                        //}
+                            value.Comments += sb.ToString();
+                        }
 
 
 

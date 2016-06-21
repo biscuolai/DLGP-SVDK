@@ -15,6 +15,11 @@ namespace DLGP_SVDK.Repository.Repositories
             return ApplicationContext.TicketContactTypes.OrderBy(c => c.Order).ToList();
         }
 
+        public string GetNameById(int id)
+        {
+            return ApplicationContext.TicketContactTypes.Where(c => c.ContactTypeId == id).First().Name;
+        }
+
         public ApplicationDbContext ApplicationContext
         {
             get { return Context as ApplicationDbContext; }

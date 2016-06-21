@@ -7,5 +7,6 @@ namespace DLGP_SVDK.Repository
     public interface IPriorityRepository : IRepository<TicketPriority>
     {
         IEnumerable<TicketPriority> GetPriorityList();
+        string GetNameById(int id);
     }
 }

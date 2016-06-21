@@ -7,5 +7,6 @@ namespace DLGP_SVDK.Repository
     public interface IConfigurationItemRepository : IRepository<TicketConfigurationItem>
     {
         IEnumerable<TicketConfigurationItem> GetConfigurationItemList();
+        string GetNameById(int id);
     }
 }

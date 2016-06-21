@@ -7,5 +7,6 @@ namespace DLGP_SVDK.Repository
     public interface IProjectRepository : IRepository<Project>
     {
         IEnumerable<Project> GetProjectList();
+        string GetNameById(int id);
     }
 }

@@ -15,6 +15,11 @@ namespace DLGP_SVDK.Repository.Repositories
             return ApplicationContext.TicketConfigurationItems.OrderBy(c => c.Order).ToList();
         }
 
+        public string GetNameById(int id)
+        {
+            return ApplicationContext.TicketConfigurationItems.Where(c => c.ConfigurationItemId == id).First().Name;
+        }
+
         public ApplicationDbContext ApplicationContext
         {
             get { return Context as ApplicationDbContext; }

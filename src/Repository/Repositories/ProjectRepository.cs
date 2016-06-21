@@ -17,6 +17,11 @@ namespace DLGP_SVDK.Repository.Repositories
             return ApplicationContext.Projects.OrderBy(c => c.ProjectName).ToList();
         }
 
+        public string GetNameById(int id)
+        {
+            return ApplicationContext.Projects.Where(c => c.ProjectId == id).First().ProjectName;
+        }
+
         public ApplicationDbContext ApplicationContext
         {
             get { return Context as ApplicationDbContext; }

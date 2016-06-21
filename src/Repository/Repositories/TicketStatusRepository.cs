@@ -20,6 +20,11 @@ namespace DLGP_SVDK.Repository.Repositories
             return ApplicationContext.TicketStatuses.Where(c => c.Name.ToUpper() == name.ToUpper()).First();
         }
 
+        public string GetNameById(int id)
+        {
+            return ApplicationContext.TicketStatuses.Where(c => c.TicketStatusId == id).First().Name;
+        }
+
         public ApplicationDbContext ApplicationContext
         {
             get { return Context as ApplicationDbContext; }

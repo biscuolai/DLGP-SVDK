@@ -7,5 +7,6 @@ namespace DLGP_SVDK.Repository
     public interface ICategoryRepository : IRepository<TicketCategory>
     {
         IEnumerable<TicketCategory> GetCategoryList();
+        string GetNameById(int id);
     }
 }

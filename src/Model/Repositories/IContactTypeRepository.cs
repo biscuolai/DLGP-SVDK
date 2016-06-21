@@ -7,5 +7,6 @@ namespace DLGP_SVDK.Repository
     public interface IContactTypeRepository : IRepository<TicketContactType>
     {
         IEnumerable<TicketContactType> GetContactTypeList();
+        string GetNameById(int id);
     }
 }

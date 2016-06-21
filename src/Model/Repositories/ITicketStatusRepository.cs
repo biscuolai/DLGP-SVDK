@@ -8,5 +8,6 @@ namespace DLGP_SVDK.Repository
     {
         List<TicketStatus> GetTicketStatusList();
         TicketStatus GetStatusByName(string name);
+        string GetNameById(int id);
     }
 }
