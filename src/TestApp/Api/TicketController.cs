@@ -163,32 +163,32 @@ namespace DLGP_SVDK.Web.Api
                                         case "PriorityId":
                                             from = unitOfWork.Priorities.GetNameById(t1.PriorityId);
                                             to = unitOfWork.Priorities.GetNameById(t2.PriorityId);
-                                            sb.AppendLine(property.Name + " changed from " + from + " to " + to);
+                                            sb.AppendLine("Priority changed from " + from + " to " + to);
                                             break;
                                         case "CategoryId":
                                             from = unitOfWork.Categories.GetNameById(t1.CategoryId);
                                             to = unitOfWork.Categories.GetNameById(t2.CategoryId);
-                                            sb.AppendLine(property.Name + " changed from " + from + " to " + to);
+                                            sb.AppendLine("Category changed from " + from + " to " + to);
                                             break;
                                         case "TicketStatusId":
                                             from = unitOfWork.TicketStatuses.GetNameById(t1.TicketStatusId);
                                             to = unitOfWork.TicketStatuses.GetNameById(t2.TicketStatusId);
-                                            sb.AppendLine(property.Name + " changed from " + from + " to " + to);
+                                            sb.AppendLine("Status changed from " + from + " to " + to);
                                             break;
                                         case "ProjectId":
                                             from = unitOfWork.Projects.GetNameById(t1.ProjectId);
                                             to = unitOfWork.Projects.GetNameById(t2.ProjectId);
-                                            sb.AppendLine(property.Name + " changed from " + from + " to " + to);
+                                            sb.AppendLine("Project changed from " + from + " to " + to);
                                             break;
                                         case "ContactTypeId":
                                             from = unitOfWork.ContactTypes.GetNameById(t1.ContactTypeId);
                                             to = unitOfWork.ContactTypes.GetNameById(t2.ContactTypeId);
-                                            sb.AppendLine(property.Name + " changed from " + from + " to " + to);
+                                            sb.AppendLine("Contact Type changed from " + from + " to " + to);
                                             break;
                                         case "ConfigurationItemId":
                                             from = unitOfWork.ConfigurationItems.GetNameById(t1.ConfigurationItemId);
                                             to = unitOfWork.ConfigurationItems.GetNameById(t2.ConfigurationItemId);
-                                            sb.AppendLine(property.Name + " changed from " + from + " to " + to);
+                                            sb.AppendLine("Configuration Item changed from " + from + " to " + to);
                                             break;
 
                                         default:

@@ -6,6 +6,7 @@ using System;
 using Microsoft.Data.Entity.Metadata.Internal;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity;
+using DLGP_SVDK.Model.Domain.Entities.Identity;
 
 namespace DLGP_SVDK.Model.Domain.Entities
 {
