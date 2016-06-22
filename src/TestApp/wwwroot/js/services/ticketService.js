@@ -38,8 +38,12 @@
 
                 var result = filtered.slice(start, start + number);
 
+                //alert('filtered.length: ' + filtered.length + ', number: ' + number + ' result: ' + result.length);
+
+                //debugger;
+
                 $timeout(function () {
-                    //note, the server passes the information about the data set size
+                    // note, the server passes the information about the data set size
                     deferred.resolve({
                         data: result,
                         numberOfPages: Math.ceil(filtered.length / number)

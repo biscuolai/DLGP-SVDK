@@ -7,6 +7,22 @@
 
             var ctrl = this;
 
+            if ($location.search().action !== undefined) {
+                ctrl.selectedAction = parseInt($location.search().action);
+            }
+            else {
+                ctrl.selectedAction = 0;
+            }
+
+            if ($location.search().items !== undefined && $location.search().items !== "0") {
+                ctrl.itemsPerPage = parseInt($location.search().items);
+            }
+            else {
+                ctrl.itemsPerPage = 500;
+            }
+
+            debugger;
+
             ctrl.StatusViews = [
                 { id: 0, name: 'All Tickets' },
                 { id: 1, name: 'My Tickets' },
@@ -26,8 +42,8 @@
 
                 var pagination = tableState.pagination;
 
-                var start = pagination.start || 0;      // This is NOT the page number, but the index of item in the list that you want to use to display the table.
-                var number = pagination.number || 5;    // Number of entries showed per page.
+                var start = pagination.start || 0;                      // This is NOT the page number, but the index of item in the list that you want to use to display the table.
+                var number = pagination.number || ctrl.itemsPerPage;    // Number of entries showed per page.
 
                 Resource.getPage(start, number, tableState).then(function (result) {
                     ctrl.displayed = result.data;
@@ -41,7 +57,9 @@
                 this.queryResponse = query;
             };
 
-            this.showTicketList = function (id) {
+            this.showTicketList = function (id, itemsPerPage) {
+                ctrl.selectedAction = id;
+                ctrl.itemsPerPage = itemsPerPage;
 
                 ctrl.queryResponse =
                     {
@@ -83,14 +101,8 @@
                 }
             }
 
-            // get the id of the view if it exists
-            if ($location.search().id !== undefined) {
-                ctrl.id = parseInt($location.search().id);
-                this.showTicketList(ctrl.id);
-            }
-            else {
-                ctrl.selectedItem = 'My Tickets';
-            }
-
+            // show all tickets, set 25 items per page as default.
+            ctrl.selectedItem = 'All Tickets';
+            //this.showTicketList(0);
         }])
 })();

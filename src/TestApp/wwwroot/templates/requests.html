@@ -11,9 +11,9 @@
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
                             <li ng-repeat="item in vm.StatusViews"
                                 value="item.name"
-                                ng-click="vm.showTicketList(item.id)"
+                                ng-click="vm.showTicketList(item.id, vm.itemsPerPage)"
                                 ng-selected="item.name">
-                                <a href="#/requests">{{ item.name }}</a>
+                                <a href="#/requests?action={{ item.id }}">{{ item.name }}</a>
                             </li>
                         </ul>
                     </div>
@@ -23,11 +23,11 @@
                             <span class="caret"></span>
                         </button>
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                            <li><a href="#/requests">25</a></li>
-                            <li><a href="#/requests">50</a></li>
-                            <li><a href="#/requests">100</a></li>
+                            <li><a href="#/requests?action={{vm.selectedAction}}&amp;items=25" ng-click="vm.showTicketList(vm.selectedAction,'25')">25</a></li>
+                            <li><a href="#/requests?action={{vm.selectedAction}}&amp;items=50" ng-click="vm.showTicketList(vm.selectedAction,'50')">50</a></li>
+                            <li><a href="#/requests?action={{vm.selectedAction}}&amp;items=100" ng-click="vm.showTicketList(vm.selectedAction,'100')">100</a></li>
                             <li role="separator" class="divider"></li>
-                            <li><a href="#/requests">All</a></li>
+                            <li><a href="#/requests?action={{vm.selectedAction}}&amp;items=0" ng-click="vm.showTicketList(vm.selectedAction,'500')">All</a></li>
                         </ul>
                     </div>
                 </div>
@@ -38,7 +38,7 @@
                         <thead>
                             <tr>
                                 <th style="width: 10%" st-sort="ticketId">Ticket ID</th>
-                                <th style="width: 30%" st-sort="title">Title</th>
+                                <th style="width: 40%" st-sort="title">Title</th>
                                 <th style="width: 10%" st-sort="status.name">Status</th>
                                 <th style="width: 10%" st-sort="priority.name">Priority</th>
                                 <th style="width: 10%" st-sort="project.projectName">Project</th>
@@ -75,7 +75,7 @@
                         </tbody>
                         <tfoot>
                             <tr>
-                                <td class="text-center" st-pagination="" st-items-by-page="10" colspan="7"></td>
+                                <td class="text-center" st-pagination="" st-items-by-page="vm.itemsPerPage" colspan="7"></td>
                             </tr>
                         </tfoot>
                     </table>
