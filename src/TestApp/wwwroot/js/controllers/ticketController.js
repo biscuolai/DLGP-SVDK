@@ -26,6 +26,8 @@
                 $rootScope.cancel();
 
                 $rootScope.isMoreInfo = ($rootScope.Ticket.status.name.toUpperCase() === "PENDING - REQUEST FOR INFORMATION");
+                $rootScope.isResolved = ($rootScope.Ticket.status.name.toUpperCase() === "RESOLVED");
+                $rootScope.isCancelled = ($rootScope.Ticket.status.name.toUpperCase() === "CANCELLED");
             })
             .error(function () {
                 // show in alerts error message
@@ -68,6 +70,7 @@
         //To Get all Ticket events records for an existing ticket  
         function GetAllEventsByTicketId(id) {
             $http.get('/api/tickets/events/' + id).success(function (Events) {
+                debugger;
                 $rootScope.Events = Events.data;
             })
             .error(function () {
@@ -243,6 +246,16 @@
         //Edit/Update operation
         $rootScope.UpdateTicket = function (Ticket) {
 
+            // if the user is trying to resolve or cancel the ticket through edit ticket option
+            if (($rootScope.TicketStatus.selectedOption.name.toUpperCase() == 'CANCELLED' ||
+                $rootScope.TicketStatus.selectedOption.name.toUpperCase() == 'RESOLVED') &&
+               (Ticket.comments === undefined || Ticket.comments.trim() === ''))
+            {
+                MessageService.clearAlert();
+                MessageService.addAlert('Please confirm all information in Resolution Tab before resolving or cancelling a ticket.', 'danger');
+                return false;
+            }
+
             // read fresh data from all dropdownlists
             Ticket.projectId = $rootScope.Projects.selectedOption.projectId;
             Ticket.contactTypeId = $rootScope.ContactType.selectedOption.contactTypeId;
@@ -250,7 +263,12 @@
             Ticket.configurationItemId = $rootScope.ConfigurationItem.selectedOption.configurationItemId;
             Ticket.ticketStatusId = $rootScope.TicketStatus.selectedOption.ticketStatusId;
             Ticket.priorityId = $rootScope.Priority.selectedOption.priorityId;
-            Ticket.assignedTo = $rootScope.Users.selectedOption.id;
+
+            // unassigned ticket
+            if ($rootScope.Users !== undefined && $rootScope.Users.selectedOption !== null && $rootScope.Users.selectedOption.id !== null) {
+                Ticket.assignedTo = $rootScope.Users.selectedOption.id;
+            }
+
             Ticket.isEditing = $rootScope.isEditing;
             Ticket.isRequestInfo = $rootScope.isRequestInfo;
             Ticket.isSupplyInfo = $rootScope.isSupplyInfo;
@@ -290,7 +308,12 @@
                 Ticket.configurationItemId = $rootScope.ConfigurationItem.selectedOption.configurationItemId;
                 Ticket.ticketStatusId = $rootScope.TicketStatus.selectedOption.ticketStatusId;
                 Ticket.priorityId = $rootScope.Priority.selectedOption.priorityId;
-                Ticket.assignedTo = $rootScope.Users.selectedOption.id;
+
+                // unassigned ticket
+                if ($rootScope.Users !== undefined && $rootScope.Users.selectedOption !== null && $rootScope.Users.selectedOption.id !== null) {
+                    Ticket.assignedTo = $rootScope.Users.selectedOption.id;
+                }
+
                 Ticket.createdBy = $rootScope.globals.currentUser.userData.userName;
                 Ticket.createdDate = new Date();
                 Ticket.currentStatusDate = new Date();
@@ -339,7 +362,20 @@
             $rootScope.isSupplyInfo = false;
             $rootScope.isCancelInfo = false;
             $rootScope.isAddingComment = false;
+
             $rootScope.commentLabel = "Edit Ticket";
+        };
+        $rootScope.updateStatusComment = function () {
+            // if user selects cancelled or resolved as statuses, the label for comment text area will be resolution, otherwise continue as Edit Ticket
+            if ($rootScope.TicketStatus.selectedOption.name.toUpperCase() === 'CANCELLED' || $rootScope.TicketStatus.selectedOption.name.toUpperCase() === 'RESOLVED') {
+                $rootScope.commentLabel = "Resolution";
+            }
+            else {
+                $rootScope.commentLabel = "Edit Ticket";
+            }
+
+            // set the status using the selected option id
+            Ticket.ticketStatus = TicketStatus.selectedOption.ticketStatusId
         };
         $rootScope.moreInfo = function (flag) {
             // set the variable isRequestInfo to true and enable fields for editing 

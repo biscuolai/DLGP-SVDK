@@ -67,7 +67,7 @@ namespace DLGP_SVDK.Web.Api
                     {
                         for (int i = 0; i < count; i++)
                         {
-                            statuses.Remove(statuses.Find(c => c.Name != "New"));
+                            statuses.Remove(statuses.Find(c => c.Name != "New" && c.Name != "Cancelled"));
                         }
                     }
 
@@ -76,7 +76,7 @@ namespace DLGP_SVDK.Web.Api
                     {
                         for (int i = 0; i < count; i++)
                         {
-                            statuses.Remove(statuses.Find(c => !c.Name.Contains("Pending") && c.Name != "Closed" && c.Name != "Open"));
+                            statuses.Remove(statuses.Find(c => !c.Name.Contains("Pending") && c.Name != "Resolved" && c.Name != "Open" && c.Name != "Cancelled"));
                         }
                     }
 
@@ -85,7 +85,7 @@ namespace DLGP_SVDK.Web.Api
                     {
                         for (int i = 0; i < count; i++)
                         {
-                            statuses.Remove(statuses.Find(c => !c.Name.Contains("Pending") && c.Name != "Open"));
+                            statuses.Remove(statuses.Find(c => !c.Name.Contains("Pending") && c.Name != "Open" && c.Name != "Cancelled"));
                         }
                     }
 
@@ -94,7 +94,7 @@ namespace DLGP_SVDK.Web.Api
                     {
                         for (int i = 0; i < count; i++)
                         {
-                            statuses.Remove(statuses.Find(c => c.Name != "Closed" && c.Name != "Resolved"));
+                            statuses.Remove(statuses.Find(c => c.Name != "Resolved" && c.Name != "Cancelled" && c.Name != "Open"));
                         }
                     }
 
@@ -103,7 +103,7 @@ namespace DLGP_SVDK.Web.Api
                     {
                         for (int i = 0; i < count; i++)
                         {
-                            statuses.Remove(statuses.Find(c => c.Name != "Open" && c.Name != "Closed"));
+                            statuses.Remove(statuses.Find(c => c.Name != "Open"));
                         }
                     }
 
@@ -112,7 +112,7 @@ namespace DLGP_SVDK.Web.Api
                     {
                         for (int i = 0; i < count; i++)
                         {
-                            statuses.Remove(statuses.Find(c => c.Name != "Cancelled"));
+                            statuses.Remove(statuses.Find(c => c.Name != "Cancelled" && c.Name != "Open"));
                         }
                     }
                 }
@@ -121,7 +121,7 @@ namespace DLGP_SVDK.Web.Api
                     // New Ticket
                     for (int i = 0; i < count; i++)
                     {
-                        statuses.Remove(statuses.Find(c => c.Name != "New"));
+                        statuses.Remove(statuses.Find(c => c.Name != "New" && c.Name != "Cancelled"));
                     }
                 }
 

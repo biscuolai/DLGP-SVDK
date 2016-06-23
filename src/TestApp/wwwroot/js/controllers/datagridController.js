@@ -3,7 +3,7 @@
 
     angular
         .module('app')
-        .controller('datagridController', ['Resource', '$location', function (Resource, $location) {
+        .controller('datagridController', ['Resource', '$location', '$rootScope', function (Resource, $location, $rootScope) {
 
             var ctrl = this;
 
@@ -20,8 +20,6 @@
             else {
                 ctrl.itemsPerPage = 500;
             }
-
-            debugger;
 
             ctrl.StatusViews = [
                 { id: 0, name: 'All Tickets' },
@@ -77,7 +75,7 @@
                         // my tickets
                     case 1:
                         ctrl.queryResponse.status = '';
-                        ctrl.queryResponse.assignedTo = '';
+                        ctrl.queryResponse.assignedTo = $rootScope.globals.currentUser.userData.id;
                         break;
                         // all new tickets
                     case 2:

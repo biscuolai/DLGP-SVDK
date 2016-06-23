@@ -19,7 +19,8 @@
                     </div>
                     <div class="dropdown col-md-6">
                         <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                            Items per page
+                            <span ng-show="vm.itemsPerPage<500">{{vm.itemsPerPage}} Items per page</span>
+                            <span ng-show="vm.itemsPerPage>=500">All Items per page</span>
                             <span class="caret"></span>
                         </button>
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
@@ -54,7 +55,6 @@
                                 <th><input st-search="project.projectName" placeholder="search..." class="input-sm form-control" type="search" /></th>
                                 <th>&nbsp;</th>
                                 <th>&nbsp;</th>
-
                             </tr>
                         </thead>
                         <tbody ng-show="!vm.isLoading">

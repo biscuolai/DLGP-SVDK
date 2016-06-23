@@ -289,6 +289,7 @@ namespace TestApp.Migrations
                     EventBy = table.Column<string>(nullable: false),
                     EventDate = table.Column<DateTimeOffset>(nullable: false),
                     EventDescription = table.Column<string>(nullable: true),
+                    EventType = table.Column<string>(nullable: true),
                     TicketId = table.Column<int>(nullable: false),
                     Version = table.Column<byte[]>(type: "timestamp", nullable: true)
                 },

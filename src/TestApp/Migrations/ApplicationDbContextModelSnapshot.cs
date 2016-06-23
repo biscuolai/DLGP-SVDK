@@ -217,6 +217,8 @@ namespace TestApp.Migrations
                     b.Property<string>("EventDescription")
                         .HasAnnotation("MaxLength", 500);
 
+                    b.Property<string>("EventType");
+
                     b.Property<int>("TicketId");
 
                     b.Property<byte[]>("Version")

@@ -56,13 +56,13 @@
 
                     <div class="col-md-3">
                         <label for="AssignedTo">Assigned To:</label>
-                        <select name="AssignedTo" id="AssignedTo" class="form-control" required
+                        <select name="AssignedTo" id="AssignedTo" class="form-control" 
                                 ng-options="option.userName for option in Users.availableOptions track by option.id"
                                 ng-model="Users.selectedOption"
                                 ng-selected="Ticket.assignedTo" ng-change="Ticket.assignedTo = Users.selectedOption.id">
                             <option value="">-- Select a Assigned To --</option>
                         </select>
-                        <span class="label label-danger" ng-show="form.AssignedTo.$dirty && form.AssignedTo.$error.required" class="help-block">Assigned To is required !</span>
+                        <!--<span class="label label-danger" ng-show="form.AssignedTo.$dirty && form.AssignedTo.$error.required" class="help-block">Assigned To is required !</span>-->
                     </div>
                 </div>
             </div>

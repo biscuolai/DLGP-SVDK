@@ -23,6 +23,8 @@ namespace DLGP_SVDK.Model.Domain.Entities
 
         public string Comment { get; set; }
 
+        public string EventType { get; set; }
+
         [Required(ErrorMessageResourceName = "FieldRequired")]
         [StringLength(256, ErrorMessageResourceName = "FieldMaximumLength")]
         public string EventBy { get; set; }

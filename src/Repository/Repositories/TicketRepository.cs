@@ -27,6 +27,7 @@ namespace DLGP_SVDK.Repository.Repositories
                 .Include(c => c.ContactType)
                 .Include(c => c.Priority)
                 .Include(c => c.Category)
+                .Include(c => c.Subscribers)
                 .First(x => x.TicketId == id);
         }
 
@@ -75,6 +76,22 @@ namespace DLGP_SVDK.Repository.Repositories
                 .Skip((pageIndex - 1) * pageSize)
                 .Take(pageSize)
                 .ToList();
+        }
+
+        public void EnsureSubscribers(Ticket ticket)
+        {
+            EnsureSubscriber(ticket.TicketId, ticket.Owner);
+            EnsureSubscriber(ticket.TicketId, ticket.AssignedTo);
+            EnsureSubscriber(ticket.TicketId, ticket.PreviousOwner);
+            EnsureSubscriber(ticket.TicketId, ticket.PreviousAssignedUser);
+        }
+
+        public void EnsureSubscriber(int id, string user)
+        {
+            if (user != null && !ApplicationContext.TicketSubscribers.Any(s => s.SubscriberId == user))
+            {
+                ApplicationContext.TicketSubscribers.Add(new TicketSubscriber() { SubscriberId = user, TicketId = id });
+            }
         }
 
         public ApplicationDbContext ApplicationContext

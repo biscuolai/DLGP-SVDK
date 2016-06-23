@@ -45,6 +45,7 @@ namespace DLGP_SVDK.Repository.Repositories
                 Comment = comment,
                 EventBy = eventByUserId,
                 EventDate = DateTime.Now,
+                EventType = activity.ToString(),
                 EventDescription = GetTicketEventDescription(activity, newPriority, userName, newStatus)
             };
             return tc;
@@ -73,6 +74,9 @@ namespace DLGP_SVDK.Repository.Repositories
                     break;
                 case TicketActivity.CancelMoreInfo:
                     val = "has cancelled the request for more information";
+                    break;
+                case TicketActivity.Cancel:
+                    val = "has cancelled the ticket";
                     break;
                 case TicketActivity.RequestMoreInfo:
                     val = "has requested more information";
@@ -139,6 +143,39 @@ namespace DLGP_SVDK.Repository.Repositories
                 val += string.Format(sval, newStatus);
             }
             return val;
+        }
+
+        /// <summary>
+        /// Creates the event notifications for each ticket subscriber and adds them to the TicketEventNotifications collection.
+        /// </summary>
+        public void CreateSubscriberEventNotifications(TicketEvent ticketEvent)
+        {
+            foreach (var subscriber in ticketEvent.Ticket.Subscribers)
+            {
+                var isSubscriberEvent = ticketEvent.EventBy == subscriber.SubscriberId;
+
+                ApplicationContext.TicketEventNotifications.Add(
+                    new TicketEventNotification
+                    {
+                        EventId = ticketEvent.EventId,
+                        TicketId = ticketEvent.TicketId,
+                        IsNew = !isSubscriberEvent,
+                        IsRead = isSubscriberEvent,
+                        SubscriberId = subscriber.SubscriberId,
+                    });
+
+            }
+        }
+
+        public int GetId(TicketEvent ticketEvent)
+        {
+            return ApplicationContext.Entry(ticketEvent).Entity.EventId;
+        }
+
+        public TicketEvent Reload(int id)
+        {
+            return ApplicationContext.TicketEvents
+                .First(x => x.EventId == id);
         }
 
         public ApplicationDbContext ApplicationContext

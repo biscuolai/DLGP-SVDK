@@ -148,22 +148,16 @@ namespace DLGP_SVDK.Model.Domain.Entities
         public virtual ICollection<TicketSubscriber> Subscribers { get; set; }
 
         [NotMapped]
-        internal string PreviousOwner { get; set; }
+        public string PreviousOwner { get; set; }
 
         [NotMapped]
-        internal string PreviousAssignedUser { get; set; }
+        public string PreviousAssignedUser { get; set; }
 
 
         [NotMapped]
         public bool IsAssigned
         {
             get { return !string.IsNullOrEmpty(AssignedTo); }
-        }
-
-        [NotMapped]
-        public bool IsOpen
-        {
-            get { return ((Status != null) && (Status.Name != "Resolved") && (Status.Name != "Closed")); }
         }
 
         public void EnsureSubscribers()
@@ -180,85 +174,6 @@ namespace DLGP_SVDK.Model.Domain.Entities
             {
                 Subscribers.Add(new TicketSubscriber() { SubscriberId = user });
             }
-        }
-
-        public TicketActivity GetAvailableActivites(string userId)
-        {
-            var isOwnedByMe = (Owner == userId);
-            var isMoreInfo = (Status.Name == "Pending - Request For Information");
-            var isAssignedToMe = (!string.IsNullOrEmpty(AssignedTo) && AssignedTo == userId);
-            var isResolved = Status.Name == "Resolved";
-
-            var validActivities = TicketActivity.None;
-
-            if (TicketId == default(int))
-            {
-                validActivities |= TicketActivity.Create | TicketActivity.CreateOnBehalfOf;
-            }
-
-            if (IsOpen)
-            {
-                validActivities |= TicketActivity.ModifyAttachments;
-            }
-
-            if (IsOpen)
-            {
-                if (isOwnedByMe || isAssignedToMe)
-                {
-                    validActivities |= TicketActivity.EditTicketInfo;
-                }
-                if (isMoreInfo)
-                {
-                    validActivities |= TicketActivity.SupplyMoreInfo;
-                    if (isAssignedToMe)
-                    {
-                        validActivities |= TicketActivity.CancelMoreInfo;
-                    }
-                }
-                else //!moreInfo
-                {
-                    validActivities |= TicketActivity.AddComment;
-                    if (isAssignedToMe)
-                    {
-                        validActivities |= TicketActivity.Resolve | TicketActivity.RequestMoreInfo;
-                    }
-                }
-            }
-            else //not open (resolved or closed)
-            {
-                validActivities |= TicketActivity.ReOpen;
-            }
-            if (isResolved)
-            {
-                if (isOwnedByMe)
-                {
-                    validActivities |= TicketActivity.Close;
-                }
-            }
-            if (IsOpen || isResolved)
-            {
-                if (IsAssigned)
-                {
-                    if (!isAssignedToMe)
-                    {
-                        validActivities |= TicketActivity.ReAssign;
-                    }
-                }
-                else//!assigned
-                {
-                    validActivities |= TicketActivity.Assign;
-                }
-
-                if (isAssignedToMe)
-                {
-                    validActivities |= TicketActivity.Pass | TicketActivity.GiveUp;
-                }
-                else//!isAssignedToMe
-                {
-                    validActivities |= TicketActivity.TakeOver;
-                }
-            }
-            return validActivities;
         }
 
         /// <summary>

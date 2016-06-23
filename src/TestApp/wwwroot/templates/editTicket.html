@@ -12,7 +12,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="row" style="margin-top:20px;">
-                                <div class="col-md-12">
+                                <div class="col-md-12" ng-hide="isCancelled">
                                     <div class="row">
                                         <div class="col-md-12">
                                             <button class="btn btn-primary" ng-click="edit()">Edit Ticket</button>
@@ -20,7 +20,7 @@
                                             <button class="btn btn-primary" ng-click="moreInfo('S')" ng-show="isMoreInfo">Supply More Information</button>
                                             <button class="btn btn-primary" ng-click="moreInfo('R')" ng-hide="isMoreInfo">Request More Information</button>
                                             <button class="btn btn-primary" ng-click="moreInfo('C')" ng-show="isMoreInfo">Cancel More Information</button>
-                                            <button class="btn btn-primary" ng-click="editAttachments()">Edit Attachments</button>
+                                            <button class="btn btn-primary" ng-click="editAttachments()" >Edit Attachments</button>
                                         </div>
                                     </div>
                                 </div>
@@ -42,7 +42,7 @@
                             <div class="col-md-3 alert alert-info" style="max-width:360px">
                                 <strong>Priority:</strong> {{ Priority.selectedOption.name }} <br />
                                 <strong>Status:</strong> {{ TicketStatus.selectedOption.name }} <br />
-                                <strong>Assigned To:</strong> {{ Users.selectedOption.userName }}<br />
+                                <strong>Assigned To:</strong> {{ Users.selectedOption.userName }} <span class="label label-warning" ng-show="!Users.selectedOption.userName">Unassigned</span> <br />
                                 <strong>Owned By:</strong> {{ Ticket.owner }}<br />
                                 <strong>Updated By:</strong> {{ Ticket.lastUpdateBy }}<br />
                                 <strong>Updated Date:</strong> {{ Ticket.lastUpdateDate | date:'dd/MM/yyyy HH:mm:ss'}}<br />
@@ -55,22 +55,52 @@
                                 <div class="col-md-12">
                                     <div class="row">
                                         <div class="col-md-12">
-                                            <button class="btn btn-primary" ng-click="addComment()">Add Comment</button>
+                                            <button class="btn btn-primary" ng-click="addComment()" ng-hide="isCancelled">Add Comment</button>
                                             <button class="btn btn-success" ng-click="back()">Back</button>
                                         </div>
                                     </div>
-                                    <div class="row" ng-hide="isEditing || isAssigning || isRequestInfo || isSupplyInfo || isCancelInfo || isAddingComment">
+                                    <div class="row" ng-hide="isEditing || isAssigning || isRequestInfo || isSupplyInfo || isCancelInfo || isAddingComment || Events.length == 1">
                                         <div class="col-md-12">
                                             <div class="panel panel-primary">
                                                 <div class="panel-heading">Activity</div>
                                                 <div class="panel-body">
-                                                    <div class="panel panel-info" ng-repeat="event in Events" ng-show="event.eventDescription.indexOf('created') !== 0">
-                                                        <div class="panel-heading panel-title" style="padding: 3px 5px;" >
-                                                            <strong>{{event.eventBy}}</strong> {{event.eventDescription}} <br />
-                                                            <span class="text-muted small">{{event.eventDate | date:'dd/MM/yyyy HH:mm:ss'}}</span>
+                                                    <!--Loop through all Ticket events-->
+                                                    <div ng-repeat="event in Events" ng-show="event.eventType !== 'Create'">
+                                                        <!--if ticket has been resolved, color is blue-->
+                                                        <div ng-if="event.eventType == 'Resolve'">
+                                                            <div class="panel panel-info">
+                                                                <div class="panel-heading panel-title" style="padding: 3px 5px;">
+                                                                    <strong>{{event.eventBy | uppercase }}</strong> {{event.eventDescription}} <br />
+                                                                    <span class="text-muted small" ng-style="{'margin-left':'50px'}"><strong>Date:</strong> {{event.eventDate | date:'dd/MM/yyyy HH:mm:ss'}}</span>
+                                                                </div>
+                                                                <div id="eventPanel" class="panel-body" ng-hide="{{!event.comment}}">
+                                                                    <pre>{{event.comment}}</pre>
+                                                                </div>
+                                                            </div>
                                                         </div>
-                                                        <div id="eventPanel" class="panel-body" ng-hide="{{!event.comment}}">
-                                                            <pre>{{event.comment}}</pre> 
+                                                        <!--if ticket has been cancelled, color is red-->
+                                                        <div ng-if="event.eventType == 'Cancel'">
+                                                            <div class="panel panel-danger">
+                                                                <div class="panel-heading panel-title" style="padding: 3px 5px;">
+                                                                    <strong>{{event.eventBy | uppercase }}</strong> {{event.eventDescription}} <br />
+                                                                    <span class="text-muted small" ng-style="{'margin-left':'50px'}"><strong>Date:</strong> {{event.eventDate | date:'dd/MM/yyyy HH:mm:ss'}}</span>
+                                                                </div>
+                                                                <div id="eventPanel" class="panel-body" ng-hide="{{!event.comment}}">
+                                                                    <pre>{{event.comment}}</pre>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <!-- Otherwise all comments are in yellow -->
+                                                        <div ng-if="event.eventType !== 'Resolve' && event.eventType !== 'Cancel' && event.eventType !== 'Create'">
+                                                            <div class="panel panel-warning">
+                                                                <div class="panel-heading panel-title" style="padding: 3px 5px;">
+                                                                    <strong>{{event.eventBy | uppercase }}</strong> {{event.eventDescription}} <br />
+                                                                    <span class="text-muted small" ng-style="{'margin-left':'50px'}"><strong>Date:</strong> {{event.eventDate | date:'dd/MM/yyyy HH:mm:ss'}}</span>
+                                                                </div>
+                                                                <div id="eventPanel" class="panel-body" ng-hide="{{!event.comment}}">
+                                                                    <pre>{{event.comment}}</pre>
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -116,7 +146,7 @@
                         <div class="col-md-12">
                             <div class="row">
                                 <div class="col-md-12">
-                                    <label for="details">{{commentLabel}} Comment</label>
+                                    <label for="comments">{{commentLabel}} Comment</label>
                                     <textarea ng-model="Ticket.comments" class="form-control" id="comments" name="comments" cols="10" rows="5" required
                                               placeholder="Please enter comments here"></textarea>
                                     <span class="label label-danger" ng-show="form.comments.$dirty && form.comments.$error.required" class="help-block">Comment is required !</span>
@@ -180,7 +210,7 @@
                                         <select name="TicketStatus" id="TicketStatus" class="form-control" required ng-readonly="!isEditing"
                                                 ng-options="option.name for option in TicketStatus.availableOptions track by option.ticketStatusId"
                                                 ng-model="TicketStatus.selectedOption"
-                                                ng-selected="Ticket.ticketStatusId" ng-change="Ticket.ticketStatus = TicketStatus.selectedOption.ticketStatusId">
+                                                ng-selected="Ticket.ticketStatusId" ng-change="updateStatusComment()">
                                             <option value="">-- Select a Ticket Status --</option>
                                         </select>
                                         <span class="label label-danger" ng-show="form.TicketStatus.$dirty && form.TicketStatus.$error.required" class="help-block">Ticket Status is required !</span>
@@ -252,24 +282,64 @@
                     </div>
                 </form>
             </uib-tab>
+            <!--Historial information-->
             <uib-tab index="1" heading="History" title="Historical information of the ticket">
-                <div class="panel panel-default">
+                <div class="panel panel-primary">
                     <div class="panel-heading">Activity</div>
                     <div class="panel-body">
-                        <div class="panel panel-info" ng-repeat="event in Events">
-                            <div class="panel-heading panel-title" style="padding: 3px 5px;">
-                                <strong>{{event.eventBy}}</strong> {{event.eventDescription}} <br />
-                                <span class="text-muted small">{{event.eventDate | date:'dd/MM/yyyy HH:mm:ss'}}</span>
+                        <!--Loop through all Ticket events-->
+                        <div ng-repeat="event in Events">
+                            <!--if ticket has been resolved, color is blue-->
+                            <div ng-if="event.eventType == 'Resolve'">
+                                <div class="panel panel-info">
+                                    <div class="panel-heading panel-title" style="padding: 3px 5px;">
+                                        <strong>{{event.eventBy | uppercase }}</strong> {{event.eventDescription}} <br />
+                                        <span class="text-muted small" ng-style="{'margin-left':'50px'}"><strong>Date:</strong> {{event.eventDate | date:'dd/MM/yyyy HH:mm:ss'}}</span>
+                                    </div>
+                                    <div id="eventPanel" class="panel-body" ng-hide="{{!event.comment}}">
+                                        <pre>{{event.comment}}</pre>
+                                    </div>
+                                </div>
                             </div>
-                            <div id="eventPanel" class="panel-body" ng-hide="{{!event.comment}}">
-                                <strong>Comments:</strong> {{event.comment}}
+                            <!--if ticket has been cancelled, color is red-->
+                            <div ng-if="event.eventType == 'Cancel'">
+                                <div class="panel panel-danger">
+                                    <div class="panel-heading panel-title" style="padding: 3px 5px;">
+                                        <strong>{{event.eventBy | uppercase }}</strong> {{event.eventDescription}} <br />
+                                        <span class="text-muted small" ng-style="{'margin-left':'50px'}"><strong>Date:</strong> {{event.eventDate | date:'dd/MM/yyyy HH:mm:ss'}}</span>
+                                    </div>
+                                    <div id="eventPanel" class="panel-body" ng-hide="{{!event.comment}}">
+                                        <pre>{{event.comment}}</pre>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--If ticket has been created, color is green-->
+                            <div ng-if="event.eventType == 'Create'">
+                                <div class="panel panel-success">
+                                    <div class="panel-heading panel-title" style="padding: 3px 5px;">
+                                        <strong>{{event.eventBy | uppercase }}</strong> {{event.eventDescription}} <br />
+                                        <span class="text-muted small" ng-style="{'margin-left':'50px'}"><strong>Date:</strong> {{event.eventDate | date:'dd/MM/yyyy HH:mm:ss'}}</span>
+                                    </div>
+                                    <div id="eventPanel" class="panel-body" ng-hide="{{!event.comment}}">
+                                        <pre>{{event.comment}}</pre>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Otherwise all comments are in yellow -->
+                            <div ng-if="event.eventType !== 'Resolve' && event.eventType !== 'Cancel' && event.eventType !== 'Create'">
+                                <div class="panel panel-warning">
+                                    <div class="panel-heading panel-title" style="padding: 3px 5px;">
+                                        <strong>{{event.eventBy | uppercase }}</strong> {{event.eventDescription}} <br />
+                                        <span class="text-muted small" ng-style="{'margin-left':'50px'}"><strong>Date:</strong> {{event.eventDate | date:'dd/MM/yyyy HH:mm:ss'}}</span>
+                                    </div>
+                                    <div id="eventPanel" class="panel-body" ng-hide="{{!event.comment}}">
+                                        <pre>{{event.comment}}</pre>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </uib-tab>
-            <uib-tab index="2" heading="Resolution" title="Resolution information of the ticket">
-                Resolution
             </uib-tab>
         </uib-tabset>
     </div>

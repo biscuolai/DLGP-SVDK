@@ -8,7 +8,7 @@ using DLGP_SVDK.Models;
 namespace TestApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20160618022108_InitialDB")]
+    [Migration("20160623031032_InitialDB")]
     partial class InitialDB
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -217,6 +217,8 @@ namespace TestApp.Migrations
 
                     b.Property<string>("EventDescription")
                         .HasAnnotation("MaxLength", 500);
+
+                    b.Property<string>("EventType");
 
                     b.Property<int>("TicketId");
 
