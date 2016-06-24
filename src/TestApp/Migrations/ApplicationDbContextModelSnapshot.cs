@@ -246,6 +246,8 @@ namespace TestApp.Migrations
 
                     b.Property<int>("TicketId");
 
+                    b.Property<int?>("TicketSubscriberId");
+
                     b.Property<byte[]>("Version")
                         .IsConcurrencyToken()
                         .ValueGeneratedOnAddOrUpdate()
@@ -289,12 +291,15 @@ namespace TestApp.Migrations
 
             modelBuilder.Entity("DLGP_SVDK.Model.Domain.Entities.TicketSubscriber", b =>
                 {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
                     b.Property<string>("SubscriberId")
                         .HasAnnotation("MaxLength", 256);
 
                     b.Property<int>("TicketId");
 
-                    b.HasKey("SubscriberId");
+                    b.HasKey("Id");
                 });
 
             modelBuilder.Entity("DLGP_SVDK.Model.Domain.Entities.TicketTag", b =>
@@ -435,7 +440,7 @@ namespace TestApp.Migrations
 
                     b.HasOne("DLGP_SVDK.Model.Domain.Entities.TicketSubscriber")
                         .WithMany()
-                        .HasForeignKey("SubscriberId");
+                        .HasForeignKey("TicketSubscriberId");
                 });
 
             modelBuilder.Entity("DLGP_SVDK.Model.Domain.Entities.TicketSubscriber", b =>

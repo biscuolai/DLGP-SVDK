@@ -153,29 +153,6 @@ namespace DLGP_SVDK.Model.Domain.Entities
         [NotMapped]
         public string PreviousAssignedUser { get; set; }
 
-
-        [NotMapped]
-        public bool IsAssigned
-        {
-            get { return !string.IsNullOrEmpty(AssignedTo); }
-        }
-
-        public void EnsureSubscribers()
-        {
-            EnsureSubscriber(Owner);
-            EnsureSubscriber(AssignedTo);
-            EnsureSubscriber(PreviousOwner);
-            EnsureSubscriber(PreviousAssignedUser);
-        }
-
-        private void EnsureSubscriber(string user)
-        {
-            if (user != null && Subscribers.All(s => s.SubscriberId != user))
-            {
-                Subscribers.Add(new TicketSubscriber() { SubscriberId = user });
-            }
-        }
-
         /// <summary>
         /// Performs an activity function on the ticket.
         /// </summary>

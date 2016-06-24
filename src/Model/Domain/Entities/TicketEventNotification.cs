@@ -14,6 +14,7 @@ namespace DLGP_SVDK.Model.Domain.Entities
 
         [Key]
         public int Id { get; set; }
+
         public int TicketId { get; set; }
 
         public int EventId { get; set; }
@@ -75,7 +76,5 @@ namespace DLGP_SVDK.Model.Domain.Entities
         public virtual TicketEvent TicketEvent { get; set; }
 
         public virtual TicketSubscriber TicketSubscriber { get; set; }
-
-
     }
 }

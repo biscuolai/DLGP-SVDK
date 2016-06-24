@@ -32,23 +32,58 @@
 
             this.displayed = [];
 
-            this.callServer = function callServer(tableState) {
+            this.pipeFunction = function (tableState, varCtrl) {
 
-                ctrl.isLoading = true;
+                
 
-                ctrl.query = '';
+                if (!ctrl.stCtrl && varCtrl) {
+                    ctrl.stCtrl = varCtrl;
+                }
+
+                if (!tableState && ctrl.stCtrl) {
+                    //ctrl.stCtrl.pipe();
+                    return;
+                }
 
                 var pagination = tableState.pagination;
 
                 var start = pagination.start || 0;                      // This is NOT the page number, but the index of item in the list that you want to use to display the table.
                 var number = pagination.number || ctrl.itemsPerPage;    // Number of entries showed per page.
 
+
+
+                //tableState.start = tablestate.pagination.start || 0;
+                //tableState.number = tablestate.pagination.number || ctrl.itemsPerPage;
+
+                ctrl.isLoading = true;
+
+                ctrl.query = '';
+
+                // get data
                 Resource.getPage(start, number, tableState).then(function (result) {
                     ctrl.displayed = result.data;
                     tableState.pagination.numberOfPages = result.numberOfPages; //set the number of pages so the pagination can update
                     ctrl.isLoading = false;
                 });
-            };
+            }
+
+            //this.callServer = function callServer(tableState) {
+
+            //    ctrl.isLoading = true;
+
+            //    ctrl.query = '';
+
+            //    var pagination = tableState.pagination;
+
+            //    var start = pagination.start || 0;                      // This is NOT the page number, but the index of item in the list that you want to use to display the table.
+            //    var number = pagination.number || ctrl.itemsPerPage;    // Number of entries showed per page.
+
+            //    Resource.getPage(start, number, tableState).then(function (result) {
+            //        ctrl.displayed = result.data;
+            //        tableState.pagination.numberOfPages = result.numberOfPages; //set the number of pages so the pagination can update
+            //        ctrl.isLoading = false;
+            //    });
+            //};
 
             this.submitSearch = function (query) {
                 // place ajax http code here
@@ -99,8 +134,13 @@
                 }
             }
 
-            // show all tickets, set 25 items per page as default.
-            ctrl.selectedItem = 'All Tickets';
-            //this.showTicketList(0);
+            ctrl.initFirst = function () {
+                // load data for first time
+                this.pipeFunction(null, ctrl);
+
+                // show all tickets, set 25 items per page as default.
+                ctrl.selectedItem = 'All Tickets';
+                this.showTicketList(0, 25);
+            }
         }])
 })();

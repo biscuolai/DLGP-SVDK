@@ -4,7 +4,7 @@
     </div>
 </div>
 
-<div class="col-md-12" ng-controller="ticketController">
+<div class="col-md-12" ng-controller="ticketController" ng-init="initFirst()">
     <div class="row">
         <uib-tabset active="activeForm">
             <uib-tab index="0" heading="Ticket Information" title="Detailed information of the ticket">
@@ -59,8 +59,8 @@
                                             <button class="btn btn-success" ng-click="back()">Back</button>
                                         </div>
                                     </div>
-                                    <div class="row" ng-hide="isEditing || isAssigning || isRequestInfo || isSupplyInfo || isCancelInfo || isAddingComment || Events.length == 1">
-                                        <div class="col-md-12">
+                                    <div class="row" ng-hide="isEditing || isAssigning || isRequestInfo || isSupplyInfo || isCancelInfo || isAddingComment || Events.length > 0">
+                                        <div class="col-md-12" ng-show="Events.length > 0">
                                             <div class="panel panel-primary">
                                                 <div class="panel-heading">Activity</div>
                                                 <div class="panel-body">
@@ -118,11 +118,11 @@
                         <div class="col-md-12" ng-show="isAssigning">
                             <div class="col-md-3" ng-show="isAssigning">
                                 <label for="PassTo">Assigned To:</label>
-                                <select name="PassTo" id="PassTo" class="form-control" required
+                                <select name="PassTo" id="PassTo" class="form-control" 
                                         ng-options="option.userName for option in Users.availableOptions track by option.id"
                                         ng-model="Users.selectedOption"
                                         ng-selected="Ticket.assignedTo" ng-change="Ticket.assignedTo = Users.selectedOption.id"></select>
-                                <span class="label label-danger" ng-show="form.PassTo.$dirty && form.PassTo.$error.required" class="help-block">Assigned To is required !</span>
+                                <!--<span class="label label-danger" ng-show="form.PassTo.$dirty && form.PassTo.$error.required" class="help-block">Assigned To is required !</span>-->
                             </div>
                             <div class="col-md-3" ng-show="isAssigning || isEditing">
                                 <label for="newpriority">Priority:</label>
@@ -132,7 +132,7 @@
                                         ng-selected="Ticket.priorityId" ng-change="Ticket.priority = Priority.selectedOption.priorityId"></select>
                                 <span class="label label-danger" ng-show="form.newpriority.$dirty && form.newpriority.$error.required" class="help-block">Priority is required !</span>
                             </div>
-                            <div class="col-md-3" ng-show="isAssigning || isEditing">
+                            <div class="col-md-3" ng-show="isEditing">
                                 <label for="newStatus">Ticket Status:</label>
                                 <select name="newStatus" id="newStatus" class="form-control" required
                                         ng-options="option.name for option in TicketStatus.availableOptions track by option.ticketStatusId"
@@ -284,7 +284,7 @@
             </uib-tab>
             <!--Historial information-->
             <uib-tab index="1" heading="History" title="Historical information of the ticket">
-                <div class="panel panel-primary">
+                <div class="panel panel-primary" ng-show="Events.length > 0">
                     <div class="panel-heading">Activity</div>
                     <div class="panel-body">
                         <!--Loop through all Ticket events-->

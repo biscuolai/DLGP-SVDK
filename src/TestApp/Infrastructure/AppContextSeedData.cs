@@ -47,8 +47,8 @@ namespace DLGP_SVDK.Infrastructure
                     var newUser = new ApplicationUser()
                     {
                         UserName = "biscuolai",
-                        Email = "ilson_biscuola@dialog.com.au"
-                        //DisplayName = "Ilson Biscuola"
+                        Email = "ilson_biscuola@dialog.com.au",
+                        EmailConfirmed = true                        
                     };
 
                     await _userManager.CreateAsync(newUser, "Password0!");
@@ -62,7 +62,7 @@ namespace DLGP_SVDK.Infrastructure
                     {
                         UserName = "admin",
                         Email = "admin@dialog.com.au",
-                        //DisplayName = "Admin User"
+                        EmailConfirmed = true
                     };
 
                     await _userManager.CreateAsync(newAdmin, "Password0!");
@@ -76,7 +76,7 @@ namespace DLGP_SVDK.Infrastructure
                     {
                         UserName = "Operator",
                         Email = "helpdesk@dialog.com.au",
-                        //DisplayName = "Operator"
+                        EmailConfirmed = true
                     };
 
                     await _userManager.CreateAsync(newOperator, "Password0!");
@@ -192,12 +192,12 @@ namespace DLGP_SVDK.Infrastructure
                             Details = "User abc called and said that the system xyz is down since 01/01/2016",
                             PriorityId = 3,
                             TicketStatusId = 1,
-                            Owner = "ilson_biscuola@dialog.com.au",
+                            Owner = "biscuolai",
                             AssignedTo = "biscuolai",
-                            CreatedBy = "System",
+                            CreatedBy = "biscuolai",
                             CreatedDate = DateTimeOffset.Now,
                             CurrentStatusDate = DateTimeOffset.Now,
-                            LastUpdateBy = "Oliver Fehr",
+                            LastUpdateBy = "biscuolai",
                             LastUpdateDate = DateTimeOffset.Now,
                             CurrentStatusSetBy = "biscuolai"
                         } };
@@ -207,38 +207,6 @@ namespace DLGP_SVDK.Infrastructure
                     // save changes
                     _context.SaveChanges();
                 }
-
-                // Add LookupValue data
-                //if (!_context.LookupValues.Any())
-                //{
-                //    List<LookupValue> LV = new List<LookupValue>()
-                //    {
-                //        new LookupValue() { Active = true, LookupType = LookupValueType.Category, Order = 0, Value = "Bug" },
-                //        new LookupValue() { Active = true, LookupType = LookupValueType.Category, Order = 1, Value = "Enhancement" },
-                //        new LookupValue() { Active = true, LookupType = LookupValueType.Category, Order = 2, Value = "Request For Information" },
-                //        new LookupValue() { Active = true, LookupType = LookupValueType.ConfigurationItem, Order = 0, Value = "Service Desk" },
-                //        new LookupValue() { Active = true, LookupType = LookupValueType.ConfigurationItem, Order = 1, Value = "VRAT" },
-                //        new LookupValue() { Active = true, LookupType = LookupValueType.ContactType, Order = 0, Value = "Portal" },
-                //        new LookupValue() { Active = true, LookupType = LookupValueType.ContactType, Order = 1, Value = "Email" },
-                //        new LookupValue() { Active = true, LookupType = LookupValueType.ContactType, Order = 2, Value = "Phone" },
-                //        new LookupValue() { Active = true, LookupType = LookupValueType.Priority, Order = 0, Value = "1 - Critical" },
-                //        new LookupValue() { Active = true, LookupType = LookupValueType.Priority, Order = 1, Value = "2 - High" },
-                //        new LookupValue() { Active = true, LookupType = LookupValueType.Priority, Order = 2, Value = "3 - Medium" },
-                //        new LookupValue() { Active = true, LookupType = LookupValueType.Priority, Order = 3, Value = "4 - Low" },
-                //        new LookupValue() { Active = true, LookupType = LookupValueType.TicketStatus, Order = 0, Value = "New" },
-                //        new LookupValue() { Active = true, LookupType = LookupValueType.TicketStatus, Order = 1, Value = "Open" },
-                //        new LookupValue() { Active = true, LookupType = LookupValueType.TicketStatus, Order = 2, Value = "Pending - Request for Information" },
-                //        new LookupValue() { Active = true, LookupType = LookupValueType.TicketStatus, Order = 3, Value = "Pending - On Hold" },
-                //        new LookupValue() { Active = true, LookupType = LookupValueType.TicketStatus, Order = 4, Value = "Resolved" },
-                //        new LookupValue() { Active = true, LookupType = LookupValueType.TicketStatus, Order = 5, Value = "Cancelled" },
-                //        new LookupValue() { Active = true, LookupType = LookupValueType.TicketStatus, Order = 6, Value = "Closed" }
-                //    };
-
-                //    _context.LookupValues.AddRange(LV);
-
-                //    // save changes
-                //    _context.SaveChanges();
-                //}
             }
             catch (Exception ex)
             {

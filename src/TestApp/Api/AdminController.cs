@@ -30,17 +30,22 @@ namespace DLGP_SVDK.Web.Api
         [HttpGet("users")]
         public JsonResult GetUsers()
         {
-            var users = new UserProfile(_userManager, _roleManager);
-            var roles = users.GeAllRoles();
+            List<IdentityUser> allUsers = new List<IdentityUser>();
 
-            List<IdentityUser> allUsers = new List<IdentityUser>(); 
-
-            foreach (var role in roles)
+            try
             {
-                allUsers.AddRange(users.GetUsersInRole(new ApplicationDbContext(), role.Name).ToList());
-            }
+                var users = new UserProfile(_userManager, _roleManager);
+                var roles = users.GeAllRoles();
 
-            //var list = users.GetUsersInRole(new ApplicationDbContext(), "operator").ToList();
+                foreach (var role in roles)
+                {
+                    allUsers.Add(users.GetUsersInRole(new ApplicationDbContext(), role.Name).FirstOrDefault());
+                }
+            }
+            catch (System.Exception ex)
+            {
+                throw;
+            }
 
             return new JsonResult(new { data = allUsers, success = true });
         }

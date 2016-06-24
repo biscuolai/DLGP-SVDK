@@ -307,12 +307,14 @@ namespace TestApp.Migrations
                 name: "TicketSubscriber",
                 columns: table => new
                 {
-                    SubscriberId = table.Column<string>(nullable: false),
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    SubscriberId = table.Column<string>(nullable: true),
                     TicketId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TicketSubscriber", x => x.SubscriberId);
+                    table.PrimaryKey("PK_TicketSubscriber", x => x.Id);
                     table.ForeignKey(
                         name: "FK_TicketSubscriber_Ticket_TicketId",
                         column: x => x.TicketId,
@@ -350,6 +352,7 @@ namespace TestApp.Migrations
                     IsRead = table.Column<bool>(nullable: false),
                     SubscriberId = table.Column<string>(nullable: true),
                     TicketId = table.Column<int>(nullable: false),
+                    TicketSubscriberId = table.Column<int>(nullable: true),
                     Version = table.Column<byte[]>(type: "timestamp", nullable: true)
                 },
                 constraints: table =>
@@ -362,10 +365,10 @@ namespace TestApp.Migrations
                         principalColumn: "EventId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_TicketEventNotification_TicketSubscriber_SubscriberId",
-                        column: x => x.SubscriberId,
+                        name: "FK_TicketEventNotification_TicketSubscriber_TicketSubscriberId",
+                        column: x => x.TicketSubscriberId,
                         principalTable: "TicketSubscriber",
-                        principalColumn: "SubscriberId",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
             migrationBuilder.CreateIndex(

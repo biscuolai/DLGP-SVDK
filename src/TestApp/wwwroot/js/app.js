@@ -122,7 +122,9 @@
                            'ngCookies',
                            'ngMessages',
                            'chart.js',
-                           'smart-table']) //, 'ui.router', 'ngRoute', 'app.controllers', 'textAngular',  'ngMaterial'
+                           'smart-table',
+                           'fileUpload'
+    ]) //, 'ui.router', 'ngRoute', 'app.controllers', 'textAngular',  'ngMaterial'
     //.config(['$routeProvider', '$locationProvider', function ($routeProvider, $locationProvider) {
     //    $routeProvider
     //        .when('/login', {

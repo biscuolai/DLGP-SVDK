@@ -96,6 +96,11 @@
                     controller: 'resetPasswordController',
                     hideMenus: true
                 })
+                .state('attachments', {
+                    url: '/attachments',
+                    templateUrl: '../templates/attachments.html',
+                    controller: 'fileUploadController'
+                })
                 .state('app.error', {
                     url: '/error/:error',
                     templateUrl: '../templates/error.html',
