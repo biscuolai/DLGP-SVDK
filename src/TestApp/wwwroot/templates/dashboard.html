@@ -5,44 +5,66 @@
 </div>
 
 <div class="row" ng-controller="dashboardController">
-    <div class="col-lg-3 col-md-6 col-xs-12">
+    <div class="col-lg-4 col-md-6 col-xs-12">
         <app-widget>
             <app-widget-body>
                 <div class="widget-icon green pull-left">
-                    <i class="fa fa-users"></i>
+                    <i class="fa fa-bug"></i>
                 </div>
                 <div class="title">{{newTickets}}</div>
                 <div class="comment"><a href="#/requests?action=2">New Tickets</a></div>  <!--id = 2 is new tickets-->
             </app-widget-body>
         </app-widget>
     </div>
-    <div class="col-lg-3 col-md-6 col-xs-12">
+    <div class="col-lg-4 col-md-6 col-xs-12">
         <app-widget>
             <app-widget-body>
-                <div class="widget-icon blue pull-left">
-                    <i class="fa fa-tasks"></i>
+                <div class="widget-icon yellow pull-left">
+                    <i class="fa fa-user"></i>
                 </div>
                 <div class="title">{{openTickets}}</div>
                 <div class="comment"><a href="#/requests?action=3">Open Tickets</a></div>  <!--id = 3 is open tickets-->
             </app-widget-body>
         </app-widget>
     </div>
-    <div class="col-lg-3 col-md-6 col-xs-12">
+    <div class="col-lg-4 col-md-6 col-xs-12">
         <app-widget>
             <app-widget-body>
                 <div class="widget-icon orange pull-left">
-                    <i class="fa fa-sitemap"></i>
+                    <i class="fa fa-hourglass-half"></i>
                 </div>
                 <div class="title">{{pendingTickets}}</div>
                 <div class="comment"><a href="#/requests?action=4">Pending Tickets</a></div>  <!--id = 4 is pending tickets-->
             </app-widget-body>
         </app-widget>
     </div>
-    <div class="col-lg-3 col-md-6 col-xs-12">
+    <div class="col-lg-4 col-md-6 col-xs-12">
+        <app-widget>
+            <app-widget-body>
+                <div class="widget-icon blue pull-left">
+                    <i class="fa fa-thumbs-up"></i>
+                </div>
+                <div class="title">{{onHoldTickets}}</div>
+                <div class="comment"><a href="#/requests?action=5">Resolved Tickets</a></div>  <!--id = 5 is closed tickets-->
+            </app-widget-body>
+        </app-widget>
+    </div>
+    <div class="col-lg-4 col-md-6 col-xs-12">
         <app-widget>
             <app-widget-body>
                 <div class="widget-icon red pull-left">
-                    <i class="fa fa-support"></i>
+                    <i class="fa fa-trash-o"></i>
+                </div>
+                <div class="title">{{onHoldTickets}}</div>
+                <div class="comment"><a href="#/requests?action=5">Cancelled Tickets</a></div>  <!--id = 5 is closed tickets-->
+            </app-widget-body>
+        </app-widget>
+    </div>
+    <div class="col-lg-4 col-md-6 col-xs-12">
+        <app-widget>
+            <app-widget-body>
+                <div class="widget-icon grey pull-left">
+                    <i class="fa fa-check-square"></i>
                 </div>
                 <div class="title">{{onHoldTickets}}</div>
                 <div class="comment"><a href="#/requests?action=5">Closed Tickets</a></div>  <!--id = 5 is closed tickets-->
@@ -153,7 +175,7 @@
         <section id="reactive">
             <div class="row">
                 <div class="col-lg-6 col-xs-12">
-                    <div class="panel panel-default">
+                    <div class="panel panel-primary">
                         <div class="panel-heading">Ticket's Data</div>
                         <div class="panel-body">
                             <table class="table table-responsive table-condensed table-striped">
@@ -169,7 +191,7 @@
                     </div>
                 </div>
                 <div class="col-lg-6 col-xs-12">
-                    <div class="panel panel-default">
+                    <div class="panel panel-primary">
                         <div class="panel-heading">Trend over time chart - Monthly</div>
                         <div class="panel-body">
                             <canvas id="tables" class="chart chart-line" chart-data="data"

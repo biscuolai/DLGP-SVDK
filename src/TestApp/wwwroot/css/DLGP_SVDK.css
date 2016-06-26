@@ -269,11 +269,19 @@ body {
 }
 
 .orange {
-    background: #d3a938 !important;
+    background: #f69e07 !important;
 }
 
 .red {
     background: #ae2323 !important;
+}
+
+.yellow {
+    background: #ebe70f!important;
+}
+
+.grey {
+    background: #9d9797!important;
 }
 
 .form-group .help-block.form-group-inline-message {
@@ -413,12 +421,12 @@ ul.sidebar {
         }
 
 .widget {
-    -webkit-box-shadow: 0 1px 1px rgba(0,0,0,.05);
-    -moz-box-shadow: 0 1px 1px rgba(0,0,0,.05);
-    box-shadow: 0 1px 1px rgba(0,0,0,.05);
+    -webkit-box-shadow: 0 1px 1px rgba(0,0,0,.07);
+    -moz-box-shadow: 0 1px 1px rgba(0,0,0,.07);
+    box-shadow: 0 1px 1px rgba(0,0,0,.07);
     background: #fff;
     border: 1px solid transparent;
-    border-radius: 2px;
+    border-radius: 6px;
     border-color: #e9e9e9;
 }
 
@@ -430,7 +438,7 @@ ul.sidebar {
         color: #767676;
         background-color: #f6f6f6;
         padding: 10px 15px;
-        border-bottom: 1px solid #e9e9e9;
+        border-bottom: 1px solid #ddd;
         line-height: 30px;
     }
 
