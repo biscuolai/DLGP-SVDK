@@ -14,7 +14,7 @@
                 // query parameter existing and get Ticket by TicketId
                 $http.get('/api/tickets/' + $location.search().id).success(function (data) {
                     // success
-                    $scope.Ticket = data.data[0];
+                    $scope.Ticket = data.data;
                     $scope.originalTicket = angular.copy($scope.Ticket);
 
                     // Load all dropdownlists and set all values according this specific record

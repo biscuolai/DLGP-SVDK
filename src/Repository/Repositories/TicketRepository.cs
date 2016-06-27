@@ -43,13 +43,13 @@ namespace DLGP_SVDK.Repository.Repositories
                 .ToList();
         }
 
-        public IOrderedEnumerable<Ticket> GetAllTickets()
+        public IEnumerable<Ticket> GetAllTickets()
         {
             //var users = from user in ApplicationContext.Users
             //            where user.EmailConfirmed == true
             //            select user.UserName;
 
-            var allTickets = ApplicationContext.Tickets.Include(c => c.Project)
+            return ApplicationContext.Tickets.Include(c => c.Project)
                 .Include(c => c.ConfigurationItem)
                 .Include(c => c.Status)
                 .Include(c => c.ContactType)
@@ -58,8 +58,6 @@ namespace DLGP_SVDK.Repository.Repositories
                 //.Include(c => c.AssignedUser).Where(x => x.AssignedTo == x.AssignedUser.Id)
                 //.OrderByDescending(c => c.Priority)
                 .ToList();
-
-            return allTickets.OrderByDescending(c => c.Priority);
         }
 
         public Ticket GetTicket(int id)

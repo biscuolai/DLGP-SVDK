@@ -8,7 +8,7 @@ namespace DLGP_SVDK.Repository
     public interface ITicketRepository : IRepository<Ticket>
     {
         IEnumerable<Ticket> GetTopUrgentTickets(int count);
-        IOrderedEnumerable<Ticket> GetAllTickets();
+        IEnumerable<Ticket> GetAllTickets();
         Ticket GetTicket(int id);
         IEnumerable<Ticket> GetAllTicketsLimitedByPage(int pageIndex, int pageSize = 10);
         int GetId(Ticket ticket);

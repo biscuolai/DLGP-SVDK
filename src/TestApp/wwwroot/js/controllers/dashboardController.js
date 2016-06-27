@@ -17,6 +17,9 @@
         $scope.cancelledTickets = 0;
         $scope.closedTickets = 0;
         $scope.monthlyData = [];
+        $scope.labels = [];
+        $scope.data = [];
+        $scope.statuses = [];
 
         // clear all parameters from URL
         $location.search('');
@@ -42,6 +45,20 @@
                 //for (var s = 0; s < $scope.Dashboard.dashboardMonthlyData.length; s++) {
                 //    $scope.monthlyData.push($scope.Dashboard.dashboardMonthlyData);
                 //}
+
+                debugger;
+
+                try {
+                    for (var i = 0; i < $scope.monthlyData.length; i++) {
+                        $scope.labels.push($scope.monthlyData[i].month);
+                        $scope.data.push($scope.monthlyData[i].value);
+                        $scope.statuses.push($scope.monthlyData[i].status);
+                    }
+                } catch (e) {
+                    // show in alerts error message
+                    MessageService.clearAlert();
+                    MessageService.addAlert('An error has occured while loading dashboard data!', 'danger');
+                }
             })
             .error(function () {
                 // show in alerts error message
@@ -51,11 +68,12 @@
         }
 
 
-        $scope.labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
-        $scope.data = [
-          [65, 59, 80, 81, 56, 55, 40],
-          [28, 48, 40, 19, 86, 27, 90]
-        ];
+
+        //$scope.labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
+        //$scope.data = [
+        //  [65, 59, 80, 81, 56, 55, 40],
+        //  [28, 48, 40, 19, 86, 27, 90]
+        //];
         $scope.colours = [
           { // grey
               fillColor: 'rgba(148,159,177,0.2)',
