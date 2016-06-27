@@ -43,13 +43,13 @@ namespace DLGP_SVDK.Repository.Repositories
                 .ToList();
         }
 
-        public IEnumerable<Ticket> GetAllTickets()
+        public IOrderedEnumerable<Ticket> GetAllTickets()
         {
-            var users = from user in ApplicationContext.Users
-                        where user.EmailConfirmed == true
-                        select user.UserName;
+            //var users = from user in ApplicationContext.Users
+            //            where user.EmailConfirmed == true
+            //            select user.UserName;
 
-            return ApplicationContext.Tickets.Include(c => c.Project)
+            var allTickets = ApplicationContext.Tickets.Include(c => c.Project)
                 .Include(c => c.ConfigurationItem)
                 .Include(c => c.Status)
                 .Include(c => c.ContactType)
@@ -58,9 +58,11 @@ namespace DLGP_SVDK.Repository.Repositories
                 //.Include(c => c.AssignedUser).Where(x => x.AssignedTo == x.AssignedUser.Id)
                 //.OrderByDescending(c => c.Priority)
                 .ToList();
+
+            return allTickets.OrderByDescending(c => c.Priority);
         }
 
-        public IEnumerable<Ticket> GetTicket(int id)
+        public Ticket GetTicket(int id)
         {
             return ApplicationContext.Tickets.Include(c => c.Project)
                 .Include(c => c.ConfigurationItem)
@@ -69,8 +71,7 @@ namespace DLGP_SVDK.Repository.Repositories
                 .Include(c => c.Priority)
                 .Include(c => c.Category)
                 //.OrderByDescending(c => c.Priority)
-                .Where(c => c.TicketId == id)
-                .ToList();
+                .Where(c => c.TicketId == id).FirstOrDefault();
         }
 
         public IEnumerable<Ticket> GetAllTicketsLimitedByPage(int pageIndex, int pageSize = 10)

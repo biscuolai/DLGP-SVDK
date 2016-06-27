@@ -13,7 +13,10 @@
         $scope.openTickets = 0;
         $scope.onHoldTickets = 0;
         $scope.pendingTickets = 0;
+        $scope.resolvedTickets = 0;
+        $scope.cancelledTickets = 0;
         $scope.closedTickets = 0;
+        $scope.monthlyData = [];
 
         // clear all parameters from URL
         $location.search('');
@@ -28,7 +31,17 @@
                 $scope.openTickets = $scope.Dashboard.open;
                 $scope.onHoldTickets = $scope.Dashboard.onHold;
                 $scope.pendingTickets = $scope.Dashboard.pending;
+                $scope.resolvedTickets = $scope.Dashboard.resolved;
+                $scope.cancelledTickets = $scope.Dashboard.cancelled;
                 $scope.closedTickets = $scope.Dashboard.closed;
+                $scope.monthlyData.push($scope.Dashboard.dashboardMonthlyData);
+
+
+                //debugger;
+
+                //for (var s = 0; s < $scope.Dashboard.dashboardMonthlyData.length; s++) {
+                //    $scope.monthlyData.push($scope.Dashboard.dashboardMonthlyData);
+                //}
             })
             .error(function () {
                 // show in alerts error message
@@ -36,6 +49,7 @@
                 MessageService.addAlert('An error has occured while loading dashboard data!', 'danger');
             });
         }
+
 
         $scope.labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
         $scope.data = [

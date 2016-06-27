@@ -23,11 +23,18 @@ namespace DLGP_SVDK.Repository.Repositories
                 .GroupBy(x => x.TicketStatusId)
                 .Select(g => new { g.Key, Count = g.Count(), g.First().Status.Name });
 
-            // Group by month - created tickets - status equals to New - last 6 months data
-            var groupNewTickets = ApplicationContext.Tickets
+            // Group by month - created tickets - all statuses - last 6 months data
+            var groupAllTickets = ApplicationContext.Tickets
+                .Include(c => c.Status).ToList()
                 .Where(c => c.CreatedDate > DateTime.Now.AddMonths(-6))
-                .GroupBy(x => x.CreatedDate.Month)
-                .Select(g => new { g.Key, Count = g.Count(), g.First().CreatedDate.Year });
+                .GroupBy(x => new { x.Status.Name, x.CreatedDate.Month })
+                .Select(g => new {
+                    g.Key,
+                    Count = g.Count(),
+                    Status = g.First().Status.Name,
+                    g.First().CreatedDate.Month,
+                    g.First().CreatedDate.Year
+                });
 
             // loop to get the total for all new, open, pending and closed tickets
             foreach (var item in groupStatus)
@@ -44,9 +51,17 @@ namespace DLGP_SVDK.Repository.Repositories
                 {
                     summary.OnHold = item.Count;
                 }
-                else if (item.Name.Contains("Pending"))
+                else if (item.Name == "Pending - Request for Information")
                 {
                     summary.Pending = item.Count;
+                }
+                else if (item.Name == "Resolved")
+                {
+                    summary.Resolved = item.Count;
+                }
+                else if (item.Name == "Cancelled")
+                {
+                    summary.Cancelled = item.Count;
                 }
                 else if (item.Name == "Closed")
                 {
@@ -55,9 +70,10 @@ namespace DLGP_SVDK.Repository.Repositories
             }
 
             // loop to get the lotal for the last 6 months grouping by ticket status
-            foreach (var item in groupNewTickets)
+            foreach (var item in groupAllTickets)
             {
-                summary.DashboardMonthlyData.Month.Add(mfi.GetMonthName(item.Key).ToString() + @"/" + item.Year.ToString());
+                summary.DashboardMonthlyData.Status.Add(item.Status);
+                summary.DashboardMonthlyData.Month.Add(mfi.GetMonthName(item.Month).ToString() + @"/" + item.Year.ToString());
                 summary.DashboardMonthlyData.Value.Add(item.Count);
             }
 
