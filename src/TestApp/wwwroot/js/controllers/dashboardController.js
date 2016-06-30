@@ -17,9 +17,6 @@
         $scope.cancelledTickets = 0;
         $scope.closedTickets = 0;
         $scope.monthlyData = [];
-        $scope.labels = [];
-        $scope.data = [];
-        $scope.statuses = [];
 
         // clear all parameters from URL
         $location.search('');
@@ -39,20 +36,28 @@
                 $scope.closedTickets = $scope.Dashboard.closed;
                 $scope.monthlyData.push($scope.Dashboard.dashboardMonthlyData);
 
-
-                //debugger;
-
-                //for (var s = 0; s < $scope.Dashboard.dashboardMonthlyData.length; s++) {
-                //    $scope.monthlyData.push($scope.Dashboard.dashboardMonthlyData);
-                //}
-
-                debugger;
+                var month = '';
+                $scope.data = [];
+                $scope.series = [];
+                $scope.labels = [];
 
                 try {
-                    for (var i = 0; i < $scope.monthlyData.length; i++) {
-                        $scope.labels.push($scope.monthlyData[i].month);
-                        $scope.data.push($scope.monthlyData[i].value);
-                        $scope.statuses.push($scope.monthlyData[i].status);
+                    for (var i = 0; i < $scope.monthlyData[0].month.length; i++) {
+                        
+                        if (month !== $scope.monthlyData[0].month[i]) {
+                            $scope.labels.push($scope.monthlyData[0].month[i]);
+                        }
+
+                        // Creates an empty line
+                        $scope.data.push([]);
+                        // Adds cols to the empty line:
+                        $scope.data[i].push(new Array($scope.monthlyData[0].value[i].length));
+
+                        $scope.data[i][0] = $scope.monthlyData[0].value[i];
+
+                        $scope.series.push($scope.monthlyData[0].status[i]);
+
+                        month = $scope.monthlyData[0].month[i];
                     }
                 } catch (e) {
                     // show in alerts error message
@@ -67,13 +72,14 @@
             });
         }
 
-
-
         //$scope.labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
         //$scope.data = [
         //  [65, 59, 80, 81, 56, 55, 40],
         //  [28, 48, 40, 19, 86, 27, 90]
         //];
+
+        $scope.options = { legend: { display: true } };
+
         $scope.colours = [
           { // grey
               fillColor: 'rgba(148,159,177,0.2)',
