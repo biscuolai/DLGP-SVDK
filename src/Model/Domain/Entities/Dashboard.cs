@@ -2,17 +2,26 @@
 
 namespace DLGP_SVDK.Model.Domain.Entities
 {
+    public class DashboardTicket
+    {
+        public string Name { get; set; }
+        public List<string> Months { get; set; }
+        public List<string> Values { get; set; }
+
+        public DashboardTicket()
+        {
+            Months = new List<string>();
+            Values = new List<string>();
+        }
+    }
+
     public class DashboardMonthly
     {
-        public List<string> Status { get; set; }
-        public List<string> Month { get; set; }
-        public List<int> Value { get; set; }
+        public List<DashboardTicket> TicketSummary { get; set; }
 
         public DashboardMonthly()
         {
-            Status = new List<string>();
-            Month = new List<string>();
-            Value = new List<int>();
+            TicketSummary = new List<DashboardTicket>();
         }
     }
 

@@ -41,23 +41,24 @@
                 $scope.series = [];
                 $scope.labels = [];
 
+                debugger;
+
                 try {
-                    for (var i = 0; i < $scope.monthlyData[0].month.length; i++) {
+                    for (var i = 0; i < $scope.monthlyData[0].ticketSummary.length; i++) {
                         
-                        if (month !== $scope.monthlyData[0].month[i]) {
-                            $scope.labels.push($scope.monthlyData[0].month[i]);
-                        }
+                        $scope.labels.push($scope.monthlyData[0].ticketSummary[i].months[i]);
 
                         // Creates an empty line
                         $scope.data.push([]);
+
                         // Adds cols to the empty line:
-                        $scope.data[i].push(new Array($scope.monthlyData[0].value[i].length));
+                        $scope.data[i].push(new Array($scope.monthlyData[0].ticketSummary[i].values.length));
 
-                        $scope.data[i][0] = $scope.monthlyData[0].value[i];
+                        for (var j = 0; j < $scope.monthlyData[0].ticketSummary[i].values.length; j++) {
+                            $scope.data[i][j] = $scope.monthlyData[0].ticketSummary[i].values[j];
+                        }
 
-                        $scope.series.push($scope.monthlyData[0].status[i]);
-
-                        month = $scope.monthlyData[0].month[i];
+                        $scope.series.push($scope.monthlyData[0].ticketSummary[i].name);
                     }
                 } catch (e) {
                     // show in alerts error message
@@ -71,12 +72,6 @@
                 MessageService.addAlert('An error has occured while loading dashboard data!', 'danger');
             });
         }
-
-        //$scope.labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
-        //$scope.data = [
-        //  [65, 59, 80, 81, 56, 55, 40],
-        //  [28, 48, 40, 19, 86, 27, 90]
-        //];
 
         $scope.options = { legend: { display: true } };
 
@@ -98,14 +93,5 @@
               pointHighlightStroke: 'rgba(77,83,96,1)'
           }
         ];
-
-        $scope.randomize = function () {
-            $scope.data = $scope.data.map(function (data) {
-                return data.map(function (y) {
-                    y = y + Math.random() * 10 - 5;
-                    return parseInt(y < 0 ? 0 : y > 100 ? 100 : y);
-                });
-            });
-        };
     }
 })();

@@ -69,12 +69,39 @@ namespace DLGP_SVDK.Repository.Repositories
                 }
             }
 
+            string[] statuses = { "New", "Open", "Pending", "Resolved", "Cancelled", "Closed" };
+
+            for (int s = 0; s < statuses.Length; s++)
+            {
+                var dt = new DashboardTicket();
+                dt.Name = statuses[s];
+                for (int i = -6; i < 0; i++)
+                {
+                    dt.Months.Add(mfi.GetMonthName(DateTime.Now.AddMonths(i).Month));
+                    dt.Values.Add("0");
+                }
+                summary.DashboardMonthlyData.TicketSummary.Add(dt);
+            }
+
             // loop to get the lotal for the last 6 months grouping by ticket status
             foreach (var item in groupAllTickets)
             {
-                summary.DashboardMonthlyData.Status.Add(item.Status);
-                summary.DashboardMonthlyData.Month.Add(mfi.GetMonthName(item.Month).ToString() + @"/" + item.Year.ToString());
-                summary.DashboardMonthlyData.Value.Add(item.Count);
+                foreach (var s in summary.DashboardMonthlyData.TicketSummary)
+                {
+                    // if there is a match in the status name 
+                    if (item.Status == s.Name) 
+                    {
+                        var index = s.Months.IndexOf(mfi.GetMonthName(item.Month));
+                        if (index >= 0)
+                        {
+                            s.Values[index] = item.Count.ToString();
+                        }
+                    }
+                }
+
+                //summary.DashboardMonthlyData.Status.Add(item.Status);
+                //summary.DashboardMonthlyData.Month.Add(mfi.GetMonthName(item.Month).ToString() + @"/" + item.Year.ToString());
+                //summary.DashboardMonthlyData.Value.Add(item.Count);
             }
 
             return summary;
