@@ -53,7 +53,7 @@
                             </div>
                             <div class="row">
                                 <div class="col-md-12">
-                                    <div class="row">
+                                    <div class="row" ng-hide="isEditing || isAssigning || isRequestInfo || isSupplyInfo || isCancelInfo">
                                         <div class="col-md-12">
                                             <button class="btn btn-primary" ng-click="addComment()" ng-hide="isCancelled">Add Comment</button>
                                             <button class="btn btn-success" ng-click="back()">Back</button>
@@ -148,7 +148,7 @@
                                 <div class="col-md-12">
                                     <label for="comments">{{commentLabel}} Comment</label>
                                     <textarea ng-model="Ticket.comments" class="form-control" id="comments" name="comments" cols="10" rows="5" required
-                                              placeholder="Please enter comments here"></textarea>
+                                              placeholder="Please enter comments here" autofocus></textarea>
                                     <span class="label label-danger" ng-show="form.comments.$dirty && form.comments.$error.required" class="help-block">Comment is required !</span>
                                 </div>
                             </div>

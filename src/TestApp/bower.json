@@ -5,7 +5,7 @@
     "angular": "1.*",
     "angular-smart-table": "2.1.8",
     "angular-bootstrap": "*",
-    "angular-chart.js": "0.9.0",
+    "angular-chart.js": "0.10.2",
     "angular-cookies": "1.5.3",
     "angular-deferred-bootstrap": "*",
     "angular-resource": "1.5.3",
@@ -23,6 +23,6 @@
   },
   "resolutions": {
     "angular": "1.5.3",
-    "Chart.js": "2.0.0"
+    "Chart.js": "~1.1.1"
   }
 }

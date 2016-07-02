@@ -176,11 +176,11 @@
             <div class="row">
                 <div class="col-lg-6 col-xs-12">
                     <div class="panel panel-primary">
-                        <div class="panel-heading">Ticket's Data</div>
+                        <div class="panel-heading">Ticket Summary for the last 6 months</div>
                         <div class="panel-body">
                             <table class="table table-responsive table-condensed table-striped">
                                 <tr>
-                                    <th>Status</th>
+                                    <th>Statuses</th>
                                     <th ng-repeat="label in labels">{{label}}</th>
                                 </tr>
                                 <tr ng-repeat="dataSet in data track by $index">
@@ -199,8 +199,8 @@
                     <div class="panel panel-primary">
                         <div class="panel-heading">Trend over time chart - Monthly</div>
                         <div class="panel-body">
-                            <canvas id="tables" class="chart chart-line" chart-data="data" chart-options="options"
-                                    chart-labels="labels" chart-series="series" chart-colours="colours"></canvas>
+                            <canvas id="tables" class="chart chart-bar" chart-data="data" chart-options="options"
+                                    chart-labels="labels" chart-series="series" ></canvas>
                         </div>
                     </div>
                 </div>

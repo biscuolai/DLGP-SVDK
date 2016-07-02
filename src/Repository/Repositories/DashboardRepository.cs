@@ -89,7 +89,7 @@ namespace DLGP_SVDK.Repository.Repositories
                 foreach (var s in summary.DashboardMonthlyData.TicketSummary)
                 {
                     // if there is a match in the status name 
-                    if (item.Status == s.Name) 
+                    if ((item.Status == s.Name) || (item.Status.StartsWith(s.Name))) 
                     {
                         var index = s.Months.IndexOf(mfi.GetMonthName(item.Month));
                         if (index >= 0)

@@ -3,10 +3,11 @@
 
     angular
         .module('app')
-        .controller('ticketController', ['$http', '$controller', '$location', '$scope', '$filter', 'MessageService', ticketController]);
+        .controller('ticketController', ['$http', '$controller', '$location', '$scope', '$filter', 'MessageService', '$timeout',
+            ticketController]);
 
     //AngularJS controller method
-    function ticketController($http, $controller, $location, $scope, $filter, MessageService) {
+    function ticketController($http, $controller, $location, $scope, $filter, MessageService, $timeout) {
 
         $scope.initFirst = function () {
             if ((($location.search().action !== undefined) && ($location.search().action === 'edit')) &&
@@ -401,7 +402,10 @@
             $scope.isAddingComment = false;
 
             $scope.commentLabel = "Edit Ticket";
+
+            $scope.scrollToComments();
         };
+
         $scope.updateStatusComment = function () {
             // if user selects cancelled or resolved as statuses, the label for comment text area will be resolution, otherwise continue as Edit Ticket
             if ($scope.TicketStatus.selectedOption.name.toUpperCase() === 'CANCELLED' || $scope.TicketStatus.selectedOption.name.toUpperCase() === 'RESOLVED') {
@@ -414,10 +418,10 @@
             // set the status using the selected option id
             Ticket.ticketStatus = TicketStatus.selectedOption.ticketStatusId
         };
+
         $scope.moreInfo = function (flag) {
             // set the variable isRequestInfo to true and enable fields for editing 
             // Also the comments textarea field is set to visible
-            debugger;
             $scope.isEditing = false;
             $scope.isAssigning = false;
             $scope.isRequestInfo = (flag === 'R');
@@ -427,7 +431,10 @@
             if (flag === 'R') $scope.commentLabel = "Request For Information";
             else if (flag === 'S') $scope.commentLabel = "Supply More Information";
             else if (flag === 'C') $scope.commentLabel = "Cancel More Information";
+
+            $scope.scrollToComments();
         };
+
         $scope.assign = function () {
             // set the variable isAssigning to true and enable all fields for editing 
             // Also the comments textarea field is set to visible
@@ -438,7 +445,10 @@
             $scope.isCancelInfo = false;
             $scope.isAddingComment = false;
             $scope.commentLabel = "Assign Ticket";
+
+            $scope.scrollToComments();
         };
+
         $scope.addComment = function () {
             // set the variable isAddingComment to true and enable all fields for editing 
             // Also the comments textarea field is set to visible
@@ -449,9 +459,21 @@
             $scope.isCancelInfo = false;
             $scope.isAddingComment = true;
             $scope.commentLabel = "Add New";
+
+            $scope.scrollToComments();
         };
+
         $scope.editAttachments = function () {
             $location.path('/attachments');
         };
+
+        $scope.scrollToComments = function () {
+            // scroll to comments control
+            $timeout(function () {
+                var element = document.getElementById('comments');
+                $('html,body').animate({ scrollTop: $(element).offset().top }, "slow");
+                $(element).focus();
+            }, 200);
+        }
     }
 })();
