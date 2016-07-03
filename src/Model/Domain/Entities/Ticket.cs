@@ -86,7 +86,7 @@ namespace DLGP_SVDK.Model.Domain.Entities
             }
             set
             {
-                PreviousOwner = _owner;
+                //PreviousOwner = _owner;
                 _owner = value;
             }
         }
@@ -103,7 +103,7 @@ namespace DLGP_SVDK.Model.Domain.Entities
             }
             set
             {
-                PreviousAssignedUser = _assignedTo;
+                //PreviousAssignedUser = _assignedTo;
                 _assignedTo = value;
             }
         }
@@ -147,11 +147,11 @@ namespace DLGP_SVDK.Model.Domain.Entities
 
         //public virtual ICollection<TicketSubscriber> Subscribers { get; set; }
 
-        [NotMapped]
-        public string PreviousOwner { get; set; }
+        //[NotMapped]
+        //public string PreviousOwner { get; set; }
 
-        [NotMapped]
-        public string PreviousAssignedUser { get; set; }
+        //[NotMapped]
+        //public string PreviousAssignedUser { get; set; }
 
         /// <summary>
         /// Performs an activity function on the ticket.

@@ -3,8 +3,8 @@
 
     angular.module('Authentication')
     .controller('logoffController',
-        ['$scope', '$rootScope', '$location', 'AuthenticationService', 'MessageService',
-        function ($scope, $rootScope, $location, AuthenticationService, MessageService) {
+        ['$scope', '$rootScope', '$location', 'AuthenticationService', 'MessageService', '$http',
+        function ($scope, $rootScope, $location, AuthenticationService, MessageService, $http) {
 
             $scope.logoff = function () {
 
@@ -33,18 +33,14 @@
             };
 
             $scope.initFirst = function () {
-                //To Get all Ticket events records for an existing ticket  
-                function GetAllNotificationsByUserId(id) {
-                    $http.get('/api/admin/' + $scope.globals.currentUser.userData.Id + '/notifications').success(function (Notifications) {
-                        debugger;
-                        $scope.Notifications = Notifications.data;
-                    })
-                    .error(function () {
-                        // show in alerts error message
-                        MessageService.clearAlert();
-                        MessageService.addAlert('An error has occured while loading list of all notifications!', 'danger');
-                    });
-                }
+                $http.get('/api/admin/' + $scope.globals.currentUser.userData.id + '/notifications').success(function (Notifications) {
+                    $scope.notifications = Notifications.data;
+                })
+                .error(function () {
+                    // show in alerts error message
+                    MessageService.clearAlert();
+                    MessageService.addAlert('An error has occured while loading list of all notifications!', 'danger');
+                });
             }
 
         }]);

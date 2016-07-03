@@ -45,8 +45,8 @@
                             Notifications
                         </li>
                         <li class="divider"></li>
-                        <li>
-                            <a href="#">Server Down!</a>
+                        <li ng-repeat="item in notifications">
+                            <a href="#/editTicket?action=edit&id={{item.ticketId}}" route-refresh>{{ item.ticketId }} - {{ item.title }}</a>
                         </li>
                     </ul>
                 </div>

@@ -22,6 +22,7 @@
 /// <reference path="js/controllers/ticketController.js" />
 /// <reference path="js/directives/form-helpers.js" />
 /// <reference path="js/directives/loading.js" />
+/// <reference path="js/directives/route-refresh.js" />
 /// <reference path="js/directives/widget.js" />
 /// <reference path="js/directives/widget-body.js" />
 /// <reference path="js/directives/widget-footer.js" />

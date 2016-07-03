@@ -12,12 +12,13 @@ namespace DLGP_SVDK.Repository.Repositories
         {
         }
 
-        public IEnumerable<TicketEventNotification> GetAllNotificationsByUserId(string id)
+        public IEnumerable<Ticket> GetAllNotificationsByUserId(string id)
         {
             return ApplicationContext.TicketEventNotifications
-                .Where(c => c.SubscriberId == id)
+                .Where(c => c.SubscriberId == id && c.IsRead == false && c.IsNew == true)
                 .OrderByDescending(c => c.TicketEvent.EventDate)
-                .ToList();
+                .Select(g => g.TicketEvent.Ticket)
+                .ToList(); 
         }
 
         public ApplicationDbContext ApplicationContext
