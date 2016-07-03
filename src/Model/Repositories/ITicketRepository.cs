@@ -13,7 +13,7 @@ namespace DLGP_SVDK.Repository
         IEnumerable<Ticket> GetAllTicketsLimitedByPage(int pageIndex, int pageSize = 10);
         int GetId(Ticket ticket);
         Ticket Reload(int id);
-        void EnsureSubscribers(Ticket ticket);
-        void EnsureSubscriber(int id, string user);
+        //void EnsureSubscribers(Ticket ticket);
+        //void EnsureSubscriber(int id, string user);
     }
 }

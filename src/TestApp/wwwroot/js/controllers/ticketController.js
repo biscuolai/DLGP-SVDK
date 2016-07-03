@@ -73,7 +73,7 @@
 
         //To Get all Ticket events records for an existing ticket  
         function GetAllEventsByTicketId(id) {
-            $http.get('/api/tickets/events/' + id).success(function (Events) {
+            $http.get('/api/tickets/' + id + '/events').success(function (Events) {
                 debugger;
                 $scope.Events = Events.data;
             })

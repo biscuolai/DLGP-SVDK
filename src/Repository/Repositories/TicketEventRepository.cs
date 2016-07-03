@@ -150,21 +150,30 @@ namespace DLGP_SVDK.Repository.Repositories
         /// </summary>
         public void CreateSubscriberEventNotifications(TicketEvent ticketEvent)
         {
-            foreach (var subscriber in ticketEvent.Ticket.Subscribers)
-            {
-                var isSubscriberEvent = ticketEvent.EventBy == subscriber.SubscriberId;
+            //foreach (var subscriber in ticketEvent.Ticket.Subscribers)
+            //{
+            //    var isSubscriberEvent = ticketEvent.EventBy == subscriber.SubscriberId;
 
-                ApplicationContext.TicketEventNotifications.Add(
-                    new TicketEventNotification
-                    {
-                        EventId = ticketEvent.EventId,
-                        TicketId = ticketEvent.TicketId,
-                        IsNew = !isSubscriberEvent,
-                        IsRead = isSubscriberEvent,
-                        SubscriberId = subscriber.SubscriberId,
-                    });
+            //    ApplicationContext.TicketEventNotifications.Add(
+            //        new TicketEventNotification
+            //        {
+            //            EventId = ticketEvent.EventId,
+            //            TicketId = ticketEvent.TicketId,
+            //            IsNew = !isSubscriberEvent,
+            //            IsRead = isSubscriberEvent,
+            //            SubscriberId = subscriber.SubscriberId,
+            //        });
 
-            }
+            //}
+            ApplicationContext.TicketEventNotifications.Add(
+                new TicketEventNotification
+                {
+                    EventId = ticketEvent.EventId,
+                    TicketId = ticketEvent.TicketId,
+                    IsNew = true,
+                    IsRead = false,
+                    SubscriberId = ticketEvent.Ticket.AssignedTo,
+                });
         }
 
         public int GetId(TicketEvent ticketEvent)

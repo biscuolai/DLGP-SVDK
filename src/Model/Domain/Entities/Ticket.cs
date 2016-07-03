@@ -17,7 +17,7 @@ namespace DLGP_SVDK.Model.Domain.Entities
         {
             // ReSharper disable DoNotCallOverridableMethodsInConstructor
             Events = new HashSet<TicketEvent>();
-            Subscribers = new HashSet<TicketSubscriber>();
+            //Subscribers = new HashSet<TicketSubscriber>();
             Tags = new HashSet<TicketTag>();
             // ReSharper restore DoNotCallOverridableMethodsInConstructor
         }
@@ -145,7 +145,7 @@ namespace DLGP_SVDK.Model.Domain.Entities
 
         public virtual ICollection<TicketTag> Tags { get; set; }
 
-        public virtual ICollection<TicketSubscriber> Subscribers { get; set; }
+        //public virtual ICollection<TicketSubscriber> Subscribers { get; set; }
 
         [NotMapped]
         public string PreviousOwner { get; set; }

@@ -102,8 +102,11 @@ namespace DLGP_SVDK.Web.Api
 
                         // Reload ticket record in order to load all dependencies
                         var eventReload = unitOfWork.TicketEvents.Reload(unitOfWork.TicketEvents.GetId(ticketEvent));
+
+                        //***** subscriber func will be implemented on the next phase
                         // Create records in TicketSubscriber table for the new ticket
-                        unitOfWork.Tickets.EnsureSubscribers(ticketReload);
+                        //unitOfWork.Tickets.EnsureSubscribers(ticketReload);
+                        
                         //Creates the event notifications for each ticket subscriber and adds them to the TicketEventNotifications collection.
                         unitOfWork.TicketEvents.CreateSubscriberEventNotifications(eventReload);
 
@@ -356,7 +359,7 @@ namespace DLGP_SVDK.Web.Api
             return Json(new { Message = "Failed to edit ticket", ModelState = ModelState });
         }
 
-        [HttpGet("events/{id}")]
+        [HttpGet("{id}/events")]
         public JsonResult GetEvents(int id)
         {
             try
