@@ -17,6 +17,7 @@ namespace DLGP_SVDK.Repository
             ContactTypes = new ContactTypeRepository(_context);
             TicketStatuses = new TicketStatusRepository(_context);
             TicketEvents = new TicketEventRepository(_context);
+            TicketEventNotifications = new TicketEventNotificationRepository(_context);
             DashboardSummary = new DashboardRepository(_context);
         }
 
@@ -29,6 +30,7 @@ namespace DLGP_SVDK.Repository
         public ITicketStatusRepository TicketStatuses { get; private set; }
         public IDashboardRepository Dashboard { get; private set; }
         public ITicketEventRepository TicketEvents { get; private set; }
+        public ITicketEventNotificationRepository TicketEventNotifications { get; private set; }
         public IDashboardRepository DashboardSummary { get; private set; }
 
         public int Commit()

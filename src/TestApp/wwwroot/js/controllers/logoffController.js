@@ -3,8 +3,8 @@
 
     angular.module('Authentication')
     .controller('logoffController',
-        ['$scope', '$rootScope', '$location', 'AuthenticationService',
-        function ($scope, $rootScope, $location, AuthenticationService) {
+        ['$scope', '$rootScope', '$location', 'AuthenticationService', 'MessageService',
+        function ($scope, $rootScope, $location, AuthenticationService, MessageService) {
 
             $scope.logoff = function () {
 
@@ -31,5 +31,21 @@
                     });
                 }
             };
+
+            $scope.initFirst = function () {
+                //To Get all Ticket events records for an existing ticket  
+                function GetAllNotificationsByUserId(id) {
+                    $http.get('/api/admin/' + $scope.globals.currentUser.userData.Id + '/notifications').success(function (Notifications) {
+                        debugger;
+                        $scope.Notifications = Notifications.data;
+                    })
+                    .error(function () {
+                        // show in alerts error message
+                        MessageService.clearAlert();
+                        MessageService.addAlert('An error has occured while loading list of all notifications!', 'danger');
+                    });
+                }
+            }
+
         }]);
 })();

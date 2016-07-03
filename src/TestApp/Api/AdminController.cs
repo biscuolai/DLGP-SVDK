@@ -8,6 +8,8 @@ using DLGP_SVDK.Model.Domain.Entities.Identity;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System.Collections.Generic;
+using System;
+using System.Net;
 
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
@@ -67,13 +69,33 @@ namespace DLGP_SVDK.Web.Api
             return new JsonResult(new { data = User.IsSignedIn(), success = true });
         }
 
+        [HttpGet("{id}/notifications")]
+        public JsonResult GetNotifications(string id)
+        {
+            try
+            {
+                using (var unitOfWork = new UnitOfWork(new ApplicationDbContext()))
+                {
+                    // Get the list of all notifications by user id
+                    var notifications = unitOfWork.TicketEventNotifications.GetAllNotificationsByUserId(id);
+
+                    return new JsonResult(new { data = notifications, success = true });
+                }
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return Json(new { Message = ex.Message });
+            }
+        }
+
         //[HttpGet("user")]
         //public JsonResult GetUser()
         //{
         //    if (User.Identity.IsAuthenticated)
         //    {
         //        var user = User.Identity;
-       //        ViewBag.Name = user.Name;
+        //        ViewBag.Name = user.Name;
         //        ApplicationDbContext context = new ApplicationDbContext();
         //        var UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
         //        var s = UserManager.GetRoles(user.GetUserId());
