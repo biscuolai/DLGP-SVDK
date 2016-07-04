@@ -43,5 +43,36 @@
                 });
             }
 
+            //$scope.showNotifications = function () {
+
+            //    debugger;
+            //    $scope.html = '<div class="list-group" style="max-height: 200px;" class="overflow-y-scroll">'
+            //    for (var i = 0; i < $scope.notifications.length; i++) {
+            //        $scope.html += '<a class="list-group-item" href="#/editTicket?action=edit&id=' + $scope.notifications[i].ticketId + '" route-refresh>' + $scope.notifications[i].ticketId + ' - ' + $scope.notifications[i].title + '</a>';
+            //    }
+            //    $scope.html += '</div>'
+
+            //    BootstrapDialog.show({
+            //        title: 'Notifications',
+            //        message: $scope.html,
+            //        type: BootstrapDialog.TYPE_PRIMARY, // <-- Default value is BootstrapDialog.TYPE_PRIMARY
+            //        closable: true, // <-- Default value is false
+            //        draggable: true, // <-- Default value is false
+            //        btnCancelLabel: 'No', // <-- Default value is 'Cancel',
+            //        btnOKLabel: 'Yes', // <-- Default value is 'OK',
+            //        btnOKClass: 'btn-success', // <-- If you didn't specify it, dialog type will be used,
+            //        callback: function (result) {
+            //            // result will be true if button was click, while it will be false if users close the dialog directly.
+            //            if (result) {
+            //                //$scope.resetVariables();
+            //                //$scope.initFirst();
+            //            }
+            //        },
+            //        onhidden: function (dialogRef) {
+            //            alert('Dialog is popped down.');
+            //        }
+            //    });
+            //}
+
         }]);
 })();
