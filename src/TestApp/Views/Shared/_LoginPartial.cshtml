@@ -1,6 +1,6 @@
 ﻿<!-- Header Bar -->
 <form method="post" id="logoutForm" ng-show="globals.currentUser" ng-controller="logoffController" ng-submit="logoff()" ng-init="initFirst()">
-    
+
     <div class="row header">
         <div class="col-xs-12">
             <div class="user pull-right">
@@ -31,14 +31,17 @@
                         <li class="divider"></li>
                         <li class="link">
                             @*<a href="#/logoff" ng-click="logoff()">*@
-                                <button type="submit" class="btn btn-link link">Log off</button>
+                            <button type="submit" class="btn btn-link link">Log off</button>
                             @*</a>*@
                         </li>
                     </ul>
                 </div>
-                <div class="item dropdown" uib-dropdown>
-                    <a href="#" class="dropdown-toggle" uib-dropdown-toggle>
-                        <i class="fa fa-bell-o"><span class="badge alert-success" ng-show="notifications.length>0" >{{ notifications.length }}</span></i>
+                <div class="item dropdown" uib-dropdown style="width:200px;">
+                    <a href="#" class="dropdown-toggle" uib-dropdown-toggle ng-show="(countUnRead > 0)">
+                        <i class="fa fa-bell-o">
+                            @*<span class="badge alert-success" ng-show="countNew>0">{{ countNew }}</span>*@
+                            <span class="badge alert-danger" ng-show="countUnRead>0">{{ countUnRead }}</span>
+                        </i>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-right">
                         <li class="dropdown-header">
@@ -46,8 +49,10 @@
                         </li>
                         <li class="divider"></li>
                         <li ng-repeat="item in notifications">
-                            <a href="#/editTicket?action=edit&id={{item.ticketId}}" route-refresh>{{ item.ticketId }} - {{ item.title }}</a>
+                            <a href="#/editTicket?action=edit&id={{item.ticketId}}" route-refresh mark-notification-as-read>{{ item.ticketId }} - {{ item.title }}</a>
                         </li>
+                        <li class="divider"></li>
+                        <li><a ng-href ng-click="clearNotifications()">Clear Notifications</a></li>
                     </ul>
                 </div>
             </div>

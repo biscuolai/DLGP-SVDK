@@ -89,6 +89,51 @@ namespace DLGP_SVDK.Web.Api
             }
         }
 
+        [HttpPut("{id}/notifications/{ticketId}")]
+        public JsonResult MarkAsRead(string id, int ticketId)
+        {
+            try
+            {
+                using (var unitOfWork = new UnitOfWork(new ApplicationDbContext()))
+                {
+                    // Get the list of all notifications by user id
+                    var result = unitOfWork.TicketEventNotifications.MarkNotificationAsRead(id, ticketId);
+                    result.IsNew = false;
+                    result.IsRead = true;
+                    unitOfWork.Commit();
+
+                    return new JsonResult(new { data = result, success = true });
+                }
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return Json(new { Message = ex.Message });
+            }
+        }
+
+        [HttpPut("{id}/notifications/clear")]
+        public JsonResult ClearNotifications(string id)
+        {
+            try
+            {
+                using (var unitOfWork = new UnitOfWork(new ApplicationDbContext()))
+                {
+                    // Get the list of all notifications by user id
+                    var result = unitOfWork.TicketEventNotifications.ClearNotifications(id);
+                    unitOfWork.TicketEventNotifications.RemoveRange(result);
+                    unitOfWork.Commit();
+
+                    return new JsonResult(new { data = result, success = true });
+                }
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return Json(new { Message = ex.Message });
+            }
+        }
+
         //[HttpGet("user")]
         //public JsonResult GetUser()
         //{

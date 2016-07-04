@@ -41,8 +41,6 @@
                 $scope.series = [];
                 $scope.labels = [];
 
-                debugger;
-
                 try {
                     for (var i = 0; i < $scope.monthlyData[0].ticketSummary.length; i++) {
                         
