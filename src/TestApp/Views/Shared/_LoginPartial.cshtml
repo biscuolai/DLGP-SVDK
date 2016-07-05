@@ -49,8 +49,8 @@
                         </li>
                         <li class="divider"></li>
                         <li ng-repeat="item in notifications">
-                            <a href="#/editTicket?action=edit&id={{item.ticketId}}" ng-show="item.isRead" route-refresh mark-notification-as-read>{{ item.ticketId }} - {{ item.title }}</a>
-                            <a href="#/editTicket?action=edit&id={{item.ticketId}}" ng-show="!item.isRead" route-refresh mark-notification-as-read><strong>{{ item.ticketId }} - {{ item.title }}</strong></a>
+                            <a href="#/editTicket?action=edit&id={{item.ticketId}}" ng-show="item.isRead" route-refresh mark-notification-as-read>{{ item.ticket.ticketId }} - {{ item.ticket.title.substring(0,20) + '...' }}</a>
+                            <a href="#/editTicket?action=edit&id={{item.ticketId}}" ng-show="!item.isRead" route-refresh mark-notification-as-read><strong>{{ item.ticket.ticketId }} - {{ item.ticket.title }}</strong></a>
                         </li>
                         <li class="divider"></li>
                         <li><a ng-href ng-click="clearNotifications()">Clear Notifications</a></li>

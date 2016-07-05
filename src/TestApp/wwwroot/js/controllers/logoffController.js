@@ -38,17 +38,21 @@
 
             $scope.initFirst = function () {
                 $http.get('/api/admin/' + $scope.globals.currentUser.userData.id + '/notifications').success(function (Notifications) {
+
+                    debugger;
                     $scope.notifications = Notifications.data;
+
+                    
 
                     $scope.countUnRead = 0;
                     $scope.countNew = 0;
 
                     // counting unread and new notifications 
                     for (var i = 0; i < $scope.notifications.length; i++) {
-                        if (!$scope.notifications.isRead) {
+                        if (!$scope.notifications[i].isRead) {
                             $scope.countUnRead++;
                         }
-                        if (!$scope.notifications.isNew) {
+                        if ($scope.notifications[i].isNew) {
                             $scope.countNew++;
                         }
                     }

@@ -6,7 +6,7 @@ namespace DLGP_SVDK.Repository
 {
     public interface ITicketEventNotificationRepository : IRepository<TicketEventNotification>
     {
-        IEnumerable<Ticket> GetAllNotificationsByUserId(string id);
+        IEnumerable<TicketEventNotification> GetAllNotificationsByUserId(string id);
         TicketEventNotification MarkNotificationAsRead(string userId, int ticketId);
         IEnumerable<TicketEventNotification> AllNotificationsByUser(string userId);
     }

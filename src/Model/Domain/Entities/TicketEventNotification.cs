@@ -75,6 +75,8 @@ namespace DLGP_SVDK.Model.Domain.Entities
 
         public virtual TicketEvent TicketEvent { get; set; }
 
+        public virtual Ticket Ticket { get; set; }
+
         //public virtual TicketSubscriber TicketSubscriber { get; set; }
     }
 }
