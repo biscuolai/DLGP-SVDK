@@ -34,7 +34,7 @@
 
             setInterval(function () {
                 $scope.initFirst();
-            }, 120000)
+            }, 3600)
 
             $scope.initFirst = function () {
                 $http.get('/api/admin/' + $scope.globals.currentUser.userData.id + '/notifications').success(function (Notifications) {
@@ -70,10 +70,24 @@
                 });
             }
 
+            $scope.clearNewNotifications = function () {
+                if ($scope.countNew > 0) {
+                    $http.put('/api/admin/' + $scope.globals.currentUser.userData.id + '/notifications/clearnew', $scope.globals.currentUser.userData.id)
+                        .success(function (data) {
+                            // reset counter for new items
+                            $scope.countNew = 0;
+                        }).error(function (data) {
+                            // show in alerts error message
+                            MessageService.clearAlert();
+                            MessageService.addAlert('An error has occured while updating notifications', 'danger');
+                        });
+                }
+            }
+
             $scope.clearNotifications = function () {
-                debugger;
                 $http.put('/api/admin/' + $scope.globals.currentUser.userData.id + '/notifications/clear', $scope.globals.currentUser.userData.id)
                     .success(function (data) {
+                        // reset counters
                         $scope.countNew = 0;
                         $scope.countUnRead = 0;
                     }).error(function (data) {

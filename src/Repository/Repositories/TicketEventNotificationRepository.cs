@@ -26,7 +26,7 @@ namespace DLGP_SVDK.Repository.Repositories
             //ApplicationContext.SaveChanges();
 
             return ApplicationContext.TicketEventNotifications
-                .Where(c => c.SubscriberId == id && c.IsRead == false && c.IsNew == true)
+                .Where(c => c.SubscriberId == id && (c.IsRead == false || c.IsNew == true))
                 .OrderByDescending(c => c.TicketEvent.EventDate)
                 .Select(g => g.TicketEvent.Ticket)
                 .ToList(); 
@@ -38,7 +38,7 @@ namespace DLGP_SVDK.Repository.Repositories
                 .Where(c => c.SubscriberId == userId && c.TicketId == ticketId).FirstOrDefault();
         }
 
-        public IEnumerable<TicketEventNotification> ClearNotifications(string userId)
+        public IEnumerable<TicketEventNotification> AllNotificationsByUser(string userId)
         {
             return ApplicationContext.TicketEventNotifications
                 .Where(c => c.SubscriberId == userId).ToList();

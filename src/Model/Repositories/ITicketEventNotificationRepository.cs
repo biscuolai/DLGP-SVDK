@@ -8,6 +8,6 @@ namespace DLGP_SVDK.Repository
     {
         IEnumerable<Ticket> GetAllNotificationsByUserId(string id);
         TicketEventNotification MarkNotificationAsRead(string userId, int ticketId);
-        IEnumerable<TicketEventNotification> ClearNotifications(string userId);
+        IEnumerable<TicketEventNotification> AllNotificationsByUser(string userId);
     }
 }

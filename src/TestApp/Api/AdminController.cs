@@ -120,8 +120,37 @@ namespace DLGP_SVDK.Web.Api
                 using (var unitOfWork = new UnitOfWork(new ApplicationDbContext()))
                 {
                     // Get the list of all notifications by user id
-                    var result = unitOfWork.TicketEventNotifications.ClearNotifications(id);
+                    var result = unitOfWork.TicketEventNotifications.AllNotificationsByUser(id);
                     unitOfWork.TicketEventNotifications.RemoveRange(result);
+                    unitOfWork.Commit();
+
+                    return new JsonResult(new { data = result, success = true });
+                }
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return Json(new { Message = ex.Message });
+            }
+        }
+
+        [HttpPut("{id}/notifications/clearnew")]
+        public JsonResult ClearNewNotifications(string id)
+        {
+            try
+            {
+                using (var unitOfWork = new UnitOfWork(new ApplicationDbContext()))
+                {
+                    // Get the list of all notifications by user id
+                    var result = unitOfWork.TicketEventNotifications.AllNotificationsByUser(id);
+
+                    // update all notifications and set isNew flag to false
+                    foreach (var item in result)
+                    {
+                        item.IsNew = false;
+                        unitOfWork.TicketEventNotifications.Update(item);
+                    }
+
                     unitOfWork.Commit();
 
                     return new JsonResult(new { data = result, success = true });

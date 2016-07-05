@@ -36,10 +36,10 @@
                         </li>
                     </ul>
                 </div>
-                <div class="item dropdown" uib-dropdown style="width:200px;">
+                <div class="item dropdown" uib-dropdown style="width:200px;" ng-click="clearNewNotifications()">
                     <a href="#" class="dropdown-toggle" uib-dropdown-toggle ng-show="(countUnRead > 0)">
                         <i class="fa fa-bell-o">
-                            @*<span class="badge alert-success" ng-show="countNew>0">{{ countNew }}</span>*@
+                            <span class="badge alert-success" ng-show="countNew>0">{{ countNew }}</span>
                             <span class="badge alert-danger" ng-show="countUnRead>0">{{ countUnRead }}</span>
                         </i>
                     </a>
@@ -49,7 +49,8 @@
                         </li>
                         <li class="divider"></li>
                         <li ng-repeat="item in notifications">
-                            <a href="#/editTicket?action=edit&id={{item.ticketId}}" route-refresh mark-notification-as-read>{{ item.ticketId }} - {{ item.title }}</a>
+                            <a href="#/editTicket?action=edit&id={{item.ticketId}}" ng-show="item.isRead" route-refresh mark-notification-as-read>{{ item.ticketId }} - {{ item.title }}</a>
+                            <a href="#/editTicket?action=edit&id={{item.ticketId}}" ng-show="!item.isRead" route-refresh mark-notification-as-read><strong>{{ item.ticketId }} - {{ item.title }}</strong></a>
                         </li>
                         <li class="divider"></li>
                         <li><a ng-href ng-click="clearNotifications()">Clear Notifications</a></li>
