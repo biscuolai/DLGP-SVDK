@@ -22,12 +22,14 @@
 /// <reference path="js/controllers/ticketController.js" />
 /// <reference path="js/directives/form-helpers.js" />
 /// <reference path="js/directives/loading.js" />
-/// <reference path="js/directives/route-refresh - copy.js" />
+/// <reference path="js/directives/mark-notification-as-read.js" />
 /// <reference path="js/directives/route-refresh.js" />
 /// <reference path="js/directives/widget.js" />
 /// <reference path="js/directives/widget-body.js" />
 /// <reference path="js/directives/widget-footer.js" />
 /// <reference path="js/directives/widget-header.js" />
+/// <reference path="js/dist/app.js" />
+/// <reference path="js/dist/vendor.min.js" />
 /// <reference path="js/services/authenticationservice.js" />
 /// <reference path="js/services/fileupload.js" />
 /// <reference path="js/services/loginservice.js" />

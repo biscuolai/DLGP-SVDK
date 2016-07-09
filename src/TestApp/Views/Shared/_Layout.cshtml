@@ -6,13 +6,8 @@
         <title>@ViewData["Title"] - DLGP-SVDK</title>
 
         <environment names="Development">
-            <link rel="stylesheet" type="text/css" href="~/lib/font-awesome/css/font-awesome.css">
-            <link rel="stylesheet" type="text/css" href="~/css/DLGP_SVDK.css" />
-            <link rel="stylesheet" type="text/css" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-            @*<link rel="stylesheet" type="text/css" href="~/lib/textAngular/dist/textAngular.css" />
-            <link rel="stylesheet" type="text/css" href="~/lib/angular-material/angular-material.min.css" />*@
-            <link rel="stylesheet" type="text/css" href="~/lib/angular-chart.js/dist/angular-chart.min.css" />
-            <link rel="stylesheet" type="text/css" href="~/lib/bootstrap-dialog/dist/css/bootstrap-dialog.min.css" />
+            <link rel="stylesheet" type="text/css" href="~/css/dist/vendor.min.css">
+            <link rel="stylesheet" type="text/css" href="~/css/dist/main.min.css">
         </environment>
         <environment names="Staging,Production">
             <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.5/css/bootstrap.min.css"
@@ -25,65 +20,25 @@
     <body ng-app="app" ng-controller="masterController">
  
         <environment names="Development">
-
             @*<script src="~/js/site.js" asp-append-version="true"></script>*@
-            <script src="~/lib/angular/angular.js"></script>
+            @*<script src="~/lib/angular/angular.js"></script>
             <script src="~/lib/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
             <script src="~/lib/angular-ui-router/release/angular-ui-router.min.js"></script>
             <script src="~/lib/angular-cookies/angular-cookies.min.js"></script>
-            <script src="~/js/app.js"></script>
-            <script src="~/js/app.routes.js"></script>
-            <script src="~/js/app.constants.js"></script>
-            <script src="~/js/app.run.js"></script>
-            <script src="~/js/controllers/dashboardController.js"></script>
-            <script src="~/js/controllers/ticketController.js"></script>
-            <script src="~/js/controllers/masterController.js"></script>
-            <script src="~/js/controllers/alertsController.js"></script>
-            <script src="~/js/controllers/chartController.js"></script>
-            <script src="~/js/directives/loading.js"></script>
-            <script src="~/js/directives/widget-body.js"></script>
-            <script src="~/js/directives/widget-footer.js"></script>
-            <script src="~/js/directives/widget-header.js"></script>
-            <script src="~/js/directives/widget.js"></script>
             <script src="~/lib/jquery/dist/jquery.js"></script>
             <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
-            @*<script src="~/lib/textAngular/dist/textAngular.min.js"></script>
-            <script src="~/lib/textAngular/dist/textAngular-rangy.min.js"></script>
-            <script src="~/lib/textAngular/dist/textAngular-sanitize.min.js"></script>*@
-            @*<script src="~/lib/angular-animate/angular-animate.min.js"></script>*@
             <script src="~/lib/angular-aria/angular-aria.min.js"></script>
-            @*<script src="~/lib/angular-material/angular-material.min.js"></script>*@
             <script src="~/lib/angular-messages/angular-messages.min.js"></script>
             <script src="~/lib/angular-route/angular-route.min.js"></script>
-
             <script src="~/lib/angular-smart-table/dist/smart-table.min.js"></script>
-            <script src="~/js/services/ticketService.js"></script>
-            <script src="~/js/controllers/datagridController.js"></script>
-
             <script src="~/lib/Chart.js/Chart.js"></script>
             <script src="~/lib/angular-chart.js/dist/angular-chart.js"></script>
-
-            <script src="~/js/controllers/loginController.js"></script>
-            <script src="~/js/services/authenticationService.js"></script>
             <script src="~/lib/angular-resource/angular-resource.min.js"></script>
-            @*<script src="~/lib/ngAnimate/js/angular-animate.min.js"></script>*@
-            <script src="~/js/app.config.js"></script>
-            <script src="~/js/services/loginService.js"></script>
-            <script src="~/js/controllers/homeController.js"></script>
-            <script src="~/js/controllers/registerController.js"></script>
-            <script src="~/js/controllers/logoffController.js"></script>
-            <script src="~/js/directives/form-helpers.js"></script>
-            <script src="~/js/controllers/forgotPasswordController.js"></script>
-            <script src="~/js/controllers/resetPasswordController.js"></script>
-            <script src="~/js/services/messageService.js"></script>
             <script src="~/lib/bootstrap-dialog/dist/js/bootstrap-dialog.min.js"></script>
-            <script src="~/js/services/fileUpload.js"></script>
             <script src="~/lib/ng-file-upload/ng-file-upload-shim.min.js"></script>
-            <script src="~/lib/ng-file-upload/ng-file-upload.min.js"></script>
-            <script src="~/js/directives/route-refresh.js"></script>
-            <script src="~/js/directives/mark-notification-as-read.js"></script>
-
-
+            <script src="~/lib/ng-file-upload/ng-file-upload.min.js"></script>*@
+            <script src="~/js/dist/vendor.min.js"></script>
+            <script src="~/js/dist/app.min.js"></script>
         </environment>
         <environment names="Staging,Production">
             <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.1.4.min.js"
