@@ -6,50 +6,24 @@
         <title>@ViewData["Title"] - DLGP-SVDK</title>
 
         <environment names="Development">
-            <link rel="stylesheet" type="text/css" href="~/css/dist/vendor.min.css">
             <link rel="stylesheet" type="text/css" href="~/css/dist/main.min.css">
+            <link rel="stylesheet" type="text/css" href="~/css/dist/vendor.min.css">
         </environment>
         <environment names="Staging,Production">
-            <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.5/css/bootstrap.min.css"
-                  asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
-                  asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
-            <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
+            <link rel="stylesheet" type="text/css" href="~/css/dist/main.min.css">
+            <link rel="stylesheet" type="text/css" href="~/css/dist/vendor.min.css">
         </environment>
         @Html.ApplicationInsightsJavaScript(TelemetryConfiguration)
     </head>
     <body ng-app="app" ng-controller="masterController">
  
         <environment names="Development">
-            @*<script src="~/js/site.js" asp-append-version="true"></script>*@
-            @*<script src="~/lib/angular/angular.js"></script>
-            <script src="~/lib/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
-            <script src="~/lib/angular-ui-router/release/angular-ui-router.min.js"></script>
-            <script src="~/lib/angular-cookies/angular-cookies.min.js"></script>
-            <script src="~/lib/jquery/dist/jquery.js"></script>
-            <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
-            <script src="~/lib/angular-aria/angular-aria.min.js"></script>
-            <script src="~/lib/angular-messages/angular-messages.min.js"></script>
-            <script src="~/lib/angular-route/angular-route.min.js"></script>
-            <script src="~/lib/angular-smart-table/dist/smart-table.min.js"></script>
-            <script src="~/lib/Chart.js/Chart.js"></script>
-            <script src="~/lib/angular-chart.js/dist/angular-chart.js"></script>
-            <script src="~/lib/angular-resource/angular-resource.min.js"></script>
-            <script src="~/lib/bootstrap-dialog/dist/js/bootstrap-dialog.min.js"></script>
-            <script src="~/lib/ng-file-upload/ng-file-upload-shim.min.js"></script>
-            <script src="~/lib/ng-file-upload/ng-file-upload.min.js"></script>*@
             <script src="~/js/dist/vendor.min.js"></script>
             <script src="~/js/dist/app.min.js"></script>
         </environment>
         <environment names="Staging,Production">
-            <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.1.4.min.js"
-                    asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
-                    asp-fallback-test="window.jQuery">
-            </script>
-            <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.5/bootstrap.min.js"
-                    asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
-                    asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal">
-            </script>
-            <script src="~/js/site.min.js" asp-append-version="true"></script>
+            <script src="~/js/dist/vendor.min.js"></script>
+            <script src="~/js/dist/app.min.js"></script>
         </environment>
 
         <div> 

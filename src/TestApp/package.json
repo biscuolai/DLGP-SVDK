@@ -9,13 +9,12 @@
     "gulp-imagemin": "*",
     "gulp-minify-css": "*",
     "gulp-plumber": "*",
-    "gulp-rename": "*",
-    "gulp-sass": "*",
     "gulp-uglify": "*",
     "gulp": "*",
     "gulp-autoprefixer": "*",
     "gulp-clean-css": "*",
-    "gulp-notify": "*"
+    "gulp-notify": "*",
+    "gulp-watch": "*"
   },
   "main": "gulpfile.js",
   "name": "ServiceDeskGulpFile",

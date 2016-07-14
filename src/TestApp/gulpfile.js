@@ -1,8 +1,7 @@
 ﻿"use strict";
 
 var gulp = require('gulp'),
-    plumber = require('gulp-plumber'),
-    rename = require('gulp-rename');
+    plumber = require('gulp-plumber');
 var concat = require('gulp-concat');
 var uglify = require('gulp-uglify');
 var imagemin = require('gulp-imagemin'),
@@ -11,14 +10,15 @@ var minifycss = require('gulp-minify-css'),
     autoPrefixer = require('gulp-autoprefixer'),
     cleanCss = require('gulp-clean-css'),
     notify = require('gulp-notify');
+var watch = require('gulp-watch');
 
 //// if node version is lower than v.0.1.2
 require('es6-promise').polyfill();
 
-gulp.task('images', function () {
+gulp.task('app.images', function () {
     gulp.src('./wwwroot/images/**/*')
       .pipe(cache(imagemin({ optimizationLevel: 3, progressive: true, interlaced: true })))
-      .pipe(gulp.dest('./wwwroot/dist/images/'));
+      .pipe(gulp.dest('./wwwroot/images/dist'));
 });
 
 gulp.task('app.min.css', function () {
@@ -35,7 +35,7 @@ gulp.task('app.min.css', function () {
         .pipe(gulp.dest('./wwwroot/css/dist'))
         .pipe(cleanCss())
         .pipe(gulp.dest('./wwwroot/css/dist'))
-        .pipe(notify('css task finished'))
+        .pipe(notify('app.min.css task finished'))
 });
 
 gulp.task('vendor.min.css', function () {
@@ -59,7 +59,7 @@ gulp.task('vendor.min.css', function () {
         .pipe(gulp.dest('./wwwroot/css/dist'))
         .pipe(cleanCss())
         .pipe(gulp.dest('./wwwroot/css/dist'))
-        .pipe(notify('vendor.css task finished'))
+        .pipe(notify('vendor.min.css task finished'))
 });
 
 gulp.task('app.min.js', function () {
@@ -107,17 +107,18 @@ gulp.task('app.min.js', function () {
       .pipe(concat('app.min.js'))
       //.pipe(uglify())
       .pipe(gulp.dest('./wwwroot/js/dist/'))
-      .pipe(notify('app.js task finished'))
+      .pipe(notify('app.min.js task finished'))
 });
 
 // Fonts
-gulp.task('fonts', function () {
+gulp.task('app.fonts', function () {
     return gulp.src([
                     './wwwroot/fonts/montserrat-regular-webfont.*',
                     './wwwroot/lib/bootstrap/fonts/glyphicons-halflings-regular.*',
                     './wwwroot/lib/font-awesome/fonts/fontawesome-webfont.*'
     ])
-    .pipe(gulp.dest('./wwwroot/css/fonts'));
+    .pipe(gulp.dest('./wwwroot/css/fonts'))
+    .pipe(notify('app.fonts task finished'))
 });
 
 gulp.task('vendor.min.js', function () {
@@ -150,7 +151,11 @@ gulp.task('vendor.min.js', function () {
       .pipe(concat('vendor.min.js'))
       .pipe(uglify())
       .pipe(gulp.dest('./wwwroot/js/dist/'))
-      .pipe(notify('vendor.js task finished'))
+      .pipe(notify('vendor.min.js task finished'))
+});
+
+gulp.task('watch', function () {
+    gulp.watch('files', ['app.min.css', 'vendor.min.css', 'app.min.js', 'vendor.min.js', 'app.fonts', 'app.images']);
 });
 
 ///// <binding AfterBuild='vendor.min' Clean='clean' />
