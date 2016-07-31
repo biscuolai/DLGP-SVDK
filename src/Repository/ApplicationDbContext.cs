@@ -1,11 +1,16 @@
-﻿using TestApp.Model.Domain.Entities;
+﻿using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Data.Entity;
-using Microsoft.AspNet.Identity.EntityFramework;
+using TestApp.Model.Domain.Entities;
 
 namespace TestApp.Repository
 {
     public class ApplicationDbContext : IdentityDbContext
     {
+        public ApplicationDbContext()
+        {
+            Database.EnsureCreated();
+        }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer("Server=(localdb)\\MSSQLLocalDB;Database=TestAppDB;Trusted_Connection=True;MultipleActiveResultSets=true");
@@ -17,6 +22,5 @@ namespace TestApp.Repository
         public DbSet<TicketEvent> TicketEvents { get; set; }
         public DbSet<TicketSubscriber> TicketSubscribers { get; set; }
         public DbSet<TicketTag> TicketTags { get; set; }
-
     }
 }

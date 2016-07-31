@@ -130,6 +130,7 @@ namespace TestApp
                 config.CreateMap<Ticket, TicketViewModel>().ReverseMap();
             });
 
+            // Initialise database with sample data
             var seeder = serviceProvider.GetService<AppContextSeedData>();
             await seeder.EnsureSeedDataAsync();
         }
