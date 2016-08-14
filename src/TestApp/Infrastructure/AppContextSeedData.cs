@@ -27,61 +27,8 @@ namespace DLGP_SVDK.Infrastructure
         {
             try
             {
-                if (!await _rolesManager.RoleExistsAsync("admin"))
-                {
-                    var newRole = new IdentityRole("admin");
-
-                    await _rolesManager.CreateAsync(newRole);
-                }
-
-                if (!await _rolesManager.RoleExistsAsync("operator"))
-                {
-                    var newRole = new IdentityRole("operator");
-
-                    await _rolesManager.CreateAsync(newRole);
-                }
-
-                if (await _userManager.FindByEmailAsync("ilson_biscuola@dialog.com.au") == null)
-                {
-                    // Add user Ilson Biscuola
-                    var newUser = new ApplicationUser()
-                    {
-                        UserName = "biscuolai",
-                        Email = "ilson_biscuola@dialog.com.au",
-                        EmailConfirmed = true                        
-                    };
-
-                    await _userManager.CreateAsync(newUser, "Password0!");
-                    await _userManager.AddToRoleAsync(newUser, "admin");
-                }
-
-                if (await _userManager.FindByEmailAsync("admin@dialog.com.au") == null)
-                {
-                    // Add user admin
-                    var newAdmin = new ApplicationUser()
-                    {
-                        UserName = "admin",
-                        Email = "admin@dialog.com.au",
-                        EmailConfirmed = true
-                    };
-
-                    await _userManager.CreateAsync(newAdmin, "Password0!");
-                    await _userManager.AddToRoleAsync(newAdmin, "admin");
-                }
-
-                if (await _userManager.FindByEmailAsync("helpdesk@dialog.com.au") == null)
-                {
-                    // Add user admin
-                    var newOperator = new ApplicationUser()
-                    {
-                        UserName = "Operator",
-                        Email = "helpdesk@dialog.com.au",
-                        EmailConfirmed = true
-                    };
-
-                    await _userManager.CreateAsync(newOperator, "Password0!");
-                    await _userManager.AddToRoleAsync(newOperator, "operator");
-                }
+                // creates the database if it does not exist
+                _context.Database.EnsureCreated();
 
                 // Add a new project 
                 if (!_context.Projects.Any())
@@ -95,7 +42,7 @@ namespace DLGP_SVDK.Infrastructure
 
                     // Adding data to Project and Ticket tables
                     _context.Projects.Add(ServiceDeskProject);
-                    
+
                     // save changes
                     _context.SaveChanges();
                 }
@@ -177,6 +124,62 @@ namespace DLGP_SVDK.Infrastructure
 
                     // save changes
                     _context.SaveChanges();
+                }
+
+                if (!await _rolesManager.RoleExistsAsync("admin"))
+                {
+                    var newRole = new IdentityRole("admin");
+
+                    await _rolesManager.CreateAsync(newRole);
+                }
+
+                if (!await _rolesManager.RoleExistsAsync("operator"))
+                {
+                    var newRole = new IdentityRole("operator");
+
+                    await _rolesManager.CreateAsync(newRole);
+                }
+
+                if (await _userManager.FindByEmailAsync("ilson_biscuola@dialog.com.au") == null)
+                {
+                    // Add user Ilson Biscuola
+                    var newUser = new ApplicationUser()
+                    {
+                        UserName = "biscuolai",
+                        Email = "ilson_biscuola@dialog.com.au",
+                        EmailConfirmed = true                        
+                    };
+
+                    await _userManager.CreateAsync(newUser, "Password0!");
+                    await _userManager.AddToRoleAsync(newUser, "admin");
+                }
+
+                if (await _userManager.FindByEmailAsync("admin@dialog.com.au") == null)
+                {
+                    // Add user admin
+                    var newAdmin = new ApplicationUser()
+                    {
+                        UserName = "admin",
+                        Email = "admin@dialog.com.au",
+                        EmailConfirmed = true
+                    };
+
+                    await _userManager.CreateAsync(newAdmin, "Password0!");
+                    await _userManager.AddToRoleAsync(newAdmin, "admin");
+                }
+
+                if (await _userManager.FindByEmailAsync("helpdesk@dialog.com.au") == null)
+                {
+                    // Add user admin
+                    var newOperator = new ApplicationUser()
+                    {
+                        UserName = "Operator",
+                        Email = "helpdesk@dialog.com.au",
+                        EmailConfirmed = true
+                    };
+
+                    await _userManager.CreateAsync(newOperator, "Password0!");
+                    await _userManager.AddToRoleAsync(newOperator, "operator");
                 }
 
                 // Add a new ticket and assign to that project

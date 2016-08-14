@@ -16,7 +16,6 @@ namespace DLGP_SVDK.Repository.Repositories
         public IEnumerable<TicketEventNotification> GetAllNotificationsByUserId(string id)
         {
             return ApplicationContext.TicketEventNotifications
-                .Include(c => c.Ticket)
                 .Where(c => c.SubscriberId == id)
                 .OrderByDescending(c => c.TicketEvent.EventDate)
                 .ToList(); 

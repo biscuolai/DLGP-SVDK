@@ -34,7 +34,7 @@
 
                 setInterval(function () {
                     $scope.initFirst();
-                }, 3600)
+                }, 36000)
 
                 $scope.initFirst = function () {
 

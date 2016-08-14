@@ -1,12 +1,8 @@
-using System.Linq;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System;
 using Microsoft.Data.Entity.Metadata.Internal;
-using Microsoft.AspNet.Identity.EntityFramework;
-using Microsoft.AspNet.Identity;
-using DLGP_SVDK.Model.Domain.Entities.Identity;
 
 namespace DLGP_SVDK.Model.Domain.Entities
 {
@@ -21,7 +17,7 @@ namespace DLGP_SVDK.Model.Domain.Entities
             Tags = new HashSet<TicketTag>();
             // ReSharper restore DoNotCallOverridableMethodsInConstructor
         }
-        [Key]
+        [Key, ForeignKey("TicketId")]
         [Display(ResourceType = typeof(String), Name = "TicketId", ShortName = "TicketIdShort")]
         public int TicketId { get; set; }
 
@@ -153,13 +149,13 @@ namespace DLGP_SVDK.Model.Domain.Entities
         //[NotMapped]
         //public string PreviousAssignedUser { get; set; }
 
-        /// <summary>
-        /// Performs an activity function on the ticket.
-        /// </summary>
-        /// <param name="ticketAction">The ticket action to perform.</param>
-        public void PerformAction(Action<Ticket> ticketAction)
-        {
-            ticketAction(this);
-        }
+        ///// <summary>
+        ///// Performs an activity function on the ticket.
+        ///// </summary>
+        ///// <param name="ticketAction">The ticket action to perform.</param>
+        //public void PerformAction(Action<Ticket> ticketAction)
+        //{
+        //    ticketAction(this);
+        //}
     }
 }

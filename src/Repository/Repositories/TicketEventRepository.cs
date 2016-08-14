@@ -173,6 +173,7 @@ namespace DLGP_SVDK.Repository.Repositories
                     IsNew = true,
                     IsRead = false,
                     SubscriberId = ticketEvent.Ticket.AssignedTo,
+                    EventTitle = ticketEvent.Ticket.Title
                 });
         }
 

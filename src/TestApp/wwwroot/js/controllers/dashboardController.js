@@ -25,6 +25,8 @@
         function GetDashboardData() {
             $http.get('/api/dashboard').success(function (Dashboard) {
 
+                debugger;
+
                 $scope.Dashboard = Dashboard.data;
 
                 $scope.newTickets = $scope.Dashboard.new;

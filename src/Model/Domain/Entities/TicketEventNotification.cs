@@ -19,6 +19,8 @@ namespace DLGP_SVDK.Model.Domain.Entities
 
         public int EventId { get; set; }
 
+        public string EventTitle { get; set; }
+
         [StringLength(256, ErrorMessageResourceName = "FieldMaximumLength")]
         public string SubscriberId { get; set; }
 
@@ -75,7 +77,7 @@ namespace DLGP_SVDK.Model.Domain.Entities
 
         public virtual TicketEvent TicketEvent { get; set; }
 
-        public virtual Ticket Ticket { get; set; }
+        //public virtual Ticket Ticket { get; set; }
 
         //public virtual TicketSubscriber TicketSubscriber { get; set; }
     }

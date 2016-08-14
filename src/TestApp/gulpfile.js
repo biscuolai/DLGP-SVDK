@@ -4,7 +4,7 @@ var gulp = require('gulp'),
     plumber = require('gulp-plumber');
 var concat = require('gulp-concat');
 var uglify = require('gulp-uglify');
-var imagemin = require('gulp-imagemin'),
+//var imagemin = require('gulp-imagemin'),
     cache = require('gulp-cache');
 var minifycss = require('gulp-minify-css'),
     autoPrefixer = require('gulp-autoprefixer'),
@@ -15,11 +15,11 @@ var watch = require('gulp-watch');
 //// if node version is lower than v.0.1.2
 require('es6-promise').polyfill();
 
-gulp.task('app.images', function () {
-    gulp.src('./wwwroot/images/**/*')
-      .pipe(cache(imagemin({ optimizationLevel: 3, progressive: true, interlaced: true })))
-      .pipe(gulp.dest('./wwwroot/images/dist'));
-});
+//gulp.task('app.images', function () {
+//    gulp.src('./wwwroot/images/**/*')
+//      .pipe(cache(imagemin({ optimizationLevel: 3, progressive: true, interlaced: true })))
+//      .pipe(gulp.dest('./wwwroot/images/dist'));
+//});
 
 gulp.task('app.min.css', function () {
     gulp.src(['./wwwroot/css/site.css'])

@@ -304,25 +304,6 @@ namespace TestApp.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
             migrationBuilder.CreateTable(
-                name: "TicketSubscriber",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    SubscriberId = table.Column<string>(nullable: true),
-                    TicketId = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_TicketSubscriber", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_TicketSubscriber_Ticket_TicketId",
-                        column: x => x.TicketId,
-                        principalTable: "Ticket",
-                        principalColumn: "TicketId",
-                        onDelete: ReferentialAction.Cascade);
-                });
-            migrationBuilder.CreateTable(
                 name: "TicketTag",
                 columns: table => new
                 {
@@ -352,7 +333,6 @@ namespace TestApp.Migrations
                     IsRead = table.Column<bool>(nullable: false),
                     SubscriberId = table.Column<string>(nullable: true),
                     TicketId = table.Column<int>(nullable: false),
-                    TicketSubscriberId = table.Column<int>(nullable: true),
                     Version = table.Column<byte[]>(type: "timestamp", nullable: true)
                 },
                 constraints: table =>
@@ -365,11 +345,11 @@ namespace TestApp.Migrations
                         principalColumn: "EventId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_TicketEventNotification_TicketSubscriber_TicketSubscriberId",
-                        column: x => x.TicketSubscriberId,
-                        principalTable: "TicketSubscriber",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        name: "FK_TicketEventNotification_Ticket_TicketId",
+                        column: x => x.TicketId,
+                        principalTable: "Ticket",
+                        principalColumn: "TicketId",
+                        onDelete: ReferentialAction.Cascade);
                 });
             migrationBuilder.CreateIndex(
                 name: "EmailIndex",
@@ -394,7 +374,6 @@ namespace TestApp.Migrations
             migrationBuilder.DropTable("AspNetUserLogins");
             migrationBuilder.DropTable("AspNetUserRoles");
             migrationBuilder.DropTable("TicketEvent");
-            migrationBuilder.DropTable("TicketSubscriber");
             migrationBuilder.DropTable("AspNetRoles");
             migrationBuilder.DropTable("AspNetUsers");
             migrationBuilder.DropTable("Ticket");
