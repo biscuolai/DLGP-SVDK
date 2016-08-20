@@ -33,7 +33,7 @@
                 <div class="widget-icon orange pull-left">
                     <i class="fa fa-hourglass-half"></i>
                 </div>
-                <div class="title">{{pendingTickets}}</div>
+                <div class="title">{{onHoldTickets + pendingTickets}}</div>
                 <div class="comment"><a href="#/requests?action=4">Pending Tickets</a></div>  <!--id = 4 is pending tickets-->
             </app-widget-body>
         </app-widget>
@@ -44,7 +44,7 @@
                 <div class="widget-icon blue pull-left">
                     <i class="fa fa-thumbs-up"></i>
                 </div>
-                <div class="title">{{onHoldTickets}}</div>
+                <div class="title">{{resolvedTickets}}</div>
                 <div class="comment"><a href="#/requests?action=5">Resolved Tickets</a></div>  <!--id = 5 is closed tickets-->
             </app-widget-body>
         </app-widget>
@@ -55,7 +55,7 @@
                 <div class="widget-icon red pull-left">
                     <i class="fa fa-trash-o"></i>
                 </div>
-                <div class="title">{{onHoldTickets}}</div>
+                <div class="title">{{cancelledTickets}}</div>
                 <div class="comment"><a href="#/requests?action=5">Cancelled Tickets</a></div>  <!--id = 5 is closed tickets-->
             </app-widget-body>
         </app-widget>
@@ -66,7 +66,7 @@
                 <div class="widget-icon grey pull-left">
                     <i class="fa fa-check-square"></i>
                 </div>
-                <div class="title">{{onHoldTickets}}</div>
+                <div class="title">{{closedTickets}}</div>
                 <div class="comment"><a href="#/requests?action=5">Closed Tickets</a></div>  <!--id = 5 is closed tickets-->
             </app-widget-body>
         </app-widget>
